@@ -14,6 +14,7 @@
 		A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87C26661D0A00A49576 /* Assets.xcassets */; };
 		A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */; };
 		A6C7F88326661D0A00A49576 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88226661D0A00A49576 /* main.m */; };
+		A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88A2666213400A49576 /* VideoPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		A6C7F87F26661D0A00A49576 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A6C7F88126661D0A00A49576 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6C7F88226661D0A00A49576 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A6C7F8892666213400A49576 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
+		A6C7F88A2666213400A49576 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,7 @@
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
 				A6C7F87626661D0700A49576 /* ViewController.h */,
 				A6C7F87726661D0700A49576 /* ViewController.m */,
+				A6C7F88C2666213900A49576 /* VideoPlayer */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
 				A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */,
@@ -74,6 +78,15 @@
 				A6C7F88226661D0A00A49576 /* main.m */,
 			);
 			path = AVPlayerDemo;
+			sourceTree = "<group>";
+		};
+		A6C7F88C2666213900A49576 /* VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				A6C7F8892666213400A49576 /* VideoPlayer.h */,
+				A6C7F88A2666213400A49576 /* VideoPlayer.m */,
+			);
+			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +162,7 @@
 				A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */,
 				A6C7F88326661D0A00A49576 /* main.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
+				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
