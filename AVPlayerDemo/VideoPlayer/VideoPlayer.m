@@ -18,29 +18,44 @@
 @property (nonatomic, assign) CMTime currentTime;
 
 @property (strong, nonatomic) UIView *playView;
+@property (copy, nonatomic) NSString *url; /// 视频播放地址
+@property (nonatomic, strong) UIImageView *videoPlayImageView;
 
 @end
 
 @implementation VideoPlayer
 
-+ (instancetype)shareInstance {
-    static VideoPlayer *manager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        manager = [[VideoPlayer alloc] init];
-    });
-    return manager;
-}
-
 - (void)showInView:(UIView *)playView {
     self.playView = playView;
     [self initConfig];
+    
+    UIImage *image = [self getFirstFrameWithVideoWithURL:self.url size:playView.frame.size];
+    if (self.videoPlayImageView) {
+        self.videoPlayImageView.frame = CGRectMake(0, 0, playView.frame.size.width, playView.frame.size.height);
+        [self.playerLayer addSublayer:self.videoPlayImageView.layer];
+        self.videoPlayImageView.image = image;
+    }
+}
+
+#pragma mark ---- 获取图片第一帧
+- (UIImage *)getFirstFrameWithVideoWithURL:(NSString *)url size:(CGSize)size
+{
+    // 获取视频第一帧
+    NSURL *videoUrl = [NSURL URLWithString:url];
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:videoUrl options:opts];
+    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+    generator.appliesPreferredTrackTransform = YES;
+    generator.maximumSize = CGSizeMake(size.width, size.height);
+    NSError *error = nil;
+    CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
+    return [UIImage imageWithCGImage:img];
 }
 
 #pragma mark - life
-- (instancetype)init {
+- (instancetype)initWithUrl:(NSString *)url {
     if (self = [super init]) {
-        
+        self.url = url;
     }
     return self;
 }
@@ -83,6 +98,8 @@
     [self.avPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.5, NSEC_PER_SEC) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         NSArray *loadedRanges = wSelf.avPlayer.currentItem.seekableTimeRanges;
         if (loadedRanges.copy > 0) {
+            wSelf.videoPlayImageView.hidden = YES;
+            
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.avPlayer.currentItem.currentTime);
             NSTimeInterval duration = CMTimeGetSeconds(wSelf.avPlayer.currentItem.duration);
             NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
@@ -153,7 +170,7 @@
 #pragma mark - get data
 - (AVPlayer *)avPlayer {
     if (!_avPlayer) {
-        AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:@"https://video.cnhnb.com/video/mp4/douhuo/2021/03/24/59fa99dc757a4d44b3a09e5fdcd9d6e3.mp4"]];
+        AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:self.url]];
         if (playerItem) {
             [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
             //[playerItem removeObserver:self forKeyPath:@"status"];
@@ -173,14 +190,14 @@
     return _playerLayer;
 }
 
-//#pragma mark runtime
-//static char overViewKey;
-//- (UIView *)overView {
-//    return objc_getAssociatedObject(self, &overViewKey);
-//}
-//
-//- (void)setOverView:(UIView *)overView {
-//    objc_setAssociatedObject(self, &overViewKey, overView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
+- (UIImageView *)videoPlayImageView {
+    if (!_videoPlayImageView) {
+        _videoPlayImageView = [UIImageView new];
+        _videoPlayImageView.layer.shadowColor = [UIColor grayColor].CGColor;
+        _videoPlayImageView.layer.shadowOffset = CGSizeMake(1, 1);
+        _videoPlayImageView.layer.shadowOpacity = 1;
+    }
+    return _videoPlayImageView;
+}
 
 @end

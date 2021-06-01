@@ -11,7 +11,9 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong) UIImageView *videoPlayImageView;
+@property (weak, nonatomic) IBOutlet UIView *playerView;
+
+@property (strong, nonatomic) VideoPlayer *videoPlayer;
 
 @end
 
@@ -20,12 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
-//    self.navigationItem.leftBarButtonItem = backBtn;
-    
-    [[VideoPlayer shareInstance] showInView:self.view];
+    NSString *url = @"https://video.cnhnb.com/video/mp4/douhuo/2021/04/08/eee7cdbba8cb4d9b8d2ab6d6b2ac9c09.mp4";
+    self.videoPlayer = [[VideoPlayer alloc]initWithUrl:url];
+    [self.videoPlayer showInView:self.playerView];
 }
 
 
@@ -36,33 +35,9 @@
 
 
 
-//- (UIImage *)getFirstImageofvideo {
-//    AVAsset *asset = nil;
-//    AVAssetImageGenerator *imageGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-//    if (imageGen) {
-//        imageGen.appliesPreferredTrackTransform = YES;
-//        CMTime actualTime;
-//        CGImageRef cgImage = [imageGen copyCGImageAtTime:CMTimeMakeWithSeconds(0, 30) actualTime:&actualTime error:nil];
-//        if (cgImage) {
-//            UIImage *image = [UIImage imageWithCGImage:cgImage];
-//            CGImageRelease(cgImage);
-//            return image;
-//        }
-//    }
-//    return nil;
-//}
 
 
 
-- (UIImageView *)videoPlayImageView {
-    if (!_videoPlayImageView) {
-        _videoPlayImageView = [UIImageView new];
-        _videoPlayImageView.layer.shadowColor = [UIColor grayColor].CGColor;
-        _videoPlayImageView.layer.shadowOffset = CGSizeMake(1, 1);
-        _videoPlayImageView.layer.shadowOpacity = 1;
-    }
-    return _videoPlayImageView;
-}
 
 
 @end

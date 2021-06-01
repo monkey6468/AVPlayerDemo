@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : NSObject
 
-+ (instancetype)shareInstance;
-
+- (instancetype)initWithUrl:(NSString *)url;
 - (void)showInView:(UIView *)playView;
+
 @end
 
 NS_ASSUME_NONNULL_END
