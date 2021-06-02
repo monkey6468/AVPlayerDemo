@@ -12,18 +12,15 @@
 @property (nonatomic, strong) UIImageView *thumbImageView;
 
 @property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) AVPlayerLayer *playerLayer;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @property (nonatomic) id observer;
 
 @property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
-
-
+@property (assign, nonatomic, getter=isActiving) BOOL bActive;
 @end
 
-@implementation VideoPlayer{
-    AVPlayerLayer *_playerLayer;
-    BOOL _active;
-}
+@implementation VideoPlayer
 
 - (void)dealloc {
     [self removeObserverForSystem];
@@ -31,48 +28,21 @@
     [self.player removeTimeObserver:self.observer];
 }
 
-#pragma mark ---- 获取图片第一帧
-- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
-                                  block:(void(^)(UIImage *image))block
-{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-        assetGen.appliesPreferredTrackTransform = YES;
-        CMTime time = CMTimeMakeWithSeconds(0.0, 600);
-        NSError *error = nil;
-        CMTime actualTime;
-        CGImageRef image = [assetGen copyCGImageAtTime:time
-                                            actualTime:&actualTime
-                                                 error:&error];
-        UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
-        CGImageRelease(image);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (block) {
-                block(videoImage);
-            }
-        });
-    });
-}
-
 #pragma mark - life
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if (self = [super initWithFrame:frame]) {
         [self initValue];
         self.backgroundColor = UIColor.clearColor;
         
         [self addSubview:self.thumbImageView];
         [self addObserverForSystem];
-        
-//        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respondsToTapGesture:)];
-//        [self addGestureRecognizer:_tapGesture];
     }
     return self;
 }
 
 - (void)initValue {
     _playing = NO;
-    _active = YES;
+    self.bActive = YES;
     _needAutoPlay = YES;
     _autoPlayCount = 0;
     _playFailed = NO;
@@ -82,11 +52,11 @@
 - (void)reset {
     [self removeObserverForPlayer];
     
-    // If set '_playerLayer.player = nil' or '_player = nil', can not cancel observeing of 'addPeriodicTimeObserverForInterval'.
-    [_player pause];
+    // If set 'self.playerLayer.player = nil' or 'self.player = nil', can not cancel observeing of 'addPeriodicTimeObserverForInterval'.
+    [self.player pause];
     self.playerItem = nil;
-    [_playerLayer removeFromSuperlayer];
-    _playerLayer = nil;
+    [self.playerLayer removeFromSuperlayer];
+    self.playerLayer = nil;
 
     [self finishPlay];
 }
@@ -94,7 +64,7 @@
 #pragma mark - private
 
 - (void)videoJumpWithScale:(float)scale {
-    CMTime startTime = CMTimeMakeWithSeconds(scale, _player.currentTime.timescale);
+    CMTime startTime = CMTimeMakeWithSeconds(scale, self.player.currentTime.timescale);
     
     if (CMTIME_IS_INDEFINITE(startTime) || CMTIME_IS_INVALID(startTime)) return;
     
@@ -106,15 +76,15 @@
     _preparingPlay = YES;
     _playFailed = NO;
             
-    if (!_playerLayer) {
+    if (!self.playerLayer) {
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
-        _player = [AVPlayer playerWithPlayerItem:self.playerItem];
+        self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         
-        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;    //视频填充模式
-        [self.layer insertSublayer:_playerLayer above:self.thumbImageView.layer];
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;    //视频填充模式
+        [self.layer insertSublayer:self.playerLayer above:self.thumbImageView.layer];
 
-        self.curruntVolumeValue = _player.volume;
+        self.curruntVolumeValue = self.player.volume;
 
         [self addObserverForPlayer];
     } else {
@@ -124,14 +94,14 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
 - (void)startPlay {
-    if (_player) {
+    if (self.player) {
         _playing = YES;
         
-        [_player play];
+        [self.player play];
     }
 }
 
@@ -140,8 +110,8 @@
 }
 
 - (void)playerPause {
-    if (_player) {
-        [_player pause];
+    if (self.player) {
+        [self.player pause];
     }
 }
 
@@ -162,7 +132,7 @@
 - (void)addObserverForPlayer {
     [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     __weak typeof(self) wSelf = self;
-    self.observer = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         __strong typeof(wSelf) self = wSelf;
         if (!self) return;
         float duration = (CGFloat)time.timescale;
@@ -196,7 +166,7 @@
 }
 
 - (void)playerItemStatusChanged {
-    if (!_active) return;
+    if (!self.isActiving) return;
     
     _preparingPlay = NO;
     
@@ -239,12 +209,13 @@
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification {
-    _active = NO;
+    self.bActive = NO;
     [self playerPause];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    _active = YES;
+    self.bActive = YES;
+    [self startPlay];
 }
 
 //- (void)didChangeStatusBarFrame {
@@ -278,5 +249,28 @@
         _thumbImageView.layer.masksToBounds = YES;
     }
     return _thumbImageView;
+}
+
+#pragma mark ---- 获取图片第一帧
+- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
+                                  block:(void(^)(UIImage *image))block
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+        assetGen.appliesPreferredTrackTransform = YES;
+        CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+        NSError *error = nil;
+        CMTime actualTime;
+        CGImageRef image = [assetGen copyCGImageAtTime:time
+                                            actualTime:&actualTime
+                                                 error:&error];
+        UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+        CGImageRelease(image);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (block) {
+                block(videoImage);
+            }
+        });
+    });
 }
 @end
