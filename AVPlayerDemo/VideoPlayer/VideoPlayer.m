@@ -41,6 +41,7 @@
 }
 
 - (void)initValue {
+    self.contentMode = VideoPlayerContentModeAspectFit;
     self.bActive = YES;
     self.autoPlayCount = 0;
 }
@@ -69,7 +70,6 @@
 }
 
 - (void)preparPlay {
-
     if (!self.playerLayer) {
         self.playerStatus = VideoPlayerStatusReady;
         
@@ -77,7 +77,6 @@
         self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;    //视频填充模式
         [self.layer insertSublayer:self.playerLayer above:self.thumbImageView.layer];
 
         self.curruntVolumeValue = self.player.volume;
@@ -93,6 +92,17 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    
+    if (self.contentMode == VideoPlayerContentModeScaleToFill) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+    } else if (self.contentMode == VideoPlayerContentModeAspectFit) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+    } else if (self.contentMode == VideoPlayerContentModeAspectFill) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
 }
 
 - (void)startPlay {
@@ -127,15 +137,19 @@
 - (void)addObserverForPlayer {
     [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     __weak typeof(self) wSelf = self;
-    self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
+                                                              queue:dispatch_get_main_queue()
+                                                         usingBlock:^(CMTime time) {
         NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
         if (loadedRanges.copy > 0) {
             wSelf.thumbImageView.hidden = YES;
             
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
             NSTimeInterval duration = CMTimeGetSeconds(wSelf.player.currentItem.duration);
-            NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
-        
+
+            if ([wSelf.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
+                [wSelf.delegate videoPlayer:wSelf duration:duration>=0?duration:0 currentTime:currentTime];
+            }
         }
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
@@ -236,11 +250,14 @@
     self.thumbImageView.frame = self.bounds;
 }
 
+- (void)setContentMode:(VideoPlayerContentMode)contentMode {
+    _contentMode = contentMode;
+}
+
 #pragma mark - get data
 - (UIImageView *)thumbImageView {
     if (!_thumbImageView) {
         _thumbImageView = [UIImageView new];
-        _thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
         _thumbImageView.layer.masksToBounds = YES;
     }
     return _thumbImageView;

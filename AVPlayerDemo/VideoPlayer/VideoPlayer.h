@@ -16,6 +16,18 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusFailed,
 };
 
+typedef NS_ENUM(NSInteger, VideoPlayerContentMode) {
+    VideoPlayerContentModeScaleToFill        = 0,
+    VideoPlayerContentModeAspectFit,
+    VideoPlayerContentModeAspectFill
+};
+
+@class VideoPlayer;
+@protocol VideoPlayerDelegate <NSObject>
+
+- (void)videoPlayer:(VideoPlayer *_Nullable)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime;
+
+@end
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : UIView
@@ -23,11 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImage *frameImage;
 @property (nonatomic, strong, nullable) AVAsset *asset;
 
+/// 充满模式，默认VideoPlayerContentModeAspectFit
 @property (assign, nonatomic) VideoPlayerStatus playerStatus;
+@property (assign, nonatomic) VideoPlayerContentMode contentMode;
+
 /// 默认0；无限循环(NSUIntegerMax)
 @property (nonatomic, assign) NSUInteger autoPlayCount;
 
-@property (assign, nonatomic) NSTimeInterval duration;
+@property (weak, nonatomic) id <VideoPlayerDelegate>delegate;
 - (void)reset;
 - (void)preparPlay;
 
