@@ -7,25 +7,15 @@
 
 #import "VideoPlayer.h"
 
-#import <AVFoundation/AVFoundation.h>
-
-#import <objc/runtime.h>
-
-#define YBIB_DISPATCH_ASYNC(queue, block)\
-if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {\
-block();\
-} else {\
-dispatch_async(queue, block);\
-}
-
-#define YBIB_DISPATCH_ASYNC_MAIN(block) YBIB_DISPATCH_ASYNC(dispatch_get_main_queue(), block)
-
 @interface VideoPlayer ()
 
-@property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (nonatomic, strong) UIImageView *thumbImageView;
 
-@property (nonatomic, assign) CGFloat curruntVolumeValue; ///< 记录系统声音
+@property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) AVPlayerItem *playerItem;
 @property (nonatomic) id observer;
+
+@property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
 
 
 @end
@@ -42,18 +32,26 @@ dispatch_async(queue, block);\
 }
 
 #pragma mark ---- 获取图片第一帧
-- (UIImage *)getFirstFrameWithVideoWithURL:(NSString *)url size:(CGSize)size
+- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
+                                  block:(void(^)(UIImage *image))block
 {
-    // 获取视频第一帧
-    NSURL *videoUrl = [NSURL URLWithString:url];
-    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
-    AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:videoUrl options:opts];
-    AVAssetImageGenerator *generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
-    generator.appliesPreferredTrackTransform = YES;
-    generator.maximumSize = CGSizeMake(size.width, size.height);
-    NSError *error = nil;
-    CGImageRef img = [generator copyCGImageAtTime:CMTimeMake(0, 10) actualTime:NULL error:&error];
-    return [UIImage imageWithCGImage:img];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+        assetGen.appliesPreferredTrackTransform = YES;
+        CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+        NSError *error = nil;
+        CMTime actualTime;
+        CGImageRef image = [assetGen copyCGImageAtTime:time
+                                            actualTime:&actualTime
+                                                 error:&error];
+        UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+        CGImageRelease(image);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (block) {
+                block(videoImage);
+            }
+        });
+    });
 }
 
 #pragma mark - life
@@ -113,6 +111,7 @@ dispatch_async(queue, block);\
         _player = [AVPlayer playerWithPlayerItem:self.playerItem];
         
         _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;    //视频填充模式
         [self.layer insertSublayer:_playerLayer above:self.thumbImageView.layer];
 
         self.curruntVolumeValue = _player.volume;
@@ -122,10 +121,12 @@ dispatch_async(queue, block);\
         [self videoJumpWithScale:0];
     }
 }
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     _playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 }
+
 - (void)startPlay {
     if (_player) {
         _playing = YES;
@@ -251,7 +252,7 @@ dispatch_async(queue, block);\
 //}
 
 - (void)audioRouteChangeListenerCallback:(NSNotification*)notification {
-    YBIB_DISPATCH_ASYNC_MAIN(^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSDictionary *interuptionDict = notification.userInfo;
         NSInteger routeChangeReason = [[interuptionDict valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
         switch (routeChangeReason) {
@@ -259,13 +260,21 @@ dispatch_async(queue, block);\
                 [self playerPause];
                 break;
         }
-    })
+    });
 }
 
+#pragma mark - set data
+- (void)setFrameImage:(UIImage *)frameImage {
+    _frameImage = frameImage;
+    self.thumbImageView.image = frameImage;
+    self.thumbImageView.frame = self.bounds;
+}
+
+#pragma mark - get data
 - (UIImageView *)thumbImageView {
     if (!_thumbImageView) {
         _thumbImageView = [UIImageView new];
-        _thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
         _thumbImageView.layer.masksToBounds = YES;
     }
     return _thumbImageView;

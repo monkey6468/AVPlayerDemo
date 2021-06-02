@@ -13,28 +13,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : UIView
 
-@property (nonatomic, strong) UIImageView *thumbImageView;
-
+@property (strong, nonatomic) UIImage *frameImage; // 帧图片
 @property (nonatomic, strong, nullable) AVAsset *asset;
 
 @property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
-
 @property (nonatomic, assign, readonly, getter=isPlayFailed) BOOL playFailed;
-
 @property (nonatomic, assign, readonly, getter=isPreparingPlay) BOOL preparingPlay;
 
-@property (strong, nonatomic) AVPlayer *player;
-
-- (void)reset;
-
-- (void)preparPlay;
-
 @property (nonatomic, assign) BOOL needAutoPlay;
-
 @property (nonatomic, assign) NSUInteger autoPlayCount; // 无效
 
+- (void)reset;
+- (void)preparPlay;
+
+
 // 获取图片第一帧
-- (UIImage *)getFirstFrameWithVideoWithURL:(NSString *)url size:(CGSize)size;
+- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
+                                  block:(void(^)(UIImage *image))block;
 @end
 
 NS_ASSUME_NONNULL_END

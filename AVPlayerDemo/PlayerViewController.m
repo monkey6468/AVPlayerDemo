@@ -32,7 +32,7 @@
 }
 
 - (void)dealloc {
-
+    NSLog(@"__%s__",__func__);
 }
 
 - (IBAction)onActionUp:(UIButton *)sender {
@@ -59,15 +59,13 @@
     self.videoPlayer.asset = videoAVAsset;
     
     
-//    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
-////    UIImage *image = [self.videoPlayer getFirstFrameWithVideoWithURL:url size:self.playerView.bounds.size];
-//    UIImage *image = [self getVideoPreViewImage:videoAVAsset];
-//    NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
-//    NSLog(@"time0: %f", t1-t0);
-//    self.videoPlayer.thumbImageView.image = image;
-    
-  
-
+    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+    [self.videoPlayer getFirstFrameWithVideoWithAsset:videoAVAsset
+                                                block:^(UIImage * _Nonnull image) {
+        NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+        NSLog(@"time0: %f", t1-t0);
+        self.videoPlayer.frameImage = image;
+    }];
     
     
     self.videoPlayer.needAutoPlay = YES;
@@ -83,24 +81,6 @@
     [self onActionPlay:sender];
 }
 
-
-
-
-
-// 获取视频第一帧
-- (UIImage *)getVideoPreViewImage:(AVAsset *)asset {
-    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    assetGen.appliesPreferredTrackTransform = YES;
-    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
-    NSError *error = nil;
-    CMTime actualTime;
-    CGImageRef image = [assetGen copyCGImageAtTime:time
-                                        actualTime:&actualTime
-                                             error:&error];
-    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
-    CGImageRelease(image);
-    return videoImage;
-}
 
 
 

@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--AVPlayerDemo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -17,58 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGI-D1-ZJw">
-                                <rect key="frame" x="70" y="104" width="180" height="320"/>
-                                <color key="backgroundColor" red="0.61176470589999998" green="0.87450980389999999" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="180" id="bde-uP-KtG"/>
-                                    <constraint firstAttribute="width" secondItem="OGI-D1-ZJw" secondAttribute="height" multiplier="9:16" id="utD-JS-NVC"/>
-                                </constraints>
-                            </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="uOq-v3-snp">
-                                <rect key="frame" x="40" y="420" width="240" height="40"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uun-Fo-vv0">
-                                        <rect key="frame" x="0.0" y="5" width="46" height="30"/>
-                                        <state key="normal" title="上一个"/>
-                                        <connections>
-                                            <action selector="onActionUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ub5-jm-ujf"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
-                                        <rect key="frame" x="104.5" y="5" width="31" height="30"/>
-                                        <state key="normal" title="播放"/>
-                                        <connections>
-                                            <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUB-U7-qAW">
-                                        <rect key="frame" x="194" y="5" width="46" height="30"/>
-                                        <state key="normal" title="下一个"/>
-                                        <connections>
-                                            <action selector="onActionDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gD-uV-anf"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="OFm-bg-IsY"/>
-                                </constraints>
-                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
+                                <rect key="frame" x="144.5" y="225" width="31" height="30"/>
+                                <state key="normal" title="播放"/>
+                                <connections>
+                                    <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="OGI-D1-ZJw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="43L-W2-Vgk"/>
-                            <constraint firstItem="uOq-v3-snp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="MpC-Fi-34d"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uOq-v3-snp" secondAttribute="bottom" constant="20" id="Tww-SB-QT8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uOq-v3-snp" secondAttribute="trailing" constant="40" id="wm0-MF-K0r"/>
-                            <constraint firstItem="OGI-D1-ZJw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="znX-L1-O8y"/>
+                            <constraint firstItem="S5c-a8-pc0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DqG-9o-NC2"/>
+                            <constraint firstItem="S5c-a8-pc0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qhT-Ww-Dlm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="7Ei-V2-UVV"/>
-                    <connections>
-                        <outlet property="playerView" destination="OGI-D1-ZJw" id="aC2-CH-R6m"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -80,7 +44,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dYg-HK-9ZZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kro-2l-8oJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
