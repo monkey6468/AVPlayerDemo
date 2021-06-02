@@ -9,20 +9,25 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
+    VideoPlayerStatusReady        = 0,
+    VideoPlayerStatusPlaying      = 1,
+    VideoPlayerStatusFinished,
+    VideoPlayerStatusFailed,
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : UIView
-
-@property (strong, nonatomic) UIImage *frameImage; // 帧图片
+/// 帧图片
+@property (strong, nonatomic) UIImage *frameImage;
 @property (nonatomic, strong, nullable) AVAsset *asset;
 
-@property (nonatomic, assign, readonly, getter=isPlaying) BOOL playing;
-@property (nonatomic, assign, readonly, getter=isPlayFailed) BOOL playFailed;
-@property (nonatomic, assign, readonly, getter=isPreparingPlay) BOOL preparingPlay;
+@property (assign, nonatomic) VideoPlayerStatus playerStatus;
+/// 默认0；无限循环(NSUIntegerMax)
+@property (nonatomic, assign) NSUInteger autoPlayCount;
 
-@property (nonatomic, assign) BOOL needAutoPlay;
-@property (nonatomic, assign) NSUInteger autoPlayCount; // 无效
-
+@property (assign, nonatomic) NSTimeInterval duration;
 - (void)reset;
 - (void)preparPlay;
 

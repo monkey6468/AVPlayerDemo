@@ -41,12 +41,8 @@
 }
 
 - (void)initValue {
-    _playing = NO;
     self.bActive = YES;
-    _needAutoPlay = YES;
-    _autoPlayCount = 0;
-    _playFailed = NO;
-    _preparingPlay = NO;
+    self.autoPlayCount = 0;
 }
 
 - (void)reset {
@@ -58,7 +54,7 @@
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
 
-    [self finishPlay];
+    self.playerStatus = VideoPlayerStatusFinished;
 }
 
 #pragma mark - private
@@ -73,10 +69,10 @@
 }
 
 - (void)preparPlay {
-    _preparingPlay = YES;
-    _playFailed = NO;
-            
+
     if (!self.playerLayer) {
+        self.playerStatus = VideoPlayerStatusReady;
+        
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
         self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         
@@ -88,6 +84,8 @@
 
         [self addObserverForPlayer];
     } else {
+        self.playerStatus = VideoPlayerStatusPlaying;
+
         [self videoJumpWithScale:0];
     }
 }
@@ -99,14 +97,14 @@
 
 - (void)startPlay {
     if (self.player) {
-        _playing = YES;
-        
         [self.player play];
+        self.playerStatus = VideoPlayerStatusPlaying;
     }
 }
 
 - (void)finishPlay {
-    _playing = NO;
+    self.playerStatus = VideoPlayerStatusFinished;
+    [self autoPlay];
 }
 
 - (void)playerPause {
@@ -115,16 +113,13 @@
     }
 }
 
-- (BOOL)autoPlay {
+- (void)autoPlay {
     if (self.autoPlayCount == NSUIntegerMax) {
         [self preparPlay];
     } else if (self.autoPlayCount > 0) {
         --self.autoPlayCount;
         [self preparPlay];
-    } else {
-        return NO;
     }
-    return YES;
 }
 
 #pragma mark - observe
@@ -132,16 +127,16 @@
 - (void)addObserverForPlayer {
     [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
     __weak typeof(self) wSelf = self;
-    self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        __strong typeof(wSelf) self = wSelf;
-        if (!self) return;
-        float duration = (CGFloat)time.timescale;
-        float currentTime = (time.value) / duration;
-        NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
-//        if (currentTime == 0) {
-//            self.actionBar.slider.value = 0;
-//        }
-//        [self.actionBar setCurrentValue:currentTime];
+    self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
+        if (loadedRanges.copy > 0) {
+            wSelf.thumbImageView.hidden = YES;
+            
+            NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
+            NSTimeInterval duration = CMTimeGetSeconds(wSelf.player.currentItem.duration);
+            NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
+        
+        }
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
 }
@@ -168,8 +163,6 @@
 - (void)playerItemStatusChanged {
     if (!self.isActiving) return;
     
-    _preparingPlay = NO;
-    
     switch (self.playerItem.status) {
         case AVPlayerItemStatusReadyToPlay: {
             // Delay to update UI.
@@ -180,12 +173,12 @@
         }
             break;
         case AVPlayerItemStatusUnknown: {
-            _playFailed = YES;
+            self.playerStatus = VideoPlayerStatusFailed;
             [self reset];
         }
             break;
         case AVPlayerItemStatusFailed: {
-            _playFailed = YES;
+            self.playerStatus = VideoPlayerStatusFailed;
             [self reset];
         }
             break;
@@ -237,6 +230,8 @@
 #pragma mark - set data
 - (void)setFrameImage:(UIImage *)frameImage {
     _frameImage = frameImage;
+    
+    self.thumbImageView.hidden = NO;
     self.thumbImageView.image = frameImage;
     self.thumbImageView.frame = self.bounds;
 }
