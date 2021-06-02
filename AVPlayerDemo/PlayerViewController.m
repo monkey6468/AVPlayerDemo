@@ -69,7 +69,6 @@
                                                 block:^(UIImage * _Nonnull image) {
         NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
         NSLog(@"time0: %f", t1-t0);
-        self.videoPlayer.frameImage = image;
     }];
     
 //    self.videoPlayer.autoPlayCount = NSUIntegerMax;
@@ -92,7 +91,6 @@
 - (void)videoPlayer:(VideoPlayer *)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime {
     self.currentTimeLabel.text = [NSString stringWithFormat:@"%0.2lf", currentTime];
     self.durationLabel.text = [NSString stringWithFormat:@"%0.2lf", duration];
-    
 //    NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
 }
 

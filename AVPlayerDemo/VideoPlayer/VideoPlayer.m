@@ -10,6 +10,8 @@
 @interface VideoPlayer ()
 
 @property (nonatomic, strong) UIImageView *thumbImageView;
+/// 帧图片
+@property (strong, nonatomic) UIImage *frameImage;
 
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
@@ -18,6 +20,9 @@
 
 @property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
 @property (assign, nonatomic, getter=isActiving) BOOL bActive;
+@property (assign, nonatomic, readwrite) NSInteger width;
+@property (assign, nonatomic, readwrite) NSInteger height;
+
 @end
 
 @implementation VideoPlayer
@@ -41,7 +46,7 @@
 }
 
 - (void)initValue {
-    self.contentMode = VideoPlayerContentModeAspectFit;
+    self.contentMode = VideoRenderModeAspectFit;
     self.bActive = YES;
     self.autoPlayCount = 0;
 }
@@ -73,6 +78,13 @@
     if (!self.playerLayer) {
         self.playerStatus = VideoPlayerStatusReady;
         
+        NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
+        if([tracks count] > 0) {
+            AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+            self.width = videoTrack.naturalSize.width;
+            self.height = videoTrack.naturalSize.height;
+        }
+        
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
         self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         
@@ -93,13 +105,13 @@
     [super layoutSubviews];
     self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     
-    if (self.contentMode == VideoPlayerContentModeScaleToFill) {
+    if (self.contentMode == VideoRenderModeScaleToFill) {
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-    } else if (self.contentMode == VideoPlayerContentModeAspectFit) {
+    } else if (self.contentMode == VideoRenderModeAspectFit) {
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
         self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
-    } else if (self.contentMode == VideoPlayerContentModeAspectFill) {
+    } else if (self.contentMode == VideoRenderModeAspectFill) {
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
     }
@@ -250,7 +262,7 @@
     self.thumbImageView.frame = self.bounds;
 }
 
-- (void)setContentMode:(VideoPlayerContentMode)contentMode {
+- (void)setContentMode:(VideoRenderMode)contentMode {
     _contentMode = contentMode;
 }
 
@@ -279,6 +291,7 @@
         UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
         CGImageRelease(image);
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.thumbImageView.image = videoImage;
             if (block) {
                 block(videoImage);
             }
