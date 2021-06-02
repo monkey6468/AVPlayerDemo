@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dYg-HK-9ZZ">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,26 +18,77 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OGI-D1-ZJw">
-                                <rect key="frame" x="70" y="60" width="180" height="320"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <rect key="frame" x="70" y="104" width="180" height="320"/>
+                                <color key="backgroundColor" red="0.61176470589999998" green="0.87450980389999999" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="bde-uP-KtG"/>
                                     <constraint firstAttribute="width" secondItem="OGI-D1-ZJw" secondAttribute="height" multiplier="9:16" id="utD-JS-NVC"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="uOq-v3-snp">
+                                <rect key="frame" x="40" y="420" width="240" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uun-Fo-vv0">
+                                        <rect key="frame" x="0.0" y="5" width="46" height="30"/>
+                                        <state key="normal" title="上一个"/>
+                                        <connections>
+                                            <action selector="onActionUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ub5-jm-ujf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
+                                        <rect key="frame" x="104.5" y="5" width="31" height="30"/>
+                                        <state key="normal" title="播放"/>
+                                        <connections>
+                                            <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUB-U7-qAW">
+                                        <rect key="frame" x="194" y="5" width="46" height="30"/>
+                                        <state key="normal" title="下一个"/>
+                                        <connections>
+                                            <action selector="onActionDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gD-uV-anf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="OFm-bg-IsY"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="OGI-D1-ZJw" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="60" id="43L-W2-Vgk"/>
+                            <constraint firstItem="uOq-v3-snp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="MpC-Fi-34d"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="uOq-v3-snp" secondAttribute="bottom" constant="20" id="Tww-SB-QT8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uOq-v3-snp" secondAttribute="trailing" constant="40" id="wm0-MF-K0r"/>
                             <constraint firstItem="OGI-D1-ZJw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="znX-L1-O8y"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="7Ei-V2-UVV"/>
                     <connections>
                         <outlet property="playerView" destination="OGI-D1-ZJw" id="aC2-CH-R6m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="870" y="57.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="xp3-GK-Wub">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dYg-HK-9ZZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kro-2l-8oJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="QwH-h3-ZRZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CZw-tu-G5K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-127.5" y="57.5"/>
         </scene>

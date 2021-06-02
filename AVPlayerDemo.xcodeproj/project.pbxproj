@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A654EE6826671A0E00B0D838 /* PlayerViewController.m */; };
+		A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A654EE6926671A0E00B0D838 /* PlayerViewController.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -18,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A654EE6726671A0E00B0D838 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
+		A654EE6826671A0E00B0D838 /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
+		A654EE6926671A0E00B0D838 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -70,6 +75,9 @@
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
 				A6C7F87626661D0700A49576 /* ViewController.h */,
 				A6C7F87726661D0700A49576 /* ViewController.m */,
+				A654EE6726671A0E00B0D838 /* PlayerViewController.h */,
+				A654EE6826671A0E00B0D838 /* PlayerViewController.m */,
+				A654EE6926671A0E00B0D838 /* PlayerViewController.xib */,
 				A6C7F88C2666213900A49576 /* VideoPlayer */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
@@ -146,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */,
+				A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
 			);
@@ -163,6 +172,7 @@
 				A6C7F88326661D0A00A49576 /* main.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
 				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,
+				A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +317,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AVPlayerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,6 +335,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = AVPlayerDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

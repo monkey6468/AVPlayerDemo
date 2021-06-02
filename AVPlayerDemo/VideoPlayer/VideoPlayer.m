@@ -11,30 +11,34 @@
 
 #import <objc/runtime.h>
 
+#define YBIB_DISPATCH_ASYNC(queue, block)\
+if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(queue)) == 0) {\
+block();\
+} else {\
+dispatch_async(queue, block);\
+}
+
+#define YBIB_DISPATCH_ASYNC_MAIN(block) YBIB_DISPATCH_ASYNC(dispatch_get_main_queue(), block)
+
 @interface VideoPlayer ()
 
-@property (nonatomic, strong) AVPlayer *avPlayer;
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
-@property (nonatomic, assign) CMTime currentTime;
+@property (strong, nonatomic) AVPlayerItem *playerItem;
 
-@property (strong, nonatomic) UIView *playView;
-@property (copy, nonatomic) NSString *url; /// 视频播放地址
-@property (nonatomic, strong) UIImageView *videoPlayImageView;
+@property (nonatomic, assign) CGFloat curruntVolumeValue; ///< 记录系统声音
+@property (nonatomic) id observer;
+
 
 @end
 
-@implementation VideoPlayer
+@implementation VideoPlayer{
+    AVPlayerLayer *_playerLayer;
+    BOOL _active;
+}
 
-- (void)showInView:(UIView *)playView {
-    self.playView = playView;
-    [self initConfig];
-    
-    UIImage *image = [self getFirstFrameWithVideoWithURL:self.url size:playView.frame.size];
-    if (self.videoPlayImageView) {
-        self.videoPlayImageView.frame = CGRectMake(0, 0, playView.frame.size.width, playView.frame.size.height);
-        [self.playerLayer addSublayer:self.videoPlayImageView.layer];
-        self.videoPlayImageView.image = image;
-    }
+- (void)dealloc {
+    [self removeObserverForSystem];
+    [self reset];
+    [self.player removeTimeObserver:self.observer];
 }
 
 #pragma mark ---- 获取图片第一帧
@@ -53,151 +57,217 @@
 }
 
 #pragma mark - life
-- (instancetype)initWithUrl:(NSString *)url {
-    if (self = [super init]) {
-        self.url = url;
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initValue];
+        self.backgroundColor = UIColor.clearColor;
+        
+        [self addSubview:self.thumbImageView];
+        [self addObserverForSystem];
+        
+//        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respondsToTapGesture:)];
+//        [self addGestureRecognizer:_tapGesture];
     }
     return self;
 }
 
-- (void)dealloc {
-    [self clearPlayer];
+- (void)initValue {
+    _playing = NO;
+    _active = YES;
+    _needAutoPlay = YES;
+    _autoPlayCount = 0;
+    _playFailed = NO;
+    _preparingPlay = NO;
 }
 
-- (void)initConfig {
-//    [self clearNavigationBackground:[UIColor clearColor]];
+- (void)reset {
+    [self removeObserverForPlayer];
+    
+    // If set '_playerLayer.player = nil' or '_player = nil', can not cancel observeing of 'addPeriodicTimeObserverForInterval'.
+    [_player pause];
+    self.playerItem = nil;
+    [_playerLayer removeFromSuperlayer];
+    _playerLayer = nil;
 
-//    [self addNotify];
-    [self addObservePlayProgress];
+    [self finishPlay];
 }
 
-#pragma mark - UI
-//- (void)clearNavigationBackground:(UIColor *)backgroundColor {
-//    if (!self.overView) {
-//        [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-//        self.overView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.navigationController.navigationBar.bounds), CGRectGetHeight(self.navigationController.navigationBar.bounds))];
-//        self.overView.userInteractionEnabled = NO;
-//        [self.navigationController.navigationBar.subviews.firstObject insertSubview:self.overView atIndex:0];
-//        self.overView.bounds = self.navigationController.navigationBar.subviews.firstObject.bounds;
-//    }
-//    self.overView.backgroundColor = backgroundColor;
-//}
+#pragma mark - private
 
-#pragma mark - other
-- (void)addNotify {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillResignActive) name:UIApplicationWillResignActiveNotification object:nil];
+- (void)videoJumpWithScale:(float)scale {
+    CMTime startTime = CMTimeMakeWithSeconds(scale, _player.currentTime.timescale);
+    
+    if (CMTIME_IS_INDEFINITE(startTime) || CMTIME_IS_INVALID(startTime)) return;
+    
+    [self.player seekToTime:startTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    [self startPlay];
 }
 
-#pragma mark KVO
-- (void)addObservePlayProgress {
-    [self.playerLayer removeFromSuperlayer];
-    [self.playView.layer addSublayer:self.playerLayer];
-
-    __weak typeof(self) wSelf = self;
-    [self.avPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.5, NSEC_PER_SEC) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        NSArray *loadedRanges = wSelf.avPlayer.currentItem.seekableTimeRanges;
-        if (loadedRanges.copy > 0) {
-            wSelf.videoPlayImageView.hidden = YES;
+- (void)preparPlay {
+    _preparingPlay = YES;
+    _playFailed = NO;
             
-            NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.avPlayer.currentItem.currentTime);
-            NSTimeInterval duration = CMTimeGetSeconds(wSelf.avPlayer.currentItem.duration);
-            NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
-            if (currentTime >= duration) {
-                [wSelf playerReplay];
-            }
-        }
-    }];
+    if (!_playerLayer) {
+        self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
+        _player = [AVPlayer playerWithPlayerItem:self.playerItem];
+        
+        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+        [self.layer insertSublayer:_playerLayer above:self.thumbImageView.layer];
+
+        self.curruntVolumeValue = _player.volume;
+
+        [self addObserverForPlayer];
+    } else {
+        [self videoJumpWithScale:0];
+    }
+}
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+}
+- (void)startPlay {
+    if (_player) {
+        _playing = YES;
+        
+        [_player play];
+    }
 }
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-//    NSLog(@"=======================keyPath:%@\n,object:%@\n,change:%@\n,context:%@\n",keyPath,object,change,context);
-//    //[self.avPlayer play];
+- (void)finishPlay {
+    _playing = NO;
+}
+
+- (void)playerPause {
+    if (_player) {
+        [_player pause];
+    }
+}
+
+- (BOOL)autoPlay {
+    if (self.autoPlayCount == NSUIntegerMax) {
+        [self preparPlay];
+    } else if (self.autoPlayCount > 0) {
+        --self.autoPlayCount;
+        [self preparPlay];
+    } else {
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - observe
+
+- (void)addObserverForPlayer {
+    [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+    __weak typeof(self) wSelf = self;
+    self.observer = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        __strong typeof(wSelf) self = wSelf;
+        if (!self) return;
+        float duration = (CGFloat)time.timescale;
+        float currentTime = (time.value) / duration;
+        NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
+//        if (currentTime == 0) {
+//            self.actionBar.slider.value = 0;
+//        }
+//        [self.actionBar setCurrentValue:currentTime];
+    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+}
+
+- (void)removeObserverForPlayer {
+    [self.playerItem removeObserver:self forKeyPath:@"status"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+    if (object == self.playerItem) {
+        if ([keyPath isEqualToString:@"status"]) {
+            [self playerItemStatusChanged];
+        }
+    }
+}
+
+- (void)didPlayToEndTime:(NSNotification *)noti {
+    if (noti.object == self.playerItem) {
+        [self finishPlay];
+    }
+}
+
+- (void)playerItemStatusChanged {
+    if (!_active) return;
+    
+    _preparingPlay = NO;
+    
+    switch (self.playerItem.status) {
+        case AVPlayerItemStatusReadyToPlay: {
+            // Delay to update UI.
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self startPlay];
+//                double max = CMTimeGetSeconds(self.playerItem.duration);
+            });
+        }
+            break;
+        case AVPlayerItemStatusUnknown: {
+            _playFailed = YES;
+            [self reset];
+        }
+            break;
+        case AVPlayerItemStatusFailed: {
+            _playFailed = YES;
+            [self reset];
+        }
+            break;
+    }
+}
+
+- (void)removeObserverForSystem {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVAudioSessionRouteChangeNotification object:nil];
+}
+
+- (void)addObserverForSystem {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarFrame) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:)   name:AVAudioSessionRouteChangeNotification object:nil];
+    
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+}
+
+- (void)applicationWillResignActive:(NSNotification *)notification {
+    _active = NO;
+    [self playerPause];
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification {
+    _active = YES;
+}
+
+//- (void)didChangeStatusBarFrame {
+//    [self playerPause];
 //}
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSLog(@"=======================keyPath:%@\n,object:%@\n,change:%@\n,context:%@\n",keyPath,object,change,context);
-    if (context == nil) {
-        
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
-#pragma mark player opearation
-- (void)appBecomeActive {
-    @try {
-        [self.avPlayer seekToTime:self.currentTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-            if (finished) {
-                [self.avPlayer play];
-            }
-        }];
-    } @catch (NSException *exception) {
-        [self.avPlayer play];
-    } @finally {
-    }
-}
-
-- (void)appWillResignActive {
-    if (self.avPlayer) {
-        [self.avPlayer pause];
-        self.currentTime = self.avPlayer.currentTime;
-    }
-}
-
-- (void)playPause {
-    if (self.avPlayer) {
-        [self.avPlayer pause];
-    }
-}
-
-- (void)playerReplay {
-//    [self.avPlayer seekToTime:CMTimeMake(0, 1)];
-//    [self.avPlayer play];
-    [self.avPlayer seekToTime:CMTimeMake(0, 1) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
-        [self.avPlayer play];
-    }];
-}
-
-- (void)clearPlayer {
-    [self.avPlayer.currentItem removeObserver:self forKeyPath:@"status"];
-    [self.avPlayer pause];
-    self.avPlayer = nil;
-}
-
-
-#pragma mark - get data
-- (AVPlayer *)avPlayer {
-    if (!_avPlayer) {
-        AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:[NSURL URLWithString:self.url]];
-        if (playerItem) {
-            [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-            //[playerItem removeObserver:self forKeyPath:@"status"];
-            _avPlayer = [[AVPlayer alloc] initWithPlayerItem:playerItem];
-            [_avPlayer play];
+- (void)audioRouteChangeListenerCallback:(NSNotification*)notification {
+    YBIB_DISPATCH_ASYNC_MAIN(^{
+        NSDictionary *interuptionDict = notification.userInfo;
+        NSInteger routeChangeReason = [[interuptionDict valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
+        switch (routeChangeReason) {
+            case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+                [self playerPause];
+                break;
         }
-    }
-    return _avPlayer;
+    })
 }
 
-- (AVPlayerLayer *)playerLayer {
-    if (!_playerLayer) {
-        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
-        _playerLayer.frame = self.playView.bounds;
-        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;    //视频填充模式
+- (UIImageView *)thumbImageView {
+    if (!_thumbImageView) {
+        _thumbImageView = [UIImageView new];
+        _thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _thumbImageView.layer.masksToBounds = YES;
     }
-    return _playerLayer;
+    return _thumbImageView;
 }
-
-- (UIImageView *)videoPlayImageView {
-    if (!_videoPlayImageView) {
-        _videoPlayImageView = [UIImageView new];
-        _videoPlayImageView.layer.shadowColor = [UIColor grayColor].CGColor;
-        _videoPlayImageView.layer.shadowOffset = CGSizeMake(1, 1);
-        _videoPlayImageView.layer.shadowOpacity = 1;
-    }
-    return _videoPlayImageView;
-}
-
 @end

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerViewController">
+            <connections>
+                <outlet property="playerView" destination="aeS-m4-6f0" id="q0D-1y-EPN"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeS-m4-6f0">
+                    <rect key="frame" x="70" y="80" width="180" height="320"/>
+                    <color key="backgroundColor" red="0.61176470589999998" green="0.87450980389999999" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="aeS-m4-6f0" secondAttribute="height" multiplier="9:16" id="CHc-jp-7en"/>
+                        <constraint firstAttribute="width" constant="180" id="cHz-Cv-4SZ"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
+                    <rect key="frame" x="40" y="400" width="240" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMh-QB-gTk">
+                            <rect key="frame" x="0.0" y="5" width="46" height="30"/>
+                            <state key="normal" title="上一个"/>
+                            <connections>
+                                <action selector="onActionUp:" destination="-1" eventType="touchUpInside" id="Gvq-Wt-bi5"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-xi-etG">
+                            <rect key="frame" x="104.5" y="5" width="31" height="30"/>
+                            <state key="normal" title="播放"/>
+                            <connections>
+                                <action selector="onActionPlay:" destination="-1" eventType="touchUpInside" id="pwD-KM-nKR"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1t-lo-Twx">
+                            <rect key="frame" x="194" y="5" width="46" height="30"/>
+                            <state key="normal" title="下一个"/>
+                            <connections>
+                                <action selector="onActionDown:" destination="-1" eventType="touchUpInside" id="3zf-by-WTM"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="TFf-0p-McH"/>
+                    </constraints>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="2O3-Da-K75"/>
+                <constraint firstItem="aeS-m4-6f0" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="BvM-i6-7yI"/>
+                <constraint firstItem="aeS-m4-6f0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="T6x-p0-hbB"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="dPj-Dq-m9M" secondAttribute="trailing" constant="40" id="VCp-lq-Ahs"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="dPj-Dq-m9M" secondAttribute="bottom" constant="40" id="nMZ-dJ-OJ5"/>
+            </constraints>
+            <point key="canvasLocation" x="-88" y="102"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

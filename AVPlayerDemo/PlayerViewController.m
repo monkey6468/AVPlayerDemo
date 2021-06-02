@@ -1,37 +1,39 @@
 //
-//  ViewController.m
+//  PlayerViewController.m
 //  AVPlayerDemo
 //
-//  Created by HN on 2021/6/1.
+//  Created by HN on 2021/6/2.
 //
 
-#import "ViewController.h"
 #import "PlayerViewController.h"
-
 #import "VideoPlayer.h"
 
-@interface ViewController ()
-
+@interface PlayerViewController ()
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 
 @property (strong, nonatomic) VideoPlayer *videoPlayer;
 
 @property (assign, nonatomic) NSInteger playIndex;
 @property (copy, nonatomic) NSArray *urlsArray;
-
 @end
 
-@implementation ViewController
+@implementation PlayerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.playIndex = 0;
     self.urlsArray = [self getUrls];
     
-//    [self onActionPlay:nil];
+    self.videoPlayer = [[VideoPlayer alloc]init];
+    self.videoPlayer.frame = self.playerView.bounds;
+    [self.playerView addSubview:self.videoPlayer];
+
+    [self onActionPlay:nil];
 }
 
+- (void)dealloc {
+
+}
 
 - (IBAction)onActionUp:(UIButton *)sender {
     self.playIndex--;
@@ -43,16 +45,33 @@
 }
 
 - (IBAction)onActionPlay:(UIButton *)sender {
-    PlayerViewController *vc = [[PlayerViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
-//    [self.videoPlayer relase];
-//    self.videoPlayer = nil;
-//
-//    NSString *url = self.urlsArray[self.playIndex];
-//    NSLog(@"url: %@", url);
-//
-//    self.videoPlayer = [[VideoPlayer alloc]initWithUrl:url];
-//    [self.videoPlayer showInView:self.playerView];
+    [self.videoPlayer reset];
+    self.videoPlayer.asset = nil;
+
+    NSString *url = self.urlsArray[self.playIndex];
+    NSLog(@"url: %@", url);
+
+
+    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
+    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
+    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
+    NSLog(@"time1: %f", t21-t11);
+    self.videoPlayer.asset = videoAVAsset;
+    
+    
+//    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+////    UIImage *image = [self.videoPlayer getFirstFrameWithVideoWithURL:url size:self.playerView.bounds.size];
+//    UIImage *image = [self getVideoPreViewImage:videoAVAsset];
+//    NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+//    NSLog(@"time0: %f", t1-t0);
+//    self.videoPlayer.thumbImageView.image = image;
+    
+  
+
+    
+    
+    self.videoPlayer.needAutoPlay = YES;
+    [self.videoPlayer preparPlay];
 }
 
 - (IBAction)onActionDown:(UIButton *)sender {
@@ -65,6 +84,23 @@
 }
 
 
+
+
+
+// 获取视频第一帧
+- (UIImage *)getVideoPreViewImage:(AVAsset *)asset {
+    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    assetGen.appliesPreferredTrackTransform = YES;
+    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+    NSError *error = nil;
+    CMTime actualTime;
+    CGImageRef image = [assetGen copyCGImageAtTime:time
+                                        actualTime:&actualTime
+                                             error:&error];
+    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+    CGImageRelease(image);
+    return videoImage;
+}
 
 
 
