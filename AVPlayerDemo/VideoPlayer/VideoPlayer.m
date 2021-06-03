@@ -11,11 +11,12 @@
 
 @property (nonatomic, strong) UIImageView *thumbImageView;
 /// 帧图片
-@property (strong, nonatomic) UIImage *frameImage;
+@property (strong, nonatomic) UIImage *preViewImage;
 
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) AVPlayerLayer *playerLayer;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (strong, nonatomic) AVAsset *asset;
 @property (nonatomic) id observer;
 
 @property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
@@ -60,8 +61,6 @@
     self.playerItem = nil;
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
-
-    self.playerStatus = VideoPlayerStatusFinished;
 }
 
 #pragma mark - private
@@ -77,7 +76,6 @@
 
 - (void)preparPlay {
     if (!self.playerLayer) {
-        self.playerStatus = VideoPlayerStatusReady;
         
         NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
         if([tracks count] > 0) {
@@ -96,8 +94,6 @@
 
         [self addObserverForPlayer];
     } else {
-        self.playerStatus = VideoPlayerStatusPlaying;
-
         [self videoJumpWithScale:0];
     }
 }
@@ -129,24 +125,26 @@
 - (void)endPlayWithNeedAutoPlay:(BOOL)bNeed {
     if (self.player) {
         self.playerStatus = VideoPlayerStatusFinished;
-        
+
         if (bNeed) {
             [self autoPlay];
         } else {
-            [self.player removeTimeObserver:self.observer];
             [self reset];
+            self.player = nil;
+//            [self.player removeTimeObserver:self.observer];
         }
         
         if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
             [self.delegate videoPlayerFinished:self];
         }
         
-        NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
+        NSTimeInterval currentTime = 0;// CMTimeGetSeconds(self.player.currentItem.currentTime);
         NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
         
         if ([self.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
             [self.delegate videoPlayer:self duration:duration>=0?duration:0 currentTime:currentTime];
         }
+        
     }
 }
 
@@ -163,7 +161,8 @@
 - (void)playerPause {
     if (self.player) {
         [self.player pause];
-        
+        self.playerStatus = VideoPlayerStatusPaused;
+
         if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
             [self.delegate videoPlayerPaused:self];
         }
@@ -239,13 +238,14 @@
         case AVPlayerItemStatusReadyToPlay: {
             // Delay to update UI.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.playerStatus = VideoPlayerStatusReady;
                 [self startPlay];
 //                double max = CMTimeGetSeconds(self.playerItem.duration);
             });
         }
             break;
         case AVPlayerItemStatusUnknown: {
-            self.playerStatus = VideoPlayerStatusFailed;
+            self.playerStatus = VideoPlayerStatusUnknown;
             [self reset];
         }
             break;
@@ -300,16 +300,23 @@
 }
 
 #pragma mark - set data
-- (void)setFrameImage:(UIImage *)frameImage {
-    _frameImage = frameImage;
+- (void)setPreViewImage:(UIImage *)preViewImage {
+    _preViewImage = preViewImage;
     
     self.thumbImageView.hidden = NO;
-    self.thumbImageView.image = frameImage;
+    self.thumbImageView.image = preViewImage;
     self.thumbImageView.frame = self.bounds;
 }
 
 - (void)setContentMode:(VideoRenderMode)contentMode {
     _contentMode = contentMode;
+}
+
+- (void)setPlayerStatus:(VideoPlayerStatus)playerStatus {
+    _playerStatus = playerStatus;
+    if ([self.delegate respondsToSelector:@selector(videoPlayer:playerStatus:error:)]) {
+        [self.delegate videoPlayer:self playerStatus:self.playerStatus error:self.playerItem.error];
+    }
 }
 
 #pragma mark - get data
@@ -349,19 +356,33 @@
     _rate = rate;
 }
 
-- (BOOL)startPlay:(NSString *)url {
-//    if (url.length == 0) {
-//        return NO;
-//    }
-//    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
-//    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
-//    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
-//    NSLog(@"time1: %f", t21-t11);
-//
-//    if (videoAVAsset == nil) {
-//        return NO;
-//    }
-//    self.asset = videoAVAsset;
+- (BOOL)startPlay:(NSString *)url setPreView:(BOOL)bNeed {
+    if (url.length == 0) {
+        return NO;
+    }
+    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
+    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
+    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
+    NSLog(@"time1: %f", t21-t11);
+
+    if (videoAVAsset == nil) {
+        return NO;
+    }
+    self.asset = videoAVAsset;
+    [self preparPlay];
+    
+    if (bNeed) {
+        NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+        __weak typeof(self) wSelf = self;
+        [self getFirstFrameWithVideoWithAsset:videoAVAsset
+                                        block:^(UIImage * _Nonnull image) {
+            if (image) {
+                wSelf.preViewImage = image;
+            }
+            NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+            NSLog(@"time0: %f", t1-t0);
+        }];
+    }
     return YES;
 }
 

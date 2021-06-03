@@ -45,7 +45,6 @@
 
 - (IBAction)onActionStop:(UIButton *)sender {
     [self.videoPlayer playerStop];
-    self.videoPlayer.asset = nil;
     
     [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
     [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
@@ -77,28 +76,12 @@
 
 - (void)play {
     [self.videoPlayer playerStop];
-    self.videoPlayer.asset = nil;
     [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
 
     NSString *url = self.urlsArray[self.playIndex];
     NSLog(@"url: %@", url);
-
-
-    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
-    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
-    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
-    NSLog(@"time1: %f", t21-t11);
-    self.videoPlayer.asset = videoAVAsset;
     
-    
-    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
-    [self.videoPlayer getFirstFrameWithVideoWithAsset:videoAVAsset
-                                                block:^(UIImage * _Nonnull image) {
-        NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
-        NSLog(@"time0: %f", t1-t0);
-    }];
-    
-    [self.videoPlayer preparPlay];
+    [self.videoPlayer startPlay:url setPreView:YES];
 }
 
 - (IBAction)onActionDown:(UIButton *)sender {
@@ -127,7 +110,9 @@
     NSLog(@"%s",__func__);
 }
 
-
+- (void)videoPlayer:(VideoPlayer *)view playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error {
+    NSLog(@"%ld %@",(long)playerStatus, error.description);
+}
 
 
 

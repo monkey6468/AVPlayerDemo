@@ -10,8 +10,10 @@
 #import <AVFoundation/AVFoundation.h>
 
 typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
-    VideoPlayerStatusReady        = 0,
-    VideoPlayerStatusPlaying      = 1,
+    VideoPlayerStatusUnknown        = 0,
+    VideoPlayerStatusReady,
+    VideoPlayerStatusPlaying,
+    VideoPlayerStatusPaused,
     VideoPlayerStatusFinished,
     VideoPlayerStatusFailed,
 };
@@ -27,7 +29,8 @@ typedef NS_ENUM(NSInteger, VideoRenderMode) {
 
 @optional
 - (void)videoPlayer:(VideoPlayer *_Nullable)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime;
-
+/// 播放状态
+- (void)videoPlayer:(VideoPlayer *_Nullable)view playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error;
 /// 播放暂停
 - (void)videoPlayerPaused:(VideoPlayer *_Nullable)view;
 /// 播放结束
@@ -37,7 +40,6 @@ typedef NS_ENUM(NSInteger, VideoRenderMode) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : UIView
-@property (nonatomic, strong, nullable) AVAsset *asset;
 
 /// 充满模式，默认VideoRenderModeAspectFit
 @property (assign, nonatomic) VideoPlayerStatus playerStatus;
@@ -47,13 +49,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSUInteger autoPlayCount;
 
 @property (weak, nonatomic) id <VideoPlayerDelegate>delegate;
+/// 帧图片
+@property (strong, nonatomic, readonly) UIImage *preViewImage;
 
 /// 视频宽度
 @property (assign, nonatomic, readonly) NSInteger width;
 /// 视频高度
 @property (assign, nonatomic, readonly) NSInteger height;
-
-- (void)preparPlay;
 
 /// 设置播放速率
 - (void)setRate:(float)rate;
@@ -61,8 +63,11 @@ NS_ASSUME_NONNULL_BEGIN
  * 设置静音
  */
 //- (void)setMute:(BOOL)bEnable;
-/// startPlay 启动从指定URL播放
-//- (BOOL)startPlay:(NSString *)url;
+
+/// 启动从指定URL播放
+/// @param url 视频地址
+/// @param bNeed 是否需要预览图(耗时)
+- (BOOL)startPlay:(NSString *)url setPreView:(BOOL)bNeed;
 
 /// 停止播放
 - (void)playerStop;
