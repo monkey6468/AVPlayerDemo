@@ -28,9 +28,13 @@ typedef NS_ENUM(NSInteger, VideoRenderMode) {
 @protocol VideoPlayerDelegate <NSObject>
 
 @optional
-- (void)videoPlayer:(VideoPlayer *_Nullable)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime;
+- (void)videoPlayer:(VideoPlayer *_Nullable)view
+           duration:(NSTimeInterval)duration
+        currentTime:(NSTimeInterval)currentTime;
 /// 播放状态
-- (void)videoPlayer:(VideoPlayer *_Nullable)view playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error;
+- (void)videoPlayer:(VideoPlayer *_Nullable)view
+       playerStatus:(VideoPlayerStatus)playerStatus
+              error:(NSError *_Nullable)error;
 /// 播放暂停
 - (void)videoPlayerPaused:(VideoPlayer *_Nullable)view;
 /// 播放结束

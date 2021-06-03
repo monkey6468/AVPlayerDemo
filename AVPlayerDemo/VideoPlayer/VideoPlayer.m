@@ -118,7 +118,6 @@
     if (self.player) {
         [self.player play];
         self.player.rate = self.rate;
-        self.playerStatus = VideoPlayerStatusPlaying;
     }
 }
 
@@ -194,16 +193,16 @@
                                                          usingBlock:^(CMTime time) {
 //        __strong typeof(self) sSelf = wSelf;
         NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
+        if (wSelf.player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
+            wSelf.playerStatus = VideoPlayerStatusPlaying;
+        }
+        
         if (loadedRanges.copy > 0) {
-//            if (sSelf.player) {
-//                sSelf.player.rate = sSelf.rate;
-//            }
-            
-            wSelf.thumbImageView.hidden = YES;
+
             
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
             NSTimeInterval duration = CMTimeGetSeconds(wSelf.player.currentItem.duration);
-
+            
             if ([wSelf.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
                 [wSelf.delegate videoPlayer:wSelf duration:duration>=0?duration:0 currentTime:currentTime];
             }
@@ -303,7 +302,6 @@
 - (void)setPreViewImage:(UIImage *)preViewImage {
     _preViewImage = preViewImage;
     
-    self.thumbImageView.hidden = NO;
     self.thumbImageView.image = preViewImage;
     self.thumbImageView.frame = self.bounds;
 }
@@ -316,6 +314,12 @@
     _playerStatus = playerStatus;
     if ([self.delegate respondsToSelector:@selector(videoPlayer:playerStatus:error:)]) {
         [self.delegate videoPlayer:self playerStatus:self.playerStatus error:self.playerItem.error];
+    }
+    
+    if (playerStatus == VideoPlayerStatusReady) {
+        self.thumbImageView.hidden = NO;
+    } else if (playerStatus == VideoPlayerStatusPlaying) {
+        self.thumbImageView.hidden = YES;
     }
 }
 
@@ -363,7 +367,7 @@
     NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
     AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
     NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
-    NSLog(@"time1: %f", t21-t11);
+    NSLog(@"资源加载时间: %f", t21-t11);
 
     if (videoAVAsset == nil) {
         return NO;
@@ -380,7 +384,7 @@
                 wSelf.preViewImage = image;
             }
             NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
-            NSLog(@"time0: %f", t1-t0);
+            NSLog(@"预览图片加载时间: %f", t1-t0);
         }];
     }
     return YES;

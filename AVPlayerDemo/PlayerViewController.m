@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
 @property (assign, nonatomic) NSTimeInterval duration;
 @property (assign, nonatomic) NSTimeInterval currentTime;
@@ -111,7 +112,16 @@
 }
 
 - (void)videoPlayer:(VideoPlayer *)view playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error {
-    NSLog(@"%ld %@",(long)playerStatus, error.description);
+//    NSLog(@"%ld %@",(long)playerStatus, error.description);
+    if (playerStatus == VideoPlayerStatusReady) {
+        self.tipLabel.text = @"视频加载中...";
+    } else if (playerStatus == VideoPlayerStatusPlaying) {
+        self.tipLabel.text = @"视频播放中...";
+    } else if (playerStatus == VideoPlayerStatusPaused) {
+        self.tipLabel.text = @"视频已暂停";
+    } else if (playerStatus == VideoPlayerStatusFinished) {
+        self.tipLabel.text = @"视频已结束";
+    }
 }
 
 
