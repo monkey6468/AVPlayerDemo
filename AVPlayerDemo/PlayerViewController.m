@@ -35,7 +35,8 @@
     self.videoPlayer.delegate = self;
     self.videoPlayer.frame = self.playerView.bounds;
     [self.playerView addSubview:self.videoPlayer];
-//    [self.videoPlayer setRate:4];
+//    [self.videoPlayer setRate:3];
+//    self.videoPlayer.contentMode = VideoRenderModeFillScreen;
     self.videoPlayer.autoPlayCount = NSUIntegerMax;
     [self onActionPlay:self.playButton];
 }
@@ -97,21 +98,21 @@
 
 
 #pragma mark - VideoPlayerDelegate
-- (void)videoPlayer:(VideoPlayer *)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime {
+- (void)videoPlayer:(VideoPlayer *)player duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime {
     self.currentTimeLabel.text = [NSString stringWithFormat:@"%0.2lf", currentTime];
     self.durationLabel.text = [NSString stringWithFormat:@"%0.2lf", duration];
 //    NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
 }
 
-- (void)videoPlayerPaused:(VideoPlayer *)view {
+- (void)videoPlayerPaused:(VideoPlayer *)player {
     NSLog(@"%s",__func__);
 }
 
-- (void)videoPlayerFinished:(VideoPlayer *)view {
+- (void)videoPlayerFinished:(VideoPlayer *)player {
     NSLog(@"%s",__func__);
 }
 
-- (void)videoPlayer:(VideoPlayer *)view playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error {
+- (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error {
 //    NSLog(@"%ld %@",(long)playerStatus, error.description);
     if (playerStatus == VideoPlayerStatusReady) {
         self.tipLabel.text = @"视频加载中...";
@@ -121,6 +122,12 @@
         self.tipLabel.text = @"视频已暂停";
     } else if (playerStatus == VideoPlayerStatusFinished) {
         self.tipLabel.text = @"视频已结束";
+    } else if (playerStatus == VideoPlayerStatusChangeEsolution) {
+        if (player.height/player.width <= 4/3.0) {
+            player.contentMode = VideoRenderModeFillScreen;
+        } else {
+            player.contentMode = VideoRenderModeFillEdge;
+        }
     }
 }
 
@@ -128,8 +135,9 @@
 
 - (NSArray *)getUrls {
     NSArray<NSString *> *urls = @[
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/10/7499e5f4ce864b2c884abf3af6112f56.mp4",
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/0c6e8fb2afe742e1bc67d26f93d7650a.mp4",
+        @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/0c6e8fb2afe742e1bc67d26f93d7650a.mp4",//VideoRenderModeScaleToFill
+        @"https://xy2.v.netease.com/2020/dhp/qkjoimclekw15.mp4",//VideoRenderModeAspectFit
+        @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/10/7499e5f4ce864b2c884abf3af6112f56.mp4",//VideoRenderModeAspectFit
         @"https://video.cnhnb.com/video/mp4/douhuo/2021/04/08/eee7cdbba8cb4d9b8d2ab6d6b2ac9c09.mp4",
         @"https://video.cnhnb.com/video/mp4/miniapp/2021/03/20/8664f5edc73e4d6891caeb4aa14ee337.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2021/03/10/d9167b1041cb49a2bb2d897ee7676c3c.mp4",

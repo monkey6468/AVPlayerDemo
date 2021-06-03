@@ -15,38 +15,37 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusPlaying,
     VideoPlayerStatusPaused,
     VideoPlayerStatusFinished,
+    VideoPlayerStatusChangeEsolution,
     VideoPlayerStatusFailed,
 };
 
 typedef NS_ENUM(NSInteger, VideoRenderMode) {
-    VideoRenderModeScaleToFill        = 0,
-    VideoRenderModeAspectFit,
-    VideoRenderModeAspectFill
+    VideoRenderModeFillScreen        = 0,   ///<  图像铺满屏幕，不留黑边，如果图像宽高比不同于屏幕宽高比，部分画面内容会被裁剪掉。
+    VideoRenderModeFillEdge,                ///< 图像适应屏幕，保持画面完整，但如果图像宽高比不同于屏幕宽高比，会有黑边的存在。
 };
 
 @class VideoPlayer;
 @protocol VideoPlayerDelegate <NSObject>
 
 @optional
-- (void)videoPlayer:(VideoPlayer *_Nullable)view
+- (void)videoPlayer:(VideoPlayer *_Nullable)player
            duration:(NSTimeInterval)duration
         currentTime:(NSTimeInterval)currentTime;
 /// 播放状态
-- (void)videoPlayer:(VideoPlayer *_Nullable)view
+- (void)videoPlayer:(VideoPlayer *_Nullable)player
        playerStatus:(VideoPlayerStatus)playerStatus
               error:(NSError *_Nullable)error;
 /// 播放暂停
-- (void)videoPlayerPaused:(VideoPlayer *_Nullable)view;
+- (void)videoPlayerPaused:(VideoPlayer *_Nullable)player;
 /// 播放结束
-- (void)videoPlayerFinished:(VideoPlayer *_Nullable)view;
+- (void)videoPlayerFinished:(VideoPlayer *_Nullable)player;
 
 @end
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : UIView
 
-/// 充满模式，默认VideoRenderModeAspectFit
-@property (assign, nonatomic) VideoPlayerStatus playerStatus;
+/// 充满模式，默认VideoRenderModeFillEdge
 @property (assign, nonatomic) VideoRenderMode contentMode;
 
 /// 默认0；无限循环(NSUIntegerMax)
@@ -57,9 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) UIImage *preViewImage;
 
 /// 视频宽度
-@property (assign, nonatomic, readonly) NSInteger width;
+@property (assign, nonatomic, readonly) CGFloat width;
 /// 视频高度
-@property (assign, nonatomic, readonly) NSInteger height;
+@property (assign, nonatomic, readonly) CGFloat height;
 
 /// 设置播放速率
 - (void)setRate:(float)rate;

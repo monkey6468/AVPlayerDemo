@@ -21,9 +21,10 @@
 
 @property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
 @property (assign, nonatomic, getter=isActiving) BOOL bActive;
-@property (assign, nonatomic, readwrite) NSInteger width;
-@property (assign, nonatomic, readwrite) NSInteger height;
+@property (assign, nonatomic, readwrite) CGFloat width;
+@property (assign, nonatomic, readwrite) CGFloat height;
 @property (assign, nonatomic) float rate;
+@property (assign, nonatomic) VideoPlayerStatus playerStatus;
 @end
 
 @implementation VideoPlayer
@@ -47,7 +48,7 @@
 }
 
 - (void)initValue {
-    self.contentMode = VideoRenderModeAspectFit;
+    self.contentMode = VideoRenderModeFillEdge;
     self.bActive = YES;
     self.autoPlayCount = 0;
     self.rate = 1;
@@ -78,10 +79,19 @@
     if (!self.playerLayer) {
         
         NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
-        if([tracks count] > 0) {
+        if ([tracks count] > 0) {
             AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-            self.width = videoTrack.naturalSize.width;
-            self.height = videoTrack.naturalSize.height;
+            CGFloat width = videoTrack.naturalSize.width;
+            CGFloat height = videoTrack.naturalSize.height;
+            CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+            if ([self isVideoPortrait:t] == NO) {
+                self.width = height;
+                self.height = width;
+            } else {
+                self.width = width;
+                self.height = height;
+            }
+            self.playerStatus = VideoPlayerStatusChangeEsolution;
         }
         
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
@@ -101,17 +111,6 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    
-    if (self.contentMode == VideoRenderModeScaleToFill) {
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-    } else if (self.contentMode == VideoRenderModeAspectFit) {
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
-    } else if (self.contentMode == VideoRenderModeAspectFill) {
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-    }
 }
 
 - (void)startPlay {
@@ -220,6 +219,14 @@
     if (object == self.playerItem) {
         if ([keyPath isEqualToString:@"status"]) {
             [self playerItemStatusChanged];
+            
+            if (self.contentMode == VideoRenderModeFillScreen) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+            } else if (self.contentMode == VideoRenderModeFillEdge) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+            }
         }
     }
 }
@@ -239,7 +246,6 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 self.playerStatus = VideoPlayerStatusReady;
                 [self startPlay];
-//                double max = CMTimeGetSeconds(self.playerItem.duration);
             });
         }
             break;
@@ -296,6 +302,27 @@
                 break;
         }
     });
+}
+
+- (BOOL)isVideoPortrait:(CGAffineTransform)t {
+    BOOL isPortrait = NO;
+    // Portrait
+    if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) {
+        isPortrait = YES;
+    }
+    // PortraitUpsideDown
+    if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0) {
+        isPortrait = YES;
+    }
+    // LandscapeRight
+    if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0) {
+        isPortrait = NO;
+    }
+    // LandscapeLeft
+    if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0) {
+        isPortrait = NO;
+    }
+    return isPortrait;
 }
 
 #pragma mark - set data
