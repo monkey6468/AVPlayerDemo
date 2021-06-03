@@ -23,6 +23,9 @@
 @property (assign, nonatomic, getter=isActiving) BOOL bActive;
 @property (assign, nonatomic, readwrite) CGFloat width;
 @property (assign, nonatomic, readwrite) CGFloat height;
+@property (assign, nonatomic) NSTimeInterval duration;
+/// 视频当前进度时长
+@property (assign, nonatomic) NSTimeInterval currentTime;
 @property (assign, nonatomic) float rate;
 @property (assign, nonatomic) VideoPlayerStatus playerStatus;
 @end
@@ -64,8 +67,8 @@
     self.playerLayer = nil;
 }
 
+#pragma mark - other
 #pragma mark - private
-
 - (void)videoJumpWithScale:(float)scale {
     CMTime startTime = CMTimeMakeWithSeconds(scale, self.player.currentTime.timescale);
     
@@ -73,6 +76,15 @@
     
     [self.player seekToTime:startTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     [self startPlay];
+}
+
+- (void)updateWithDuration:(NSTimeInterval)duration
+               currentTime:(NSTimeInterval)currentTime {
+    self.duration = duration>=0?duration:0;
+    self.currentTime = currentTime;
+    if ([self.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
+        [self.delegate videoPlayer:self duration:self.duration currentTime:self.currentTime];
+    }
 }
 
 - (void)preparPlay {
@@ -138,11 +150,7 @@
         
         NSTimeInterval currentTime = 0;// CMTimeGetSeconds(self.player.currentItem.currentTime);
         NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
-        
-        if ([self.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
-            [self.delegate videoPlayer:self duration:duration>=0?duration:0 currentTime:currentTime];
-        }
-        
+        [self updateWithDuration:duration currentTime:currentTime];
     }
 }
 
@@ -197,16 +205,12 @@
         }
         
         if (loadedRanges.copy > 0) {
-
-            
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
             NSTimeInterval duration = CMTimeGetSeconds(wSelf.player.currentItem.duration);
-            
-            if ([wSelf.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
-                [wSelf.delegate videoPlayer:wSelf duration:duration>=0?duration:0 currentTime:currentTime];
-            }
+            [wSelf updateWithDuration:duration currentTime:currentTime];
         }
     }];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
 }
 
@@ -385,6 +389,10 @@
 
 - (void)setRate:(float)rate {
     _rate = rate;
+}
+
+- (void)seekToTime:(float)time {
+    [self videoJumpWithScale:time];
 }
 
 - (BOOL)startPlay:(NSString *)url setPreView:(BOOL)bNeed {

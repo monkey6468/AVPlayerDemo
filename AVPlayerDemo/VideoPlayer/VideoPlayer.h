@@ -59,6 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (assign, nonatomic, readonly) CGFloat width;
 /// 视频高度
 @property (assign, nonatomic, readonly) CGFloat height;
+/// 视频总时长
+@property (assign, nonatomic, readonly) NSTimeInterval duration;
+/// 视频当前进度时长
+@property (assign, nonatomic, readonly) NSTimeInterval currentTime;
 
 /// 设置播放速率
 - (void)setRate:(float)rate;
@@ -78,16 +82,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)playerPause;
 /// 继续播放
 - (void)playerResume;
-/**
- * 播放跳转到音视频流某个时间
- * @param time 流时间，单位为秒
- * @return 0 = OK
- */
-//- (int)seek:(float)time;
+/// 播放跳转到音视频流某个时间
+/// @param time 流时间，单位为秒
+- (void)seekToTime:(float)time;
 
-// 获取图片第一帧，内部实现加载
-- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
-                                  block:(void(^)(UIImage *image))block;
 @end
 
 NS_ASSUME_NONNULL_END

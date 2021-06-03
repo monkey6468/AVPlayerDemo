@@ -66,17 +66,24 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-xi-etG">
-                            <rect key="frame" x="74.5" y="0.0" width="31" height="40"/>
+                            <rect key="frame" x="60" y="0.0" width="31" height="40"/>
                             <state key="normal" title="播放"/>
                             <connections>
                                 <action selector="onActionPlay:" destination="-1" eventType="touchUpInside" id="pwD-KM-nKR"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZuO-FW-gtZ">
-                            <rect key="frame" x="134.5" y="0.0" width="31" height="40"/>
+                            <rect key="frame" x="105" y="0.0" width="31" height="40"/>
                             <state key="normal" title="停止"/>
                             <connections>
                                 <action selector="onActionStop:" destination="-1" eventType="touchUpInside" id="xgA-AU-xeR"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwg-iX-HfI">
+                            <rect key="frame" x="150" y="0.0" width="30" height="40"/>
+                            <state key="normal" title="跳4"/>
+                            <connections>
+                                <action selector="onActionJump:" destination="-1" eventType="touchUpInside" id="eQC-vn-bFZ"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1t-lo-Twx">
