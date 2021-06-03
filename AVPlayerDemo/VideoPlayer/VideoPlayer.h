@@ -25,7 +25,13 @@ typedef NS_ENUM(NSInteger, VideoRenderMode) {
 @class VideoPlayer;
 @protocol VideoPlayerDelegate <NSObject>
 
+@optional
 - (void)videoPlayer:(VideoPlayer *_Nullable)view duration:(NSTimeInterval)duration currentTime:(NSTimeInterval)currentTime;
+
+/// 播放暂停
+- (void)videoPlayerPaused:(VideoPlayer *_Nullable)view;
+/// 播放结束
+- (void)videoPlayerFinished:(VideoPlayer *_Nullable)view;
 
 @end
 NS_ASSUME_NONNULL_BEGIN
@@ -47,18 +53,29 @@ NS_ASSUME_NONNULL_BEGIN
 /// 视频高度
 @property (assign, nonatomic, readonly) NSInteger height;
 
-- (void)reset;
 - (void)preparPlay;
 
-/**
- * 设置播放速率
- * @param rate 正常速度为1.0；小于为慢速；大于为快速。最大建议不超过2.0
- */
-//- (void)setRate:(float)rate;
+/// 设置播放速率
+- (void)setRate:(float)rate;
 /**
  * 设置静音
  */
 //- (void)setMute:(BOOL)bEnable;
+/// startPlay 启动从指定URL播放
+//- (BOOL)startPlay:(NSString *)url;
+
+/// 停止播放
+- (void)playerStop;
+/// 暂停播放
+- (void)playerPause;
+/// 继续播放
+- (void)playerResume;
+/**
+ * 播放跳转到音视频流某个时间
+ * @param time 流时间，单位为秒
+ * @return 0 = OK
+ */
+//- (int)seek:(float)time;
 
 // 获取图片第一帧，内部实现加载
 - (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset

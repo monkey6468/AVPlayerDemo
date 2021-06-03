@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="currentTimeLabel" destination="M1u-fZ-OXb" id="ZuF-wA-N8d"/>
                 <outlet property="durationLabel" destination="bps-2h-I1g" id="cVV-mz-4ea"/>
+                <outlet property="playButton" destination="kGw-xi-etG" id="Ccp-tN-aLX"/>
                 <outlet property="playerView" destination="aeS-m4-6f0" id="q0D-1y-EPN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -50,25 +51,32 @@
                         <constraint firstAttribute="height" constant="40" id="35j-Kn-SYl"/>
                     </constraints>
                 </stackView>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="41" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
                     <rect key="frame" x="40" y="400" width="240" height="40"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMh-QB-gTk">
-                            <rect key="frame" x="0.0" y="5" width="46" height="30"/>
+                            <rect key="frame" x="0.0" y="0.0" width="46" height="40"/>
                             <state key="normal" title="上一个"/>
                             <connections>
                                 <action selector="onActionUp:" destination="-1" eventType="touchUpInside" id="Gvq-Wt-bi5"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-xi-etG">
-                            <rect key="frame" x="104.5" y="5" width="31" height="30"/>
+                            <rect key="frame" x="74.5" y="0.0" width="31" height="40"/>
                             <state key="normal" title="播放"/>
                             <connections>
                                 <action selector="onActionPlay:" destination="-1" eventType="touchUpInside" id="pwD-KM-nKR"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZuO-FW-gtZ">
+                            <rect key="frame" x="134.5" y="0.0" width="31" height="40"/>
+                            <state key="normal" title="停止"/>
+                            <connections>
+                                <action selector="onActionStop:" destination="-1" eventType="touchUpInside" id="xgA-AU-xeR"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1t-lo-Twx">
-                            <rect key="frame" x="194" y="5" width="46" height="30"/>
+                            <rect key="frame" x="194" y="0.0" width="46" height="40"/>
                             <state key="normal" title="下一个"/>
                             <connections>
                                 <action selector="onActionDown:" destination="-1" eventType="touchUpInside" id="3zf-by-WTM"/>

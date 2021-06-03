@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
+
 @property (assign, nonatomic) NSTimeInterval duration;
 @property (assign, nonatomic) NSTimeInterval currentTime;
 
@@ -32,12 +34,21 @@
     self.videoPlayer.delegate = self;
     self.videoPlayer.frame = self.playerView.bounds;
     [self.playerView addSubview:self.videoPlayer];
-
-    [self onActionPlay:nil];
+//    [self.videoPlayer setRate:4];
+    self.videoPlayer.autoPlayCount = NSUIntegerMax;
+    [self onActionPlay:self.playButton];
 }
 
 - (void)dealloc {
-    NSLog(@"__%s__",__func__);
+    NSLog(@"%s",__func__);
+}
+
+- (IBAction)onActionStop:(UIButton *)sender {
+    [self.videoPlayer playerStop];
+    self.videoPlayer.asset = nil;
+    
+    [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
+    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
 }
 
 - (IBAction)onActionUp:(UIButton *)sender {
@@ -46,12 +57,28 @@
         self.playIndex = self.urlsArray.count-1;
     }
     
-    [self onActionPlay:sender];
+    [self play];
 }
 
 - (IBAction)onActionPlay:(UIButton *)sender {
-    [self.videoPlayer reset];
+    
+    if ([sender.titleLabel.text isEqualToString:@"播放"]) {
+        [sender setTitle:@"暂停" forState:UIControlStateNormal];
+        [self play];
+    } else if ([sender.titleLabel.text isEqualToString:@"暂停"]) {
+        [sender setTitle:@"继续" forState:UIControlStateNormal];
+        [self.videoPlayer playerPause];
+    } else if ([sender.titleLabel.text isEqualToString:@"继续"]) {
+        [sender setTitle:@"暂停" forState:UIControlStateNormal];
+        [self.videoPlayer playerResume];
+    }
+    
+}
+
+- (void)play {
+    [self.videoPlayer playerStop];
     self.videoPlayer.asset = nil;
+    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
 
     NSString *url = self.urlsArray[self.playIndex];
     NSLog(@"url: %@", url);
@@ -71,9 +98,7 @@
         NSLog(@"time0: %f", t1-t0);
     }];
     
-//    self.videoPlayer.autoPlayCount = NSUIntegerMax;
     [self.videoPlayer preparPlay];
-    
 }
 
 - (IBAction)onActionDown:(UIButton *)sender {
@@ -82,7 +107,7 @@
         self.playIndex = 0;
     }
     
-    [self onActionPlay:sender];
+    [self play];
 }
 
 
@@ -93,6 +118,15 @@
     self.durationLabel.text = [NSString stringWithFormat:@"%0.2lf", duration];
 //    NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
 }
+
+- (void)videoPlayerPaused:(VideoPlayer *)view {
+    NSLog(@"%s",__func__);
+}
+
+- (void)videoPlayerFinished:(VideoPlayer *)view {
+    NSLog(@"%s",__func__);
+}
+
 
 
 
@@ -111,18 +145,14 @@
         @"https://video.cnhnb.com/video/mp4/douhuo/2021/01/23/bf7869316294442eb8ede7fe7e9ac022.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2021/01/09/d64965c85ab64389b0b4ee7c39b4ae97.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/10/281c5a0dd5a049aeba1172909e7f4b5f.mp4",
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/09/be22d76796b240f1b31b54d9f0088f23.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/09/58a4fc9cb83e4a268411245058f88ab1.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/09/b3ea7bb36ed044f18bff0ab8ac887fa0.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/08/c9f597f0eed347d2ac5fa3d8b7e23a1c.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/08/50946c1619db414cac166cd785102593.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/07/7031b25dfbe54d189140afd45a2adb91.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/02/a23c36a1e7394155ad72b870043ac1cb.mp4",
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/02/33cd3487bff44a4eb5eb758d84016a0c.mp4",
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/02/0cd41b6ed8644034a2381170951ef374.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/01/9d8b6aa31f82458ab3f25c4c6f89d7cd.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/01/4ab29480f8574c7d9ac1241ef3aeb46a.mp4",
-        @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/6f43df7ab5bd43778aae14a1770259e7.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/2e40d10db91249eb8fa1b5c60c47ccde.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/aa8a13c7c54c465684b903c07788d2c7.mp4",
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/11/30/803a7f7582c2413c8f65b5218d629bdc.mp4",

@@ -22,7 +22,7 @@
 @property (assign, nonatomic, getter=isActiving) BOOL bActive;
 @property (assign, nonatomic, readwrite) NSInteger width;
 @property (assign, nonatomic, readwrite) NSInteger height;
-
+@property (assign, nonatomic) float rate;
 @end
 
 @implementation VideoPlayer
@@ -49,6 +49,7 @@
     self.contentMode = VideoRenderModeAspectFit;
     self.bActive = YES;
     self.autoPlayCount = 0;
+    self.rate = 1;
 }
 
 - (void)reset {
@@ -120,6 +121,7 @@
 - (void)startPlay {
     if (self.player) {
         [self.player play];
+        self.player.rate = self.rate;
         self.playerStatus = VideoPlayerStatusPlaying;
     }
 }
@@ -127,11 +129,32 @@
 - (void)finishPlay {
     self.playerStatus = VideoPlayerStatusFinished;
     [self autoPlay];
+    
+    if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
+        [self.delegate videoPlayerFinished:self];
+    }
+}
+
+- (void)playerStop {
+    if (self.player) {
+        [self.player removeTimeObserver:self.observer];
+        [self reset];
+    }
 }
 
 - (void)playerPause {
     if (self.player) {
         [self.player pause];
+        
+        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
+            [self.delegate videoPlayerPaused:self];
+        }
+    }
+}
+
+- (void)playerResume {
+    if (self.player) {
+        [self startPlay];
     }
 }
 
@@ -152,8 +175,13 @@
     self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
                                                               queue:dispatch_get_main_queue()
                                                          usingBlock:^(CMTime time) {
+//        __strong typeof(self) sSelf = wSelf;
         NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
         if (loadedRanges.copy > 0) {
+//            if (sSelf.player) {
+//                sSelf.player.rate = sSelf.rate;
+//            }
+            
             wSelf.thumbImageView.hidden = YES;
             
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
@@ -298,4 +326,25 @@
         });
     });
 }
+
+- (void)setRate:(float)rate {
+    _rate = rate;
+}
+
+- (BOOL)startPlay:(NSString *)url {
+//    if (url.length == 0) {
+//        return NO;
+//    }
+//    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
+//    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
+//    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
+//    NSLog(@"time1: %f", t21-t11);
+//
+//    if (videoAVAsset == nil) {
+//        return NO;
+//    }
+//    self.asset = videoAVAsset;
+    return YES;
+}
+
 @end
