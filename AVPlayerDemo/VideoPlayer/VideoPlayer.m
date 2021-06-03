@@ -126,19 +126,37 @@
     }
 }
 
-- (void)finishPlay {
-    self.playerStatus = VideoPlayerStatusFinished;
-    [self autoPlay];
-    
-    if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
-        [self.delegate videoPlayerFinished:self];
+- (void)endPlayWithNeedAutoPlay:(BOOL)bNeed {
+    if (self.player) {
+        self.playerStatus = VideoPlayerStatusFinished;
+        
+        if (bNeed) {
+            [self autoPlay];
+        } else {
+            [self.player removeTimeObserver:self.observer];
+            [self reset];
+        }
+        
+        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
+            [self.delegate videoPlayerFinished:self];
+        }
+        
+        NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
+        NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
+        
+        if ([self.delegate respondsToSelector:@selector(videoPlayer:duration:currentTime:)]) {
+            [self.delegate videoPlayer:self duration:duration>=0?duration:0 currentTime:currentTime];
+        }
     }
+}
+
+- (void)finishPlay {
+    [self endPlayWithNeedAutoPlay:YES];
 }
 
 - (void)playerStop {
     if (self.player) {
-        [self.player removeTimeObserver:self.observer];
-        [self reset];
+        [self endPlayWithNeedAutoPlay:NO];
     }
 }
 
