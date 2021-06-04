@@ -14,8 +14,8 @@
                 <outlet property="currentTimeLabel" destination="M1u-fZ-OXb" id="ZuF-wA-N8d"/>
                 <outlet property="durationLabel" destination="bps-2h-I1g" id="cVV-mz-4ea"/>
                 <outlet property="playButton" destination="kGw-xi-etG" id="Ccp-tN-aLX"/>
-                <outlet property="playerView" destination="aeS-m4-6f0" id="q0D-1y-EPN"/>
                 <outlet property="tipLabel" destination="fV4-9W-NYi" id="VpX-1x-vO9"/>
+                <outlet property="videoPlayer" destination="aeS-m4-6f0" id="ehW-Kf-kUG"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,12 +24,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeS-m4-6f0">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeS-m4-6f0" customClass="VideoPlayer">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="1c8-wZ-CMg">
-                    <rect key="frame" x="15" y="10" width="290" height="40"/>
+                    <rect key="frame" x="15" y="0.0" width="290" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1u-fZ-OXb">
                             <rect key="frame" x="0.0" y="0.0" width="73.5" height="40"/>
@@ -55,6 +55,13 @@
                         <constraint firstAttribute="height" constant="40" id="35j-Kn-SYl"/>
                     </constraints>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwA-S3-3qM">
+                    <rect key="frame" x="30" y="30" width="34" height="30"/>
+                    <state key="normal" title="Back"/>
+                    <connections>
+                        <action selector="onActionBack:" destination="-1" eventType="touchUpInside" id="DT5-qn-Uz6"/>
+                    </connections>
+                </button>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
                     <rect key="frame" x="40" y="400" width="240" height="40"/>
                     <subviews>
@@ -85,19 +92,21 @@
                     </constraints>
                 </stackView>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
+            <viewLayoutGuide key="safeArea" id="ufa-bj-kMl"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="2O3-Da-K75"/>
-                <constraint firstItem="1c8-wZ-CMg" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="Chv-bs-ah7"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="1c8-wZ-CMg" secondAttribute="trailing" constant="15" id="D8c-53-oAU"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="aeS-m4-6f0" secondAttribute="bottom" id="RXE-op-Wcl"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="dPj-Dq-m9M" secondAttribute="trailing" constant="40" id="VCp-lq-Ahs"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="aeS-m4-6f0" secondAttribute="trailing" id="a1g-X3-vj5"/>
-                <constraint firstItem="aeS-m4-6f0" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="aoC-N5-0fI"/>
-                <constraint firstItem="aeS-m4-6f0" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" id="erL-4x-zpi"/>
-                <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="dPj-Dq-m9M" secondAttribute="bottom" constant="40" id="nMZ-dJ-OJ5"/>
-                <constraint firstItem="1c8-wZ-CMg" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="10" id="pVP-yo-iAW"/>
+                <constraint firstItem="aeS-m4-6f0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0Ds-lo-91E"/>
+                <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="2O3-Da-K75"/>
+                <constraint firstItem="1c8-wZ-CMg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="Chv-bs-ah7"/>
+                <constraint firstAttribute="trailing" secondItem="1c8-wZ-CMg" secondAttribute="trailing" constant="15" id="D8c-53-oAU"/>
+                <constraint firstAttribute="trailing" secondItem="aeS-m4-6f0" secondAttribute="trailing" id="KfO-zH-iB1"/>
+                <constraint firstItem="1c8-wZ-CMg" firstAttribute="top" secondItem="ufa-bj-kMl" secondAttribute="top" id="MIj-JO-o3W"/>
+                <constraint firstAttribute="trailing" secondItem="dPj-Dq-m9M" secondAttribute="trailing" constant="40" id="VCp-lq-Ahs"/>
+                <constraint firstAttribute="bottom" secondItem="aeS-m4-6f0" secondAttribute="bottom" id="Wpe-3y-ZSD"/>
+                <constraint firstItem="BwA-S3-3qM" firstAttribute="top" secondItem="ufa-bj-kMl" secondAttribute="top" constant="30" id="bI3-Gq-WwB"/>
+                <constraint firstItem="aeS-m4-6f0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dGp-wq-nfd"/>
+                <constraint firstItem="BwA-S3-3qM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="ga1-Jp-J7J"/>
+                <constraint firstAttribute="bottom" secondItem="dPj-Dq-m9M" secondAttribute="bottom" constant="40" id="nMZ-dJ-OJ5"/>
             </constraints>
             <point key="canvasLocation" x="-88" y="102"/>
         </view>

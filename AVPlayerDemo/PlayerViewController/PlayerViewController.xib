@@ -55,6 +55,13 @@
                         <constraint firstAttribute="height" constant="40" id="35j-Kn-SYl"/>
                     </constraints>
                 </stackView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eQo-ER-z5z">
+                    <rect key="frame" x="30" y="30" width="34" height="30"/>
+                    <state key="normal" title="Back"/>
+                    <connections>
+                        <action selector="onActionBack:" destination="-1" eventType="touchUpInside" id="4GN-uC-kZr"/>
+                    </connections>
+                </button>
                 <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
                     <rect key="frame" x="40" y="400" width="240" height="40"/>
                     <subviews>
@@ -103,6 +110,8 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="40" id="2O3-Da-K75"/>
+                <constraint firstItem="eQo-ER-z5z" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="30" id="7t2-NX-WJe"/>
+                <constraint firstItem="eQo-ER-z5z" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="30" id="BIU-gE-xVZ"/>
                 <constraint firstItem="1c8-wZ-CMg" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" constant="15" id="Chv-bs-ah7"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="1c8-wZ-CMg" secondAttribute="trailing" constant="15" id="D8c-53-oAU"/>
                 <constraint firstItem="Q5M-cg-NOt" firstAttribute="bottom" secondItem="aeS-m4-6f0" secondAttribute="bottom" id="RXE-op-Wcl"/>

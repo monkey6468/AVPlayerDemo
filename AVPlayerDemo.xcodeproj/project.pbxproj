@@ -11,6 +11,7 @@
 		A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */; };
 		A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */; };
 		A652B0AA2669DCA90019F2C8 /* PlayerContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0A82669DCA90019F2C8 /* PlayerContentViewController.m */; };
+		A652B0AE266A257B0019F2C8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0AD266A257B0019F2C8 /* Utility.m */; };
 		A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A654EE6826671A0E00B0D838 /* PlayerViewController.m */; };
 		A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A654EE6926671A0E00B0D838 /* PlayerViewController.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
@@ -30,6 +31,8 @@
 		A652B0A62669DCA90019F2C8 /* PlayerContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerContentViewController.h; sourceTree = "<group>"; };
 		A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerContentViewController.xib; sourceTree = "<group>"; };
 		A652B0A82669DCA90019F2C8 /* PlayerContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerContentViewController.m; sourceTree = "<group>"; };
+		A652B0AC266A257B0019F2C8 /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		A652B0AD266A257B0019F2C8 /* Utility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		A654EE6726671A0E00B0D838 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		A654EE6826671A0E00B0D838 /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		A654EE6926671A0E00B0D838 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
@@ -91,6 +94,15 @@
 			path = PlayerContentViewController;
 			sourceTree = "<group>";
 		};
+		A652B0AB266A25720019F2C8 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				A652B0AC266A257B0019F2C8 /* Utility.h */,
+				A652B0AD266A257B0019F2C8 /* Utility.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		A6C7F86426661D0700A49576 = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +123,7 @@
 		A6C7F86F26661D0700A49576 /* AVPlayerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A652B0AB266A25720019F2C8 /* Utility */,
 				A6C7F87026661D0700A49576 /* AppDelegate.h */,
 				A6C7F87126661D0700A49576 /* AppDelegate.m */,
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
@@ -213,6 +226,7 @@
 				A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */,
 				A6C7F88326661D0A00A49576 /* main.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
+				A652B0AE266A257B0019F2C8 /* Utility.m in Sources */,
 				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,
 				A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */,
 				A652B0A22669DC830019F2C8 /* VideoPageViewController.m in Sources */,

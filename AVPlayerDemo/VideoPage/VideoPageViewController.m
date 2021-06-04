@@ -52,6 +52,11 @@
 
 }
 
+#pragma mark - other
+- (IBAction)onActionBack:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+ }
+
 #pragma mark - UIPageViewControllerDataSource And UIPageViewControllerDelegate
 
 #pragma mark 返回上一个ViewController对象

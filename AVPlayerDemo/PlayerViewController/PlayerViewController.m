@@ -8,6 +8,8 @@
 #import "PlayerViewController.h"
 #import "VideoPlayer.h"
 
+#import "Utility.h"
+
 @interface PlayerViewController ()<VideoPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playerView;
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
@@ -34,7 +36,7 @@
     self.videoPlayer.frame = self.playerView.bounds;
     [self.playerView addSubview:self.videoPlayer];
 //    [self.videoPlayer setRate:3];
-//    self.videoPlayer.contentMode = VideoRenderModeFillScreen;
+//    self.videoPlayer.renderMode = VideoRenderModeFillScreen;
     self.videoPlayer.autoPlayCount = NSUIntegerMax;
     [self onActionPlay:self.playButton];
 }
@@ -42,6 +44,11 @@
 - (void)dealloc {
     NSLog(@"%s",__func__);
 }
+
+#pragma mark - other
+- (IBAction)onActionBack:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+ }
 
 - (IBAction)onActionStop:(UIButton *)sender {
     [self.videoPlayer playerStop];
@@ -86,7 +93,8 @@
     NSString *url = self.urlsArray[self.playIndex];
     NSLog(@"url: %@", url);
     
-    [self.videoPlayer startPlay:url setPreView:YES];
+    [self.videoPlayer setPlayUrl:url setPreView:YES];
+    [self.videoPlayer playerStart];
 }
 
 - (IBAction)onActionDown:(UIButton *)sender {
@@ -115,23 +123,11 @@
     NSLog(@"%s",__func__);
 }
 
-- (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)playerStatus error:(NSError *)error {
-//    NSLog(@"%ld %@",(long)playerStatus, error.description);
-    if (playerStatus == VideoPlayerStatusReady) {
-        self.tipLabel.text = @"视频加载中...";
-    } else if (playerStatus == VideoPlayerStatusPlaying) {
-        self.tipLabel.text = @"视频播放中...";
-    } else if (playerStatus == VideoPlayerStatusPaused) {
-        self.tipLabel.text = @"视频已暂停";
-    } else if (playerStatus == VideoPlayerStatusFinished) {
-        self.tipLabel.text = @"视频已结束";
-    } else if (playerStatus == VideoPlayerStatusChangeEsolution) {
-        if (player.height/player.width <= 4/3.0) {
-            player.contentMode = VideoRenderModeFillEdge;
-        } else {
-            player.contentMode = VideoRenderModeFillScreen;
-        }
-    }
+- (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
+    [Utility videoPlayer:player
+            playerStatus:status
+                   error:error
+                tipLabel:self.tipLabel];
 }
 
 @end
