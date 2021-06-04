@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (nonatomic, strong) UILabel *indexLabel;
 
@@ -58,6 +59,7 @@
     NSLog(@"\n---------\n%li>>>>>>>viewDidAppear\n---------\n",(long)self.index);
     if (self.videoPlayer) {
         if (self.videoPlayer.status != VideoPlayerStatusPlaying) {
+            self.textView.text = self.url;
             [self.videoPlayer playerStart];
         }
     }
