@@ -21,13 +21,14 @@
 
 @property (nonatomic, assign) CGFloat curruntVolumeValue; /// 记录系统声音
 @property (assign, nonatomic, getter=isActiving) BOOL bActive;
-@property (assign, nonatomic, readwrite) CGFloat width;
-@property (assign, nonatomic, readwrite) CGFloat height;
+@property (assign, nonatomic) CGFloat videoWidth;
+@property (assign, nonatomic) CGFloat videoHeight;
 @property (assign, nonatomic) NSTimeInterval duration;
 /// 视频当前进度时长
 @property (assign, nonatomic) NSTimeInterval currentTime;
 @property (assign, nonatomic) float rate;
 @property (assign, nonatomic) VideoPlayerStatus playerStatus;
+@property (assign, nonatomic, getter=isSetRenderMode) BOOL bSetRenderMode;
 @end
 
 @implementation VideoPlayer
@@ -90,20 +91,23 @@
 - (void)preparPlay {
     if (!self.playerLayer) {
         
-        NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
-        if ([tracks count] > 0) {
-            AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-            CGFloat width = videoTrack.naturalSize.width;
-            CGFloat height = videoTrack.naturalSize.height;
-            CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
-            if ([self isVideoPortrait:t] == NO) {
-                self.width = height;
-                self.height = width;
-            } else {
-                self.width = width;
-                self.height = height;
+        if (self.isSetRenderMode == NO) {
+            self.bSetRenderMode = YES;
+            NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
+            if ([tracks count] > 0) {
+                AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+                CGFloat width = videoTrack.naturalSize.width;
+                CGFloat height = videoTrack.naturalSize.height;
+                CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+                if ([self isVideoPortrait:t] == NO) {
+                    self.videoHeight = height;
+                    self.videoWidth = width;
+                } else {
+                    self.videoWidth = height;
+                    self.videoHeight = width;
+                }
+                self.playerStatus = VideoPlayerStatusChangeEsolution;
             }
-            self.playerStatus = VideoPlayerStatusChangeEsolution;
         }
         
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
@@ -198,7 +202,7 @@
     self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
                                                               queue:dispatch_get_main_queue()
                                                          usingBlock:^(CMTime time) {
-//        __strong typeof(self) sSelf = wSelf;
+
         NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
         if (wSelf.player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
             wSelf.playerStatus = VideoPlayerStatusPlaying;
@@ -339,6 +343,14 @@
 
 - (void)setContentMode:(VideoRenderMode)contentMode {
     _contentMode = contentMode;
+    
+    if (self.contentMode == VideoRenderModeFillScreen) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+    } else if (self.contentMode == VideoRenderModeFillEdge) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
 }
 
 - (void)setPlayerStatus:(VideoPlayerStatus)playerStatus {
@@ -361,6 +373,14 @@
         _thumbImageView.layer.masksToBounds = YES;
     }
     return _thumbImageView;
+}
+
+- (CGFloat)width {
+    return self.videoWidth;
+}
+
+- (CGFloat)height {
+    return self.videoHeight;
 }
 
 #pragma mark ---- 获取图片第一帧
@@ -396,6 +416,7 @@
 }
 
 - (BOOL)startPlay:(NSString *)url setPreView:(BOOL)bNeed {
+    self.bSetRenderMode = NO;
     if (url.length == 0) {
         return NO;
     }
@@ -416,6 +437,16 @@
         [self getFirstFrameWithVideoWithAsset:videoAVAsset
                                         block:^(UIImage * _Nonnull image) {
             if (image) {
+                
+                if (self.isSetRenderMode == NO) {
+                    self.bSetRenderMode = YES;
+                    CGFloat width = image.size.width;
+                    CGFloat height = image.size.height;
+                    self.videoWidth = width;
+                    self.videoHeight = height;
+                    
+                    self.playerStatus = VideoPlayerStatusChangeEsolution;
+                }
                 wSelf.preViewImage = image;
             }
             NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();

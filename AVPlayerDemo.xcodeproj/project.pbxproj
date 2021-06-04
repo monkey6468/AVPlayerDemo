@@ -94,6 +94,7 @@
 		A6C7F86426661D0700A49576 = {
 			isa = PBXGroup;
 			children = (
+				A6C7F88C2666213900A49576 /* VideoPlayer */,
 				A6C7F86F26661D0700A49576 /* AVPlayerDemo */,
 				A6C7F86E26661D0700A49576 /* Products */,
 			);
@@ -118,7 +119,6 @@
 				A6C7F87726661D0700A49576 /* ViewController.m */,
 				A652B0A42669DC870019F2C8 /* VideoPage */,
 				A652B0932669D7EF0019F2C8 /* PlayerViewController */,
-				A6C7F88C2666213900A49576 /* VideoPlayer */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
 				A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */,

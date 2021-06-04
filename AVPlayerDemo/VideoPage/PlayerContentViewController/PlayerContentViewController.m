@@ -85,15 +85,6 @@
     [self.videoPlayer seekToTime:time+4];
  }
 
-- (IBAction)onActionUp:(UIButton *)sender {
-//    self.playIndex--;
-//    if (self.playIndex < 0) {
-//        self.playIndex = self.urlsArray.count-1;
-//    }
-//
-//    [self play];
-}
-
 - (IBAction)onActionPlay:(UIButton *)sender {
     
     if ([sender.titleLabel.text isEqualToString:@"播放"]) {
@@ -117,15 +108,6 @@
     NSLog(@"url: %@", url);
     
     [self.videoPlayer startPlay:url setPreView:YES];
-}
-
-- (IBAction)onActionDown:(UIButton *)sender {
-//    self.playIndex++;
-//    if (self.playIndex > self.urlsArray.count-1) {
-//        self.playIndex = 0;
-//    }
-//    
-//    [self play];
 }
 
 
@@ -157,9 +139,9 @@
         self.tipLabel.text = @"视频已结束";
     } else if (playerStatus == VideoPlayerStatusChangeEsolution) {
         if (player.height/player.width <= 4/3.0) {
-            player.contentMode = VideoRenderModeFillScreen;
-        } else {
             player.contentMode = VideoRenderModeFillEdge;
+        } else {
+            player.contentMode = VideoRenderModeFillScreen;
         }
     }
 }

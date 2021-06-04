@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPageViewController : UIViewController
 
+@property (copy, nonatomic) NSArray *urlsArray;
+
 @end
 
 NS_ASSUME_NONNULL_END
