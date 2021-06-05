@@ -122,11 +122,6 @@
 }
 
 - (void)playerStart {
-    if (self.status == VideoPlayerStatusFinished) {
-        [self removeObserverForPlayer];
-        [self.playerLayer removeFromSuperlayer];
-        self.playerLayer = nil;
-    }
     
     if (!self.playerLayer) {
         
@@ -145,11 +140,6 @@
                     self.videoHeight = width;
                 }
                 self.status = VideoPlayerStatusChangeEsolution;
-            }
-        } else {
-            if (self.status == VideoPlayerStatusFinished) {
-                self.bSetPreViewRenderMode = NO;
-                self.bSetVideoRenderMode = NO;
             }
         }
         
@@ -180,14 +170,13 @@
         if (bNeed) {
             [self autoPlay];
         } else {
-            [self reset];
-            self.player = nil;
-//            [self.player removeTimeObserver:self.observer];
+            [self.player pause];
         }
     }
 }
 
 - (void)finishPlay {
+    [self.player pause];
     if (self.player) {
         [self endPlayWithNeedAutoPlay:YES];
     }
@@ -442,6 +431,8 @@
         
     } else if (playerStatus == VideoPlayerStatusPaused) {
         // to do
+    } else if (playerStatus == VideoPlayerStatusChangeEsolution) {
+        // to debug
     } else if (playerStatus == VideoPlayerStatusFinished) {
         
         NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);

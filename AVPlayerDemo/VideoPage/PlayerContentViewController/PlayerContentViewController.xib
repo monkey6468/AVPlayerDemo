@@ -11,14 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerContentViewController">
             <connections>
-                <outlet property="backButton" destination="BwA-S3-3qM" id="8mC-g3-fWq"/>
-                <outlet property="bottomStack" destination="dPj-Dq-m9M" id="wjZ-cJ-zPB"/>
+                <outlet property="containtView" destination="pBd-eo-6VH" id="Nqr-EY-7fh"/>
                 <outlet property="currentTimeLabel" destination="M1u-fZ-OXb" id="ZuF-wA-N8d"/>
                 <outlet property="durationLabel" destination="bps-2h-I1g" id="cVV-mz-4ea"/>
                 <outlet property="playButton" destination="kGw-xi-etG" id="Ccp-tN-aLX"/>
                 <outlet property="textView" destination="wzV-hC-67g" id="5jt-XS-8qG"/>
                 <outlet property="tipLabel" destination="fV4-9W-NYi" id="VpX-1x-vO9"/>
-                <outlet property="topStack" destination="1c8-wZ-CMg" id="2tF-xW-nOQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -27,94 +25,106 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1c8-wZ-CMg">
-                    <rect key="frame" x="15" y="0.0" width="290" height="40"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBd-eo-6VH">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1u-fZ-OXb">
-                            <rect key="frame" x="0.0" y="0.0" width="96.5" height="40"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加载提示..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fV4-9W-NYi">
-                            <rect key="frame" x="96.5" y="0.0" width="97" height="40"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bps-2h-I1g">
-                            <rect key="frame" x="193.5" y="0.0" width="96.5" height="40"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="1c8-wZ-CMg">
+                            <rect key="frame" x="30" y="20" width="260" height="40"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M1u-fZ-OXb">
+                                    <rect key="frame" x="0.0" y="0.0" width="86.5" height="40"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="加载提示..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fV4-9W-NYi">
+                                    <rect key="frame" x="86.5" y="0.0" width="87" height="40"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bps-2h-I1g">
+                                    <rect key="frame" x="173.5" y="0.0" width="86.5" height="40"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.61176470589999998" green="0.87450980389999999" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="35j-Kn-SYl"/>
+                            </constraints>
+                        </stackView>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wzV-hC-67g">
+                            <rect key="frame" x="15" y="320" width="290" height="80"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="w3g-hO-GdF"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwA-S3-3qM">
+                            <rect key="frame" x="15" y="30" width="34" height="30"/>
+                            <state key="normal" title="Back"/>
+                            <connections>
+                                <action selector="onActionBack:" destination="-1" eventType="touchUpInside" id="DT5-qn-Uz6"/>
+                            </connections>
+                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
+                            <rect key="frame" x="25" y="400" width="270" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-xi-etG">
+                                    <rect key="frame" x="0.0" y="0.0" width="31" height="40"/>
+                                    <state key="normal" title="播放"/>
+                                    <connections>
+                                        <action selector="onActionPlay:" destination="-1" eventType="touchUpInside" id="pwD-KM-nKR"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZuO-FW-gtZ">
+                                    <rect key="frame" x="120" y="0.0" width="31" height="40"/>
+                                    <state key="normal" title="停止"/>
+                                    <connections>
+                                        <action selector="onActionStop:" destination="-1" eventType="touchUpInside" id="xgA-AU-xeR"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwg-iX-HfI">
+                                    <rect key="frame" x="240" y="0.0" width="30" height="40"/>
+                                    <state key="normal" title="跳4"/>
+                                    <connections>
+                                        <action selector="onActionJump:" destination="-1" eventType="touchUpInside" id="eQC-vn-bFZ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="TFf-0p-McH"/>
+                            </constraints>
+                        </stackView>
                     </subviews>
-                    <color key="backgroundColor" red="0.61176470589999998" green="0.87450980389999999" blue="0.61960784310000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="40" id="35j-Kn-SYl"/>
+                        <constraint firstItem="wzV-hC-67g" firstAttribute="leading" secondItem="pBd-eo-6VH" secondAttribute="leading" constant="15" id="1cd-Lu-bLe"/>
+                        <constraint firstAttribute="trailing" secondItem="wzV-hC-67g" secondAttribute="trailing" constant="15" id="395-1K-2iW"/>
+                        <constraint firstAttribute="bottom" secondItem="dPj-Dq-m9M" secondAttribute="bottom" constant="40" id="PKD-Qu-KNA"/>
+                        <constraint firstAttribute="trailing" secondItem="dPj-Dq-m9M" secondAttribute="trailing" constant="25" id="YML-rc-qZQ"/>
+                        <constraint firstAttribute="trailing" secondItem="1c8-wZ-CMg" secondAttribute="trailing" constant="30" id="ZhO-IK-V1C"/>
+                        <constraint firstItem="BwA-S3-3qM" firstAttribute="top" secondItem="pBd-eo-6VH" secondAttribute="top" constant="30" id="g1I-rD-rZ0"/>
+                        <constraint firstItem="dPj-Dq-m9M" firstAttribute="top" secondItem="wzV-hC-67g" secondAttribute="bottom" id="gon-RF-CAy"/>
+                        <constraint firstItem="1c8-wZ-CMg" firstAttribute="leading" secondItem="pBd-eo-6VH" secondAttribute="leading" constant="30" id="mhc-YD-Q0f"/>
+                        <constraint firstItem="BwA-S3-3qM" firstAttribute="leading" secondItem="pBd-eo-6VH" secondAttribute="leading" constant="15" id="nCd-UE-Exh"/>
+                        <constraint firstItem="1c8-wZ-CMg" firstAttribute="top" secondItem="pBd-eo-6VH" secondAttribute="top" constant="20" id="naU-PD-cvW"/>
+                        <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="pBd-eo-6VH" secondAttribute="leading" constant="25" id="qOd-CC-VKP"/>
                     </constraints>
-                </stackView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wzV-hC-67g">
-                    <rect key="frame" x="20" y="320" width="280" height="80"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="80" id="w3g-hO-GdF"/>
-                    </constraints>
-                    <color key="textColor" systemColor="labelColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwA-S3-3qM">
-                    <rect key="frame" x="30" y="30" width="34" height="30"/>
-                    <state key="normal" title="Back"/>
-                    <connections>
-                        <action selector="onActionBack:" destination="-1" eventType="touchUpInside" id="DT5-qn-Uz6"/>
-                    </connections>
-                </button>
-                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Dq-m9M">
-                    <rect key="frame" x="40" y="400" width="240" height="40"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGw-xi-etG">
-                            <rect key="frame" x="0.0" y="0.0" width="31" height="40"/>
-                            <state key="normal" title="播放"/>
-                            <connections>
-                                <action selector="onActionPlay:" destination="-1" eventType="touchUpInside" id="pwD-KM-nKR"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZuO-FW-gtZ">
-                            <rect key="frame" x="105" y="0.0" width="31" height="40"/>
-                            <state key="normal" title="停止"/>
-                            <connections>
-                                <action selector="onActionStop:" destination="-1" eventType="touchUpInside" id="xgA-AU-xeR"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dwg-iX-HfI">
-                            <rect key="frame" x="210" y="0.0" width="30" height="40"/>
-                            <state key="normal" title="跳4"/>
-                            <connections>
-                                <action selector="onActionJump:" destination="-1" eventType="touchUpInside" id="eQC-vn-bFZ"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="40" id="TFf-0p-McH"/>
-                    </constraints>
-                </stackView>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="ufa-bj-kMl"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="dPj-Dq-m9M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="2O3-Da-K75"/>
-                <constraint firstItem="1c8-wZ-CMg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="15" id="Chv-bs-ah7"/>
-                <constraint firstAttribute="trailing" secondItem="1c8-wZ-CMg" secondAttribute="trailing" constant="15" id="D8c-53-oAU"/>
-                <constraint firstItem="wzV-hC-67g" firstAttribute="leading" secondItem="ufa-bj-kMl" secondAttribute="leading" constant="20" id="MHp-aP-Erc"/>
-                <constraint firstItem="1c8-wZ-CMg" firstAttribute="top" secondItem="ufa-bj-kMl" secondAttribute="top" id="MIj-JO-o3W"/>
-                <constraint firstItem="dPj-Dq-m9M" firstAttribute="top" secondItem="wzV-hC-67g" secondAttribute="bottom" id="REB-WN-prN"/>
-                <constraint firstAttribute="trailing" secondItem="dPj-Dq-m9M" secondAttribute="trailing" constant="40" id="VCp-lq-Ahs"/>
-                <constraint firstItem="BwA-S3-3qM" firstAttribute="top" secondItem="ufa-bj-kMl" secondAttribute="top" constant="30" id="bI3-Gq-WwB"/>
-                <constraint firstItem="ufa-bj-kMl" firstAttribute="trailing" secondItem="wzV-hC-67g" secondAttribute="trailing" constant="20" id="baj-tW-E4w"/>
-                <constraint firstItem="BwA-S3-3qM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="ga1-Jp-J7J"/>
-                <constraint firstAttribute="bottom" secondItem="dPj-Dq-m9M" secondAttribute="bottom" constant="40" id="nMZ-dJ-OJ5"/>
+                <constraint firstItem="ufa-bj-kMl" firstAttribute="trailing" secondItem="pBd-eo-6VH" secondAttribute="trailing" id="5ed-tA-gh7"/>
+                <constraint firstItem="ufa-bj-kMl" firstAttribute="bottom" secondItem="pBd-eo-6VH" secondAttribute="bottom" id="Afs-A5-gYg"/>
+                <constraint firstItem="pBd-eo-6VH" firstAttribute="leading" secondItem="ufa-bj-kMl" secondAttribute="leading" id="VGv-ek-uhR"/>
+                <constraint firstItem="pBd-eo-6VH" firstAttribute="top" secondItem="ufa-bj-kMl" secondAttribute="top" id="zwm-4P-uNm"/>
             </constraints>
             <point key="canvasLocation" x="-88" y="102"/>
         </view>

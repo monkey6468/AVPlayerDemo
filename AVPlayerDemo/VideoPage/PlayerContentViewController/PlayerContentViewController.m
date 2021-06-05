@@ -16,9 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIStackView *topStack;
-@property (weak, nonatomic) IBOutlet UIStackView *bottomStack;
+@property (weak, nonatomic) IBOutlet UIView *containtView;
 
 @property (nonatomic, strong) UILabel *indexLabel;
 
@@ -43,10 +41,7 @@
     self.videoPlayer.autoPlayCount = NSUIntegerMax;
     [self onActionPlay:self.playButton];
     
-    [self.view insertSubview:self.backButton aboveSubview:self.videoPlayer];
-    [self.view insertSubview:self.topStack aboveSubview:self.videoPlayer];
-    [self.view insertSubview:self.textView aboveSubview:self.videoPlayer];
-    [self.view insertSubview:self.bottomStack aboveSubview:self.videoPlayer];
+    [self.view insertSubview:self.containtView aboveSubview:self.videoPlayer];
 
     [self settingUI];
 }
@@ -136,7 +131,7 @@
 
     NSString *url = self.url;
     NSLog(@"playReady index:%ld url: %@",self.index, url);
-    self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
+//    self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
     self.videoPlayer.videoUrl = url;
 }
 
