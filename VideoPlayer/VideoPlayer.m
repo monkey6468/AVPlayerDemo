@@ -24,10 +24,11 @@
 @property (assign, nonatomic) CGFloat videoWidth;
 @property (assign, nonatomic) CGFloat videoHeight;
 @property (assign, nonatomic) NSTimeInterval duration;
-/// 视频当前进度时长
-@property (assign, nonatomic) NSTimeInterval currentTime;
+@property (assign, nonatomic) NSTimeInterval currentTime; /// 视频当前进度时长
 @property (assign, nonatomic) float rate;
-@property (assign, nonatomic, getter=isSetRenderMode) BOOL bSetRenderMode;
+@property (assign, nonatomic, getter=isSetPreViewRenderMode) BOOL bSetPreViewRenderMode; /// 图片填充模式
+@property (assign, nonatomic, getter=isSetVideoRenderMode) BOOL bSetVideoRenderMode; /// 视频填充模式
+
 @end
 
 @implementation VideoPlayer
@@ -67,11 +68,37 @@
     self.bActive = YES;
     self.autoPlayCount = 0;
     self.rate = 1;
+    self.bDebug = NO;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+}
+
+#pragma mark - UI
+- (void)updateUIWithRenderModel {
+    if (self.isSetPreViewRenderMode == NO) {
+        if (self.thumbImageView) {
+            self.bSetPreViewRenderMode = YES;
+            if (self.renderMode == VideoRenderModeFillScreen) {
+                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+            } else if (self.renderMode == VideoRenderModeFillEdge) {
+                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+            }
+        }
+    }
+    
+    if (self.isSetVideoRenderMode == NO) {
+        if (self.playerLayer) {
+            self.bSetVideoRenderMode = YES;
+            if (self.renderMode == VideoRenderModeFillScreen) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            } else if (self.renderMode == VideoRenderModeFillEdge) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+            }
+        }
+    }
 }
 
 #pragma mark - other
@@ -103,8 +130,7 @@
     
     if (!self.playerLayer) {
         
-        if (self.isSetRenderMode == NO) {
-            self.bSetRenderMode = YES;
+        if (self.isSetVideoRenderMode == NO && self.isSetPreViewRenderMode == NO) {
             NSArray *tracks = [self.asset tracksWithMediaType:AVMediaTypeVideo];
             if ([tracks count] > 0) {
                 AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
@@ -223,14 +249,6 @@
     if (object == self.playerItem) {
         if ([keyPath isEqualToString:@"status"]) {
             [self playerItemStatusChanged];
-            
-            if (self.renderMode == VideoRenderModeFillScreen) {
-                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-            } else if (self.renderMode == VideoRenderModeFillEdge) {
-                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-                self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
-            }
         }
     }
     
@@ -341,70 +359,6 @@
     return isPortrait;
 }
 
-#pragma mark - set data
-- (void)setPreViewImageUrl:(NSString * _Nonnull)preViewImageUrl {
-    _preViewImageUrl = preViewImageUrl;
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:preViewImageUrl]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.isSetRenderMode == NO) {
-                self.bSetRenderMode = YES;
-                CGFloat width = image.size.width;
-                CGFloat height = image.size.height;
-                self.videoWidth = width;
-                self.videoHeight = height;
-                
-                self.status = VideoPlayerStatusChangeEsolution;
-            }
-            self.preViewImage = image;
-        });
-    });
-}
-- (void)setPreViewImage:(UIImage *)preViewImage {
-    _preViewImage = preViewImage;
-    
-    self.thumbImageView.image = preViewImage;
-    self.thumbImageView.frame = self.bounds;
-}
-
-- (void)setRenderMode:(VideoRenderMode)contentMode {
-    _renderMode = contentMode;
-    
-    if (self.renderMode == VideoRenderModeFillScreen) {
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-    } else if (self.renderMode == VideoRenderModeFillEdge) {
-        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
-    }
-}
-
-- (void)setStatus:(VideoPlayerStatus)playerStatus {
-    _status = playerStatus;
-    if ([self.delegate respondsToSelector:@selector(videoPlayer:playerStatus:error:)]) {
-        [self.delegate videoPlayer:self playerStatus:self.status error:self.playerItem.error];
-    }
-    
-    if (playerStatus == VideoPlayerStatusReady) {
-        self.thumbImageView.hidden = NO;
-    } else if (playerStatus == VideoPlayerStatusPlaying) {
-        self.thumbImageView.hidden = YES;
-    } else if (playerStatus == VideoPlayerStatusPaused) {
-        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
-            [self.delegate videoPlayerPaused:self];
-        }
-    } else if (playerStatus == VideoPlayerStatusFinished) {
-        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
-            [self.delegate videoPlayerFinished:self];
-        }
-        
-        NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
-        NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
-        [self updateWithDuration:duration currentTime:currentTime];
-    }
-}
-
 #pragma mark - get data
 - (UIImageView *)thumbImageView {
     if (!_thumbImageView) {
@@ -446,6 +400,20 @@
     });
 }
 
+#pragma mark - set data
+- (void)setPreViewImage:(UIImage *)preViewImage {
+    _preViewImage = preViewImage;
+    
+    self.thumbImageView.image = preViewImage;
+    self.thumbImageView.frame = self.bounds;
+}
+
+- (void)setRenderMode:(VideoRenderMode)contentMode {
+    _renderMode = contentMode;
+    
+    [self updateUIWithRenderModel];
+}
+
 - (void)setRate:(float)rate {
     _rate = rate;
 }
@@ -454,36 +422,108 @@
     [self videoJumpWithScale:time];
 }
 
-- (BOOL)setPlayUrl:(NSString *)url {
-    return [self setPlayUrl:url setPreView:NO];
+- (void)setStatus:(VideoPlayerStatus)playerStatus {
+    _status = playerStatus;
+    if ([self.delegate respondsToSelector:@selector(videoPlayer:playerStatus:error:)]) {
+        [self.delegate videoPlayer:self playerStatus:self.status error:self.playerItem.error];
+    }
+    
+    if (playerStatus == VideoPlayerStatusReady) {
+        self.thumbImageView.hidden = NO;
+    } else if (playerStatus == VideoPlayerStatusPlaying) {
+        self.thumbImageView.hidden = YES;
+        
+        [self updateUIWithRenderModel];
+        
+    } else if (playerStatus == VideoPlayerStatusPaused) {
+        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
+            [self.delegate videoPlayerPaused:self];
+        }
+    } else if (playerStatus == VideoPlayerStatusFinished) {
+        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
+            [self.delegate videoPlayerFinished:self];
+        }
+        
+        NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
+        NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
+        [self updateWithDuration:duration currentTime:currentTime];
+    }
 }
 
-- (BOOL)setPlayUrl:(NSString *)url setPreView:(BOOL)bNeed {
-    self.bSetRenderMode = NO;
-    if (url.length == 0) {
-        return NO;
-    }
-    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
-    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:url] options:nil];
-    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
-    NSLog(@"资源加载时间: %f", t21-t11);
+- (void)setPreViewImageUrl:(NSString * _Nonnull)preViewImageUrl {
+    _preViewImageUrl = preViewImageUrl;
+    
+    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:preViewImageUrl]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (self.isSetPreViewRenderMode == NO) {
+                NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+                if (self.bDebug) {
+                    NSLog(@"预览图片(URL)加载时间: %f", t1-t0);
+                }
+                CGFloat width = image.size.width;
+                CGFloat height = image.size.height;
+                self.videoWidth = width;
+                self.videoHeight = height;
+                
+                self.status = VideoPlayerStatusChangeEsolution;
+            }
+            self.preViewImage = image;
+        });
+    });
+}
 
+- (void)setVideoUrl:(NSString *)videoUrl {
+    _videoUrl = videoUrl;
+    
+    self.bSetPreViewRenderMode = NO;
+    self.bSetVideoRenderMode = NO;
+    if (videoUrl.length == 0) {
+        return ;
+    }
+    
+    if (self.asset == nil) {
+        [self setVideoAVAsset];
+    }
+    
+    if (self.preViewImage == nil && self.asset == nil) {
+        [self setPreViewImage];
+    }
+}
+
+- (void)setBNeedPreView:(BOOL)bNeedPreView {
+    _bNeedPreView = bNeedPreView;
+    
+    if (self.preViewImage == nil && self.asset == nil) {
+        [self setPreViewImage];
+    }
+}
+
+- (void)setVideoAVAsset {
+    NSTimeInterval t11 = CFAbsoluteTimeGetCurrent();
+    AVURLAsset *videoAVAsset = [AVURLAsset URLAssetWithURL:[NSURL URLWithString:self.videoUrl] options:nil];
+    NSTimeInterval t21 = CFAbsoluteTimeGetCurrent();
+    if (self.bDebug) {
+        NSLog(@"视频资源加载时间: %f", t21-t11);
+    }
+    
     if (videoAVAsset == nil) {
-        return NO;
+        return ;
     }
     self.asset = videoAVAsset;
     self.status = VideoPlayerStatusReady;
-//    [self playerStart];
-    
-    if (bNeed) {
+}
+
+- (void)setPreViewImage {
+    if (self.bNeedPreView) {
         NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
         __weak typeof(self) wSelf = self;
-        [self getFirstFrameWithVideoWithAsset:videoAVAsset
+        [self getFirstFrameWithVideoWithAsset:self.asset
                                         block:^(UIImage * _Nonnull image) {
             if (image) {
                 
-                if (self.isSetRenderMode == NO) {
-                    self.bSetRenderMode = YES;
+                if (self.isSetPreViewRenderMode == NO) {
                     CGFloat width = image.size.width;
                     CGFloat height = image.size.height;
                     self.videoWidth = width;
@@ -494,10 +534,13 @@
                 wSelf.preViewImage = image;
             }
             NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
-            NSLog(@"预览图片加载时间: %f", t1-t0);
+            
+            if (self.bDebug) {
+                NSLog(@"预览图片(内置)加载时间: %f", t1-t0);
+            }
         }];
+    } else {
+        self.bSetPreViewRenderMode = YES;
     }
-    return YES;
 }
-
 @end

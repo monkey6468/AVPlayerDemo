@@ -51,10 +51,13 @@ IB_DESIGNABLE
 @property (assign, nonatomic) VideoRenderMode renderMode;
 /// 视频播放状态
 @property (assign, nonatomic) VideoPlayerStatus status;
-
 /// 默认0；无限循环(NSUIntegerMax)
 @property (nonatomic, assign) NSUInteger autoPlayCount;
-
+/// 视频地址
+@property (copy, nonatomic) NSString *videoUrl;
+/// 是否需要预览图(耗时)
+@property (assign, nonatomic) BOOL bNeedPreView;
+/// VideoPlayer 代理
 @property (weak, nonatomic) id <VideoPlayerDelegate>delegate;
 /// 获取帧图片
 @property (strong, nonatomic, readonly) UIImage *preViewImage;
@@ -69,20 +72,13 @@ IB_DESIGNABLE
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
 /// 视频当前进度时长
 @property (assign, nonatomic, readonly) NSTimeInterval currentTime;
-
+@property (assign, nonatomic) BOOL bDebug; /// 调试日志输出。默认关闭
 /// 设置播放速率
 - (void)setRate:(float)rate;
 /**
  * 设置静音
  */
 //- (void)setMute:(BOOL)bEnable;
-
-/// 启动从指定URL播放
-/// @param url 视频地址
-/// @param bNeed 是否需要预览图(耗时)
-- (BOOL)setPlayUrl:(NSString *)url setPreView:(BOOL)bNeed;
-- (BOOL)setPlayUrl:(NSString *)url;
-
 /// 开始播放
 - (void)playerStart;
 /// 暂停播放

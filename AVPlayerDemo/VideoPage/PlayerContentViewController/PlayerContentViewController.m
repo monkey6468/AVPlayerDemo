@@ -132,7 +132,7 @@
     NSString *url = self.url;
     NSLog(@"url: %@", url);
     self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
-    [self.videoPlayer setPlayUrl:url];
+    self.videoPlayer.videoUrl = url;
 }
 
 

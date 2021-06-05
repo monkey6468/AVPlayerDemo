@@ -35,6 +35,7 @@
     self.videoPlayer.delegate = self;
     self.videoPlayer.frame = self.playerView.bounds;
     [self.playerView addSubview:self.videoPlayer];
+    self.videoPlayer.bNeedPreView = YES;
 //    [self.videoPlayer setRate:3];
 //    self.videoPlayer.renderMode = VideoRenderModeFillScreen;
     self.videoPlayer.autoPlayCount = NSUIntegerMax;
@@ -93,7 +94,7 @@
     NSString *url = self.urlsArray[self.playIndex];
     NSLog(@"url: %@", url);
     
-    [self.videoPlayer setPlayUrl:url setPreView:YES];
+    self.videoPlayer.videoUrl = url;
     [self.videoPlayer playerStart];
 }
 
