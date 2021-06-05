@@ -146,6 +146,11 @@
                 }
                 self.status = VideoPlayerStatusChangeEsolution;
             }
+        } else {
+            if (self.status == VideoPlayerStatusFinished) {
+                self.bSetPreViewRenderMode = NO;
+                self.bSetVideoRenderMode = NO;
+            }
         }
         
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
@@ -436,17 +441,13 @@
         [self updateUIWithRenderModel];
         
     } else if (playerStatus == VideoPlayerStatusPaused) {
-        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
-            [self.delegate videoPlayerPaused:self];
-        }
+        // to do
     } else if (playerStatus == VideoPlayerStatusFinished) {
-        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
-            [self.delegate videoPlayerFinished:self];
-        }
         
         NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
         NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
         [self updateWithDuration:duration currentTime:currentTime];
+        
     }
 }
 

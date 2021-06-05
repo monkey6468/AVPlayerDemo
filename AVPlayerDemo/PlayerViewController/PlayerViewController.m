@@ -116,14 +116,6 @@
 //    NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
 }
 
-- (void)videoPlayerPaused:(VideoPlayer *)player {
-    NSLog(@"%s",__func__);
-}
-
-- (void)videoPlayerFinished:(VideoPlayer *)player {
-    NSLog(@"%s",__func__);
-}
-
 - (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
     [Utility videoPlayer:player
             playerStatus:status

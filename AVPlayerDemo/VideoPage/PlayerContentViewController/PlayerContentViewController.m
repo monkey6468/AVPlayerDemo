@@ -11,38 +11,43 @@
 #import "Utility.h"
 
 @interface PlayerContentViewController ()<VideoPlayerDelegate>
-@property (weak, nonatomic) IBOutlet VideoPlayer *videoPlayer;
 @property (weak, nonatomic) IBOutlet UILabel *durationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIStackView *topStack;
+@property (weak, nonatomic) IBOutlet UIStackView *bottomStack;
 
 @property (nonatomic, strong) UILabel *indexLabel;
 
 @property (assign, nonatomic) NSTimeInterval duration;
 @property (assign, nonatomic) NSTimeInterval currentTime;
 
-//@property (strong, nonatomic) VideoPlayer *videoPlayer;
+@property (strong, nonatomic) VideoPlayer *videoPlayer;
 
-@property (assign, nonatomic) NSInteger playIndex;
 @end
 
 @implementation PlayerContentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.playIndex = 0;
     
-//    self.videoPlayer = [[VideoPlayer alloc]init];
+    self.videoPlayer = [[VideoPlayer alloc]init];
     self.videoPlayer.delegate = self;
-//    self.videoPlayer.frame = self.playerView.bounds;
-//    [self.playerView addSubview:self.videoPlayer];
+    self.videoPlayer.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    [self.view addSubview:self.videoPlayer];
 //    [self.videoPlayer setRate:3];
 //    self.videoPlayer.renderMode = VideoRenderModeFillScreen;
     self.videoPlayer.autoPlayCount = NSUIntegerMax;
     [self onActionPlay:self.playButton];
     
+    [self.view insertSubview:self.backButton aboveSubview:self.videoPlayer];
+    [self.view insertSubview:self.topStack aboveSubview:self.videoPlayer];
+    [self.view insertSubview:self.textView aboveSubview:self.videoPlayer];
+    [self.view insertSubview:self.bottomStack aboveSubview:self.videoPlayer];
+
     [self settingUI];
 }
 
@@ -67,7 +72,7 @@
 
 - (void)dealloc {
     self.videoPlayer = nil;
-    NSLog(@"\n---------\n%li>>>>>>>%s\n---------\n",(long)self.index,__func__);
+//    NSLog(@"\n---------\n%li>>>>>>>%s\n---------\n",(long)self.index,__func__);
 }
 
 #pragma mark - UI
@@ -110,7 +115,7 @@
         if (self.videoPlayer.status == VideoPlayerStatusFinished) {
             [self.videoPlayer playerStart];
         } else {
-            [self play];
+            [self playReady];
         }
     } else if ([sender.titleLabel.text isEqualToString:@"暂停"]) {
         [sender setTitle:@"继续" forState:UIControlStateNormal];
@@ -122,7 +127,7 @@
     
 }
 
-- (void)play {
+- (void)playReady {
     if (self.videoPlayer.status != VideoPlayerStatusUnknown
         ||self.videoPlayer.status != VideoPlayerStatusFailed
         || self.videoPlayer.status != VideoPlayerStatusFinished) {
@@ -130,7 +135,7 @@
     }
 
     NSString *url = self.url;
-    NSLog(@"url: %@", url);
+    NSLog(@"playReady index:%ld url: %@",self.index, url);
     self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
     self.videoPlayer.videoUrl = url;
 }
@@ -144,15 +149,8 @@
 //    NSLog(@"----allTime:%f--------currentTime:%f----progress:%f---",duration,currentTime,currentTime/duration);
 }
 
-//- (void)videoPlayerPaused:(VideoPlayer *)player {
-//    NSLog(@"%s",__func__);
-//}
-//
-//- (void)videoPlayerFinished:(VideoPlayer *)player {
-//    NSLog(@"%s",__func__);
-//}
-
 - (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
+    NSLog(@"playerStatus index:%ld %ld url: %@",self.index, (VideoPlayerStatus)status, player.videoUrl);
     [Utility videoPlayer:player
             playerStatus:status
                    error:error

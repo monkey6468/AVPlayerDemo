@@ -10,14 +10,14 @@
 #import <AVFoundation/AVFoundation.h>
 
 typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
-    VideoPlayerStatusUnknown        = 0,
-    VideoPlayerStatusReady,
-    VideoPlayerStatusReadyToPlay,
-    VideoPlayerStatusPlaying,
-    VideoPlayerStatusPaused,
-    VideoPlayerStatusFinished,
-    VideoPlayerStatusChangeEsolution,
-    VideoPlayerStatusFailed,
+    VideoPlayerStatusUnknown            = 0,
+    VideoPlayerStatusReady              = 1,
+    VideoPlayerStatusReadyToPlay        = 2,
+    VideoPlayerStatusPlaying            = 3,
+    VideoPlayerStatusPaused             = 4,
+    VideoPlayerStatusFinished           = 5,
+    VideoPlayerStatusChangeEsolution    = 6,
+    VideoPlayerStatusFailed             = 7,
 };
 
 typedef NS_ENUM(NSInteger, VideoRenderMode) {
@@ -36,10 +36,6 @@ typedef NS_ENUM(NSInteger, VideoRenderMode) {
 - (void)videoPlayer:(VideoPlayer *_Nullable)player
        playerStatus:(VideoPlayerStatus)status
               error:(NSError *_Nullable)error;
-/// 播放暂停
-- (void)videoPlayerPaused:(VideoPlayer *_Nullable)player;
-/// 播放结束
-- (void)videoPlayerFinished:(VideoPlayer *_Nullable)player;
 
 @end
 NS_ASSUME_NONNULL_BEGIN
