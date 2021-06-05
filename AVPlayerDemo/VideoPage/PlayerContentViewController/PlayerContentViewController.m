@@ -48,7 +48,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    NSLog(@"\n---------\n%li>>>>>>>viewDidDisappear\n---------\n",(long)self.index);
+//    NSLog(@"\n---------\n%li>>>>>>>viewDidDisappear\n---------\n",(long)self.index);
     if (self.videoPlayer.status == VideoPlayerStatusPlaying) {
         [self.videoPlayer playerPause];
     }
@@ -56,7 +56,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"\n---------\n%li>>>>>>>viewDidAppear\n---------\n",(long)self.index);
+//    NSLog(@"\n---------\n%li>>>>>>>viewDidAppear\n---------\n",(long)self.index);
     if (self.videoPlayer) {
         if (self.videoPlayer.status != VideoPlayerStatusPlaying) {
             self.textView.text = self.url;
@@ -95,7 +95,7 @@
     [self.videoPlayer playerStop];
     
     [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
-    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
+//    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
 }
 
 - (IBAction)onActionJump:(UIButton *)sender {
@@ -107,7 +107,11 @@
     
     if ([sender.titleLabel.text isEqualToString:@"播放"]) {
         [sender setTitle:@"暂停" forState:UIControlStateNormal];
-        [self play];
+        if (self.videoPlayer.status == VideoPlayerStatusFinished) {
+            [self.videoPlayer playerStart];
+        } else {
+            [self play];
+        }
     } else if ([sender.titleLabel.text isEqualToString:@"暂停"]) {
         [sender setTitle:@"继续" forState:UIControlStateNormal];
         [self.videoPlayer playerPause];
@@ -119,10 +123,13 @@
 }
 
 - (void)play {
-    [self.videoPlayer playerStop];
-    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
+    if (self.videoPlayer.status != VideoPlayerStatusUnknown
+        ||self.videoPlayer.status != VideoPlayerStatusFailed
+        || self.videoPlayer.status != VideoPlayerStatusFinished) {
+        [self.videoPlayer playerStop];
+    }
 
-    NSString *url = self.url;//self.urlsArray[self.playIndex];
+    NSString *url = self.url;
     NSLog(@"url: %@", url);
     self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
     [self.videoPlayer setPlayUrl:url];

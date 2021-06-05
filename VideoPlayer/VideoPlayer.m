@@ -33,9 +33,14 @@
 @implementation VideoPlayer
 
 - (void)dealloc {
+    [self removeObserverForPlayer];
     [self removeObserverForSystem];
     [self reset];
     [self.player removeTimeObserver:self.observer];
+    [self.playerLayer removeFromSuperlayer];
+    self.playerLayer = nil;
+    // If set 'self.playerLayer.player = nil' or 'self.player = nil', can not cancel observeing of 'addPeriodicTimeObserverForInterval'.
+    self.player = nil;
 }
 
 #pragma mark - life
@@ -64,27 +69,12 @@
     self.rate = 1;
 }
 
-- (void)reset {
-    [self removeObserverForPlayer];
-    
-    // If set 'self.playerLayer.player = nil' or 'self.player = nil', can not cancel observeing of 'addPeriodicTimeObserverForInterval'.
-    [self.player pause];
-    self.playerItem = nil;
-    [self.playerLayer removeFromSuperlayer];
-    self.playerLayer = nil;
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 }
 
 #pragma mark - other
-#pragma mark - private
-- (void)videoJumpWithScale:(float)scale {
-    CMTime startTime = CMTimeMakeWithSeconds(scale, self.player.currentTime.timescale);
-    
-    if (CMTIME_IS_INDEFINITE(startTime) || CMTIME_IS_INVALID(startTime)) return;
-    
-    [self.player seekToTime:startTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
-    [self startPlay];
-}
-
 - (void)updateWithDuration:(NSTimeInterval)duration
                currentTime:(NSTimeInterval)currentTime {
     self.duration = duration>=0?duration:0;
@@ -94,7 +84,23 @@
     }
 }
 
-- (void)preparPlay {
+#pragma mark - private
+- (void)videoJumpWithScale:(float)scale {
+    CMTime startTime = CMTimeMakeWithSeconds(scale, self.player.currentTime.timescale);
+    
+    if (CMTIME_IS_INDEFINITE(startTime) || CMTIME_IS_INVALID(startTime)) return;
+    
+    [self.player seekToTime:startTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    [self playerResume];
+}
+
+- (void)playerStart {
+    if (self.status == VideoPlayerStatusFinished) {
+        [self removeObserverForPlayer];
+        [self.playerLayer removeFromSuperlayer];
+        self.playerLayer = nil;
+    }
+    
     if (!self.playerLayer) {
         
         if (self.isSetRenderMode == NO) {
@@ -130,16 +136,10 @@
     }
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.playerLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-}
-
-- (void)startPlay {
-    if (self.player) {
-        [self.player play];
-        self.player.rate = self.rate;
-    }
+#pragma mark player operation releated
+- (void)reset {
+    [self.player pause];
+    self.playerItem = nil;
 }
 
 - (void)endPlayWithNeedAutoPlay:(BOOL)bNeed {
@@ -153,21 +153,13 @@
             self.player = nil;
 //            [self.player removeTimeObserver:self.observer];
         }
-        
-        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
-            [self.delegate videoPlayerFinished:self];
-        }
-        
-        NSTimeInterval currentTime = 0;// CMTimeGetSeconds(self.player.currentItem.currentTime);
-        NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
-        [self updateWithDuration:duration currentTime:currentTime];
     }
 }
 
-#pragma mark player operation releated
-
 - (void)finishPlay {
-    [self endPlayWithNeedAutoPlay:YES];
+    if (self.player) {
+        [self endPlayWithNeedAutoPlay:YES];
+    }
 }
 
 - (void)playerStop {
@@ -176,33 +168,26 @@
     }
 }
 
-- (void)playerStart {
-    [self preparPlay];
-}
-
 - (void)playerPause {
     if (self.player) {
         [self.player pause];
         self.status = VideoPlayerStatusPaused;
-
-        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
-            [self.delegate videoPlayerPaused:self];
-        }
     }
 }
 
 - (void)playerResume {
     if (self.player) {
-        [self startPlay];
+        [self.player play];
+        self.player.rate = self.rate;
     }
 }
 
 - (void)autoPlay {
     if (self.autoPlayCount == NSUIntegerMax) {
-        [self preparPlay];
+        [self playerStart];
     } else if (self.autoPlayCount > 0) {
         --self.autoPlayCount;
-        [self preparPlay];
+        [self playerStart];
     }
 }
 
@@ -210,16 +195,14 @@
 
 - (void)addObserverForPlayer {
     [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+    [self.player addObserver:self forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:nil];
+
     __weak typeof(self) wSelf = self;
     self.observer = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
                                                               queue:dispatch_get_main_queue()
                                                          usingBlock:^(CMTime time) {
 
         NSArray *loadedRanges = wSelf.player.currentItem.seekableTimeRanges;
-        if (wSelf.player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
-            wSelf.status = VideoPlayerStatusPlaying;
-        }
-        
         if (loadedRanges.copy > 0) {
             NSTimeInterval currentTime = CMTimeGetSeconds(wSelf.player.currentItem.currentTime);
             NSTimeInterval duration = CMTimeGetSeconds(wSelf.player.currentItem.duration);
@@ -232,10 +215,11 @@
 
 - (void)removeObserverForPlayer {
     [self.playerItem removeObserver:self forKeyPath:@"status"];
+    [self.player removeObserver:self forKeyPath:@"timeControlStatus"];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if (object == self.playerItem) {
         if ([keyPath isEqualToString:@"status"]) {
             [self playerItemStatusChanged];
@@ -246,6 +230,18 @@
             } else if (self.renderMode == VideoRenderModeFillEdge) {
                 self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
                 self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+            }
+        }
+    }
+    
+    if (object == self.player) {
+        if ([keyPath isEqualToString:@"timeControlStatus"]) {
+            if (self.player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
+                // not to do
+            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
+                // not to do
+            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
+                self.status = VideoPlayerStatusPlaying;
             }
         }
     }
@@ -265,7 +261,7 @@
             // Delay to update UI.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.15 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 self.status = VideoPlayerStatusReadyToPlay;
-                [self startPlay];
+                [self playerResume];
             });
         }
             break;
@@ -305,7 +301,7 @@
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
     self.bActive = YES;
-    [self startPlay];
+    [self playerResume];
 }
 
 //- (void)didChangeStatusBarFrame {
@@ -394,6 +390,18 @@
         self.thumbImageView.hidden = NO;
     } else if (playerStatus == VideoPlayerStatusPlaying) {
         self.thumbImageView.hidden = YES;
+    } else if (playerStatus == VideoPlayerStatusPaused) {
+        if ([self.delegate respondsToSelector:@selector(videoPlayerPaused:)]) {
+            [self.delegate videoPlayerPaused:self];
+        }
+    } else if (playerStatus == VideoPlayerStatusFinished) {
+        if ([self.delegate respondsToSelector:@selector(videoPlayerFinished:)]) {
+            [self.delegate videoPlayerFinished:self];
+        }
+        
+        NSTimeInterval currentTime = CMTimeGetSeconds(self.player.currentItem.currentTime);
+        NSTimeInterval duration = CMTimeGetSeconds(self.player.currentItem.duration);
+        [self updateWithDuration:duration currentTime:currentTime];
     }
 }
 
@@ -465,7 +473,7 @@
     }
     self.asset = videoAVAsset;
     self.status = VideoPlayerStatusReady;
-//    [self preparPlay];
+//    [self playerStart];
     
     if (bNeed) {
         NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
