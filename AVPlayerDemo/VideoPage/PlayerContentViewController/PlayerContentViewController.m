@@ -6,7 +6,6 @@
 //
 
 #import "PlayerContentViewController.h"
-#import "VideoPlayer.h"
 
 #import "Utility.h"
 
@@ -19,12 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIView *containtView;
 
 @property (nonatomic, strong) UILabel *indexLabel;
-
-@property (assign, nonatomic) NSTimeInterval duration;
-@property (assign, nonatomic) NSTimeInterval currentTime;
-
-@property (strong, nonatomic) VideoPlayer *videoPlayer;
-
 @end
 
 @implementation PlayerContentViewController
@@ -32,18 +25,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.videoPlayer = [[VideoPlayer alloc]init];
-    self.videoPlayer.delegate = self;
-    self.videoPlayer.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
-    [self.view addSubview:self.videoPlayer];
-//    [self.videoPlayer setRate:3];
-//    self.videoPlayer.renderMode = VideoRenderModeFillScreen;
-    self.videoPlayer.autoPlayCount = NSUIntegerMax;
-    [self onActionPlay:self.playButton];
-    
-    [self.view insertSubview:self.containtView aboveSubview:self.videoPlayer];
-
     [self settingUI];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self settingPlayer];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -57,17 +44,20 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 //    NSLog(@"\n---------\n%li>>>>>>>viewDidAppear\n---------\n",(long)self.index);
-    if (self.videoPlayer) {
-        if (self.videoPlayer.status != VideoPlayerStatusPlaying) {
-            self.textView.text = self.url;
-            [self.videoPlayer playerStart];
-        }
+//    NSTimeInterval startTime = CFAbsoluteTimeGetCurrent();
+//    NSTimeInterval time = startTime-self.enterTime;
+//    NSLog(@"time: %lf",time);
+    if (self.videoPlayer == nil) return;
+    
+    if (self.videoPlayer.status != VideoPlayerStatusPlaying) {
+        self.textView.text = self.url;
+        [self.videoPlayer playerStart];
     }
 }
 
 - (void)dealloc {
-    self.videoPlayer = nil;
 //    NSLog(@"\n---------\n%li>>>>>>>%s\n---------\n",(long)self.index,__func__);
+    self.videoPlayer = nil;
 }
 
 #pragma mark - UI
@@ -80,10 +70,23 @@
     self.indexLabel.font = [UIFont boldSystemFontOfSize:100];
     self.indexLabel.text = @(self.index).stringValue;
     self.indexLabel.textColor = [UIColor whiteColor];
-//    CGFloat color = 10*self.index/255.f;
-//    self.view.backgroundColor = [UIColor colorWithRed:color green:color blue:color alpha:1];
-    [self.indexLabel sizeToFit];
-    self.indexLabel.center = self.view.center;
+    self.indexLabel.textAlignment = NSTextAlignmentCenter;
+    self.indexLabel.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+}
+ 
+- (void)settingPlayer {
+    self.videoPlayer = [[VideoPlayer alloc]init];
+    self.videoPlayer.delegate = self;
+    self.videoPlayer.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height);
+    [self.view addSubview:self.videoPlayer];
+    
+//    [self.videoPlayer setRate:3];
+//    self.videoPlayer.renderMode = VideoRenderModeFillScreen;
+    self.videoPlayer.autoPlayCount = NSUIntegerMax;
+    [self onActionPlay:self.playButton];
+    
+    [self.view insertSubview:self.containtView aboveSubview:self.videoPlayer];
+    [self.view insertSubview:self.indexLabel aboveSubview:self.videoPlayer];
 }
 
 #pragma mark - other
@@ -95,7 +98,6 @@
     [self.videoPlayer playerStop];
     
     [self.playButton setTitle:@"播放" forState:UIControlStateNormal];
-//    [self videoPlayer:self.videoPlayer duration:0 currentTime:0];
 }
 
 - (IBAction)onActionJump:(UIButton *)sender {
@@ -131,8 +133,9 @@
 
     NSString *url = self.url;
     NSLog(@"playReady index:%ld url: %@",self.index, url);
-//    self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
+    self.videoPlayer.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:url showWatermark:YES];
     self.videoPlayer.videoUrl = url;
+//    self.enterTime = CFAbsoluteTimeGetCurrent();
 }
 
 
@@ -145,7 +148,13 @@
 }
 
 - (void)videoPlayer:(VideoPlayer *)player playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
-    NSLog(@"playerStatus index:%ld %ld url: %@",self.index, (VideoPlayerStatus)status, player.videoUrl);
+//    if (self.bLeave == YES) {
+//        self.videoPlayer = nil;
+////        [self.videoPlayer playerPause];
+//        return;
+//    };
+
+    NSLog(@"playerStatus: %ld url: %@", self.index, player.videoUrl);
     [Utility videoPlayer:player
             playerStatus:status
                    error:error

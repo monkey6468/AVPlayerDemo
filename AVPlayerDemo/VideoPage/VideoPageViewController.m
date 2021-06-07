@@ -60,7 +60,6 @@
 #pragma mark - UIPageViewControllerDataSource And UIPageViewControllerDelegate
 
 #pragma mark 返回上一个ViewController对象
-
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
     
     NSUInteger index = [self indexOfViewController:(PlayerContentViewController *)viewController];
@@ -90,8 +89,27 @@
         return nil;
     }
     return [self viewControllerAtIndex:index];
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(nonnull NSArray<UIViewController *> *)pendingViewControllers
+{
     
-    
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed;
+{
+    if (completed == NO) return;
+    PlayerContentViewController *playerController = nil;
+    if (previousViewControllers.count) {
+        playerController = (PlayerContentViewController *)[previousViewControllers lastObject];
+    }
+//    if (playerController.videoPlayer) {
+//        if (playerController.videoPlayer.status != VideoPlayerStatusPlaying) {
+////            playerController.textView.text = self.url;
+//            [playerController.videoPlayer playerStop];
+//        }
+//    }
+//    [playerController.videoPlayer playerStart];
 }
 
 #pragma mark - 根据index得到对应的UIViewController

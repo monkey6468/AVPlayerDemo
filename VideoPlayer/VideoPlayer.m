@@ -88,17 +88,6 @@
             }
         }
     }
-    
-    if (self.isSetVideoRenderMode == NO) {
-        if (self.playerLayer) {
-            self.bSetVideoRenderMode = YES;
-            if (self.renderMode == VideoRenderModeFillScreen) {
-                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-            } else if (self.renderMode == VideoRenderModeFillEdge) {
-                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-            }
-        }
-    }
 }
 
 #pragma mark - other
@@ -145,8 +134,15 @@
         
         self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset];
         self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-        
         self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        if (self.isSetVideoRenderMode == NO) {
+            self.bSetVideoRenderMode = YES;
+            if (self.renderMode == VideoRenderModeFillScreen) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            } else if (self.renderMode == VideoRenderModeFillEdge) {
+                self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+            }
+        }
         [self.layer insertSublayer:self.playerLayer above:self.thumbImageView.layer];
 
         self.curruntVolumeValue = self.player.volume;
