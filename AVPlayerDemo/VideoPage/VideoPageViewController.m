@@ -8,9 +8,10 @@
 #import "VideoPageViewController.h"
 #import "PlayerContentViewController.h"
 
-@interface VideoPageViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource>
+@interface VideoPageViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIPageViewController *pageViewController;
+@property (strong, nonatomic) UIScrollView *scrollView;
 
 @end
 
@@ -50,18 +51,46 @@
     [self addChildViewController:self.pageViewController];
     [self.view addSubview:self.pageViewController.view];
 
+    self.scrollView = [self findScrollView];
+    self.scrollView.delegate = self;
 }
 
 #pragma mark - other
 - (IBAction)onActionBack:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
- }
+}
 
-#pragma mark - UIPageViewControllerDataSource And UIPageViewControllerDelegate
+- (UIScrollView *)findScrollView {
+    for (UIView *view in self.pageViewController.view.subviews) {
+        if (![view isKindOfClass:[UIScrollView class]]) continue;
+        UIScrollView *scrollView = (UIScrollView *)view;
+        scrollView.tag = 1000;
+        return scrollView;
+    }
+    return nil;
+}
 
-#pragma mark 返回上一个ViewController对象
+#pragma mark 根据index得到对应的UIViewController
+- (PlayerContentViewController *)viewControllerAtIndex:(NSUInteger)index {
+    if ((self.urlsArray.count == 0) || (index >= self.urlsArray.count)) {
+        return nil;
+    }
+    // 创建一个新的控制器类，并且分配给相应的数据
+    PlayerContentViewController *contentVC = [[PlayerContentViewController alloc] init];
+    contentVC.index = index;
+    contentVC.url = self.urlsArray[contentVC.index];
+    return contentVC;
+}
+
+#pragma mark 数组元素值，得到下标值
+- (NSUInteger)indexOfViewController:(PlayerContentViewController *)viewController {
+    return viewController.index;
+}
+
+#pragma mark - UIPageViewControllerDataSource、
+// 向前翻页展示的ViewController
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-    
+
     NSUInteger index = [self indexOfViewController:(PlayerContentViewController *)viewController];
     if ((index == 0) || (index == NSNotFound)) {
         return nil;
@@ -72,11 +101,9 @@
     // 不用我们去操心每个ViewController的顺序问题
     return [self viewControllerAtIndex:index];
     
-    
 }
 
-#pragma mark 返回下一个ViewController对象
-
+// 向后翻页展示的ViewController
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController
        viewControllerAfterViewController:(UIViewController *)viewController
 {
@@ -91,13 +118,18 @@
     return [self viewControllerAtIndex:index];
 }
 
+#pragma mark - UIPageViewControllerDelegate
+// 翻页视图控制器将要翻页时执行的方法
 - (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(nonnull NSArray<UIViewController *> *)pendingViewControllers
 {
     
 }
 
+// 翻页动画执行完成后回调的方法
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed;
 {
+    self.scrollView.userInteractionEnabled = YES;
+    
     if (completed == NO) return;
     PlayerContentViewController *playerController = nil;
     if (previousViewControllers.count) {
@@ -112,24 +144,20 @@
 //    [playerController.videoPlayer playerStart];
 }
 
-#pragma mark - 根据index得到对应的UIViewController
+// 屏幕防线改变时回到的方法，可以通过返回值重设书轴类型枚举
+//- (UIPageViewControllerSpineLocation)pageViewController:(UIPageViewController *)pageViewController spineLocationForInterfaceOrientation:(UIInterfaceOrientation)orientation {
+//
+//}
 
-- (PlayerContentViewController *)viewControllerAtIndex:(NSUInteger)index {
-    if ((self.urlsArray.count == 0) || (index >= self.urlsArray.count)) {
-        return nil;
+#pragma mark - UIPageViewControllerDelegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (scrollView.isDragging) {
+//        scrollView.userInteractionEnabled = NO;
     }
-    // 创建一个新的控制器类，并且分配给相应的数据
-    PlayerContentViewController *contentVC = [[PlayerContentViewController alloc] init];
-    contentVC.index = index;
-    contentVC.url = self.urlsArray[contentVC.index];
-    return contentVC;
 }
 
-#pragma mark - 数组元素值，得到下标值
-
-- (NSUInteger)indexOfViewController:(PlayerContentViewController *)viewController {
-//    return [self.pageContentArray indexOfObject:@(viewController.index)];
-    return viewController.index;
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
 }
 
 @end

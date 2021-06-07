@@ -51,12 +51,13 @@
     
     if (self.videoPlayer.status != VideoPlayerStatusPlaying) {
         self.textView.text = self.url;
-        [self.videoPlayer playerStart];
+//        [self.videoPlayer playerStart];
     }
 }
 
 - (void)dealloc {
 //    NSLog(@"\n---------\n%li>>>>>>>%s\n---------\n",(long)self.index,__func__);
+    [self.videoPlayer playerStop];
     self.videoPlayer = nil;
 }
 
@@ -154,7 +155,7 @@
 //        return;
 //    };
 
-    NSLog(@"playerStatus: %ld url: %@", self.index, player.videoUrl);
+//    NSLog(@"playerStatus: %ld url: %@", self.index, player.videoUrl);
     [Utility videoPlayer:player
             playerStatus:status
                    error:error
