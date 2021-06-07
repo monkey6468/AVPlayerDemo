@@ -9,7 +9,7 @@
 #import "PlayerContentViewController.h"
 
 @interface VideoPageViewController () <UIPageViewControllerDelegate, UIPageViewControllerDataSource, UIScrollViewDelegate>
-
+// QHPageViewController
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (strong, nonatomic) UIScrollView *scrollView;
 
