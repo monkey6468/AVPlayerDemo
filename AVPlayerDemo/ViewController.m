@@ -8,6 +8,7 @@
 #import "ViewController.h"
 #import "PlayerViewController.h"
 #import "VideoPageViewController.h"
+#import "AwemeListController.h"
 
 #import "Utility.h"
 
@@ -22,7 +23,7 @@
     // Do any additional setup after loading the view.
     
 //    [self onActionPlay:nil];
-    [self onActionPlayList:nil];
+    [self onActionAwemeList:nil];
 }
 
 
@@ -35,6 +36,13 @@
 
 - (IBAction)onActionPlayList:(UIButton *)sender {
     VideoPageViewController *vc = [[VideoPageViewController alloc]init];
+    vc.urlsArray = [Utility getUrls];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)onActionAwemeList:(UIButton *)sender {
+    AwemeListController *vc = [[AwemeListController alloc]init];
     vc.urlsArray = [Utility getUrls];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];

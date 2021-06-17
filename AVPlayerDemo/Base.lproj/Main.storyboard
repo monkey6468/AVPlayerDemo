@@ -31,6 +31,13 @@
                                     <action selector="onActionPlayList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pWZ-9k-DN1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
+                                <rect key="frame" x="137" y="301" width="46" height="30"/>
+                                <state key="normal" title="第三方"/>
+                                <connections>
+                                    <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -38,7 +45,9 @@
                             <constraint firstItem="S5c-a8-pc0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DqG-9o-NC2"/>
                             <constraint firstItem="v0z-dx-DlC" firstAttribute="top" secondItem="S5c-a8-pc0" secondAttribute="bottom" constant="8" symbolic="YES" id="EwH-cz-KYW"/>
                             <constraint firstItem="v0z-dx-DlC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HRi-8P-CJd"/>
+                            <constraint firstItem="oVC-Ou-o4m" firstAttribute="top" secondItem="v0z-dx-DlC" secondAttribute="bottom" constant="8" symbolic="YES" id="gdx-a0-V2U"/>
                             <constraint firstItem="S5c-a8-pc0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qhT-Ww-Dlm"/>
+                            <constraint firstItem="oVC-Ou-o4m" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z6b-Yl-bFR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV"/>
@@ -53,7 +62,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dYg-HK-9ZZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kro-2l-8oJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
