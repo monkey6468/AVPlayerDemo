@@ -7,7 +7,6 @@
 //
 
 #import "AwemeListCell.h"
-#import "Aweme.h"
 #import "AVPlayerView.h"
 
 #import "Masonry.h"
@@ -298,7 +297,7 @@ static const NSInteger kAwemeListLikeShareTag   = 0x02;
 }
 
 // update method
-- (void)initData:(Aweme *)aweme {
+- (void)setAweme:(NSString *)aweme {
     _aweme = aweme;
     
 //    [_nickName setText:[NSString stringWithFormat:@"@%@", aweme.author.nickname]];

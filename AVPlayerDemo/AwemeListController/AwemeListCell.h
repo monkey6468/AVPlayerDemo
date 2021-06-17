@@ -10,12 +10,11 @@
 
 typedef void (^OnPlayerReady)(void);
 
-@class Aweme;
 @class AVPlayerView;
 
 @interface AwemeListCell : UITableViewCell
 
-@property (nonatomic, strong) Aweme            *aweme;
+@property (copy, nonatomic) NSString *aweme;
 
 @property (nonatomic, strong) AVPlayerView     *playerView;
 
@@ -23,7 +22,6 @@ typedef void (^OnPlayerReady)(void);
 @property (nonatomic, strong) OnPlayerReady    onPlayerReady;
 @property (nonatomic, assign) BOOL             isPlayerReady;
 
-- (void)initData:(Aweme *)aweme;
 - (void)play;
 - (void)pause;
 - (void)replay;

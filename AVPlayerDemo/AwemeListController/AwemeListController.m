@@ -7,7 +7,6 @@
 //
 
 #import <AVKit/AVKit.h>
-#import "Aweme.h"
 #import "AwemeListController.h"
 #import "AwemeListCell.h"
 #import "AVPlayerView.h"
@@ -26,14 +25,14 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 @property (nonatomic, assign) AwemeType                         awemeType;
 @property (nonatomic, copy) NSString                            *uid;
 
-@property (nonatomic, strong) NSMutableArray<Aweme *>           *data;
-@property (nonatomic, strong) NSMutableArray<Aweme *>           *awemes;
+@property (nonatomic, strong) NSMutableArray<NSString *>           *data;
+@property (nonatomic, strong) NSMutableArray<NSString *>           *awemes;
 
 @end
 
 @implementation AwemeListController
 
--(instancetype)initWithVideoData:(NSMutableArray<Aweme *> *)data currentIndex:(NSInteger)currentIndex pageIndex:(NSInteger)pageIndex pageSize:(NSInteger)pageSize awemeType:(AwemeType)type uid:(NSString *)uid {
+-(instancetype)initWithVideoData:(NSMutableArray<NSString *> *)data currentIndex:(NSInteger)currentIndex pageIndex:(NSInteger)pageIndex pageSize:(NSInteger)pageSize awemeType:(AwemeType)type uid:(NSString *)uid {
     self = [super init];
     if(self) {
         _isCurPlayerPause = NO;
@@ -130,7 +129,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //填充视频数据
     AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:kAwemeListCell forIndexPath:indexPath];
-    [cell initData:_data[indexPath.row]];
+    cell.aweme = _data[indexPath.row];
     [cell startDownloadBackgroundTask];
     return cell;
 }

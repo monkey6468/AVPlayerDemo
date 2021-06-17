@@ -18,15 +18,6 @@
 		A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669C5267B43BD00CA65BF /* AwemeListController.m */; };
 		A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CB267B43CC00CA65BF /* AVPlayerView.m */; };
 		A65669CF267B43CC00CA65BF /* AVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CC267B43CC00CA65BF /* AVPlayerManager.m */; };
-		A65669E6267B442800CA65BF /* Aweme.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669D5267B442800CA65BF /* Aweme.m */; };
-		A65669E7267B442800CA65BF /* PictureInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669D6267B442800CA65BF /* PictureInfo.m */; };
-		A65669E8267B442800CA65BF /* Video.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669D7267B442800CA65BF /* Video.m */; };
-		A65669E9267B442800CA65BF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669D8267B442800CA65BF /* User.m */; };
-		A65669EA267B442800CA65BF /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669D9267B442800CA65BF /* BaseModel.m */; };
-		A65669EB267B442800CA65BF /* GroupChat.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669DB267B442800CA65BF /* GroupChat.m */; };
-		A65669EC267B442800CA65BF /* Music.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669DD267B442800CA65BF /* Music.m */; };
-		A65669ED267B442800CA65BF /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669E2267B442800CA65BF /* Comment.m */; };
-		A65669EE267B442800CA65BF /* Visitor.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669E4267B442800CA65BF /* Visitor.m */; };
 		A6566A04267B445100CA65BF /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669F1267B445100CA65BF /* JSONValueTransformer.m */; };
 		A6566A05267B445100CA65BF /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669F4267B445100CA65BF /* JSONKeyMapper.m */; };
 		A6566A06267B445100CA65BF /* JSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669F6267B445100CA65BF /* JSONModel.m */; };
@@ -77,24 +68,6 @@
 		A65669CB267B43CC00CA65BF /* AVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerView.m; sourceTree = "<group>"; };
 		A65669CC267B43CC00CA65BF /* AVPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerManager.m; sourceTree = "<group>"; };
 		A65669CD267B43CC00CA65BF /* AVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerView.h; sourceTree = "<group>"; };
-		A65669D4267B442800CA65BF /* Music.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Music.h; sourceTree = "<group>"; };
-		A65669D5267B442800CA65BF /* Aweme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aweme.m; sourceTree = "<group>"; };
-		A65669D6267B442800CA65BF /* PictureInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureInfo.m; sourceTree = "<group>"; };
-		A65669D7267B442800CA65BF /* Video.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Video.m; sourceTree = "<group>"; };
-		A65669D8267B442800CA65BF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		A65669D9267B442800CA65BF /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
-		A65669DA267B442800CA65BF /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		A65669DB267B442800CA65BF /* GroupChat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupChat.m; sourceTree = "<group>"; };
-		A65669DC267B442800CA65BF /* Visitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Visitor.h; sourceTree = "<group>"; };
-		A65669DD267B442800CA65BF /* Music.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Music.m; sourceTree = "<group>"; };
-		A65669DE267B442800CA65BF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		A65669DF267B442800CA65BF /* Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Video.h; sourceTree = "<group>"; };
-		A65669E0267B442800CA65BF /* PictureInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureInfo.h; sourceTree = "<group>"; };
-		A65669E1267B442800CA65BF /* Aweme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aweme.h; sourceTree = "<group>"; };
-		A65669E2267B442800CA65BF /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		A65669E3267B442800CA65BF /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
-		A65669E4267B442800CA65BF /* Visitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Visitor.m; sourceTree = "<group>"; };
-		A65669E5267B442800CA65BF /* GroupChat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupChat.h; sourceTree = "<group>"; };
 		A65669F1267B445100CA65BF /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONValueTransformer.m; sourceTree = "<group>"; };
 		A65669F2267B445100CA65BF /* JSONKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKeyMapper.h; sourceTree = "<group>"; };
 		A65669F3267B445100CA65BF /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONValueTransformer.h; sourceTree = "<group>"; };
@@ -215,7 +188,6 @@
 				A65669C4267B43BD00CA65BF /* AwemeListCell.m */,
 				A6566A19267B46F700CA65BF /* Masonry */,
 				A65669EF267B445100CA65BF /* JSONModel */,
-				A65669D3267B442800CA65BF /* Entity */,
 				A6566A18267B44BD00CA65BF /* View */,
 				A65669C6267B43BD00CA65BF /* AwemeListController.h */,
 				A65669C5267B43BD00CA65BF /* AwemeListController.m */,
@@ -232,31 +204,6 @@
 				A65669CD267B43CC00CA65BF /* AVPlayerView.h */,
 			);
 			path = AVPlayer;
-			sourceTree = "<group>";
-		};
-		A65669D3267B442800CA65BF /* Entity */ = {
-			isa = PBXGroup;
-			children = (
-				A65669D4267B442800CA65BF /* Music.h */,
-				A65669D5267B442800CA65BF /* Aweme.m */,
-				A65669D6267B442800CA65BF /* PictureInfo.m */,
-				A65669D7267B442800CA65BF /* Video.m */,
-				A65669D8267B442800CA65BF /* User.m */,
-				A65669D9267B442800CA65BF /* BaseModel.m */,
-				A65669DA267B442800CA65BF /* Comment.h */,
-				A65669DB267B442800CA65BF /* GroupChat.m */,
-				A65669DC267B442800CA65BF /* Visitor.h */,
-				A65669DD267B442800CA65BF /* Music.m */,
-				A65669DE267B442800CA65BF /* User.h */,
-				A65669DF267B442800CA65BF /* Video.h */,
-				A65669E0267B442800CA65BF /* PictureInfo.h */,
-				A65669E1267B442800CA65BF /* Aweme.h */,
-				A65669E2267B442800CA65BF /* Comment.m */,
-				A65669E3267B442800CA65BF /* BaseModel.h */,
-				A65669E4267B442800CA65BF /* Visitor.m */,
-				A65669E5267B442800CA65BF /* GroupChat.h */,
-			);
-			path = Entity;
 			sourceTree = "<group>";
 		};
 		A65669EF267B445100CA65BF /* JSONModel */ = {
@@ -489,21 +436,14 @@
 				A6566A3B267B46F700CA65BF /* MASViewConstraint.m in Sources */,
 				A6566A3A267B46F700CA65BF /* MASConstraint.m in Sources */,
 				A6566A09267B445100CA65BF /* JSONHTTPClient.m in Sources */,
-				A65669EE267B442800CA65BF /* Visitor.m in Sources */,
 				A6566A34267B46F700CA65BF /* ViewController+MASAdditions.m in Sources */,
 				A6566A3C267B46F700CA65BF /* MASViewAttribute.m in Sources */,
-				A65669EA267B442800CA65BF /* BaseModel.m in Sources */,
 				A6566A43267B48F300CA65BF /* WebCacheHelpler.m in Sources */,
 				A6C7F87826661D0700A49576 /* ViewController.m in Sources */,
 				A6566A39267B46F700CA65BF /* View+MASAdditions.m in Sources */,
-				A65669E6267B442800CA65BF /* Aweme.m in Sources */,
 				A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */,
 				A6566A36267B46F700CA65BF /* MASConstraintMaker.m in Sources */,
-				A65669E7267B442800CA65BF /* PictureInfo.m in Sources */,
 				A6566A0B267B445100CA65BF /* JSONModel+networking.m in Sources */,
-				A65669E9267B442800CA65BF /* User.m in Sources */,
-				A65669EB267B442800CA65BF /* GroupChat.m in Sources */,
-				A65669ED267B442800CA65BF /* Comment.m in Sources */,
 				A6C7F88326661D0A00A49576 /* main.m in Sources */,
 				A6566A07267B445100CA65BF /* JSONModelError.m in Sources */,
 				A65669C7267B43BD00CA65BF /* AwemeListCell.m in Sources */,
@@ -512,9 +452,7 @@
 				A6566A35267B46F700CA65BF /* MASCompositeConstraint.m in Sources */,
 				A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
-				A65669EC267B442800CA65BF /* Music.m in Sources */,
 				A652B0AE266A257B0019F2C8 /* Utility.m in Sources */,
-				A65669E8267B442800CA65BF /* Video.m in Sources */,
 				A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */,
 				A6566A04267B445100CA65BF /* JSONValueTransformer.m in Sources */,
 				A6566A05267B445100CA65BF /* JSONKeyMapper.m in Sources */,
