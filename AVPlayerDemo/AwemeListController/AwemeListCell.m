@@ -26,18 +26,11 @@
 
 @implementation AwemeListCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if(self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = UIColor.redColor;
-        [self initSubViews];
-    }
-    return self;
-}
-
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.backgroundColor = UIColor.redColor;
+    [self initSubViews];
 }
 
 - (void)initSubViews {

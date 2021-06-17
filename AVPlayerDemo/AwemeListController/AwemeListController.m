@@ -12,8 +12,6 @@
 #import "AVPlayerView.h"
 #import "AVPlayerManager.h"
 
-NSString * const kAwemeListCell   = @"AwemeListCell";
-
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -56,11 +54,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
     [super viewDidLoad];
     _awemes = [self.urlsArray mutableCopy];
     _data = [[NSMutableArray alloc] initWithObjects:[_awemes objectAtIndex:_currentIndex], nil];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([AwemeListCell class])
-                                               bundle:nil]
-         forCellReuseIdentifier:NSStringFromClass([AwemeListCell class])];
-    
+        
     [self setUpView];
 }
 
@@ -80,8 +74,11 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
     } else {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    [self.tableView registerClass:AwemeListCell.class forCellReuseIdentifier:kAwemeListCell];
     
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([AwemeListCell class])
+                                               bundle:nil]
+         forCellReuseIdentifier:NSStringFromClass([AwemeListCell class])];
+
 //    _loadMore = [[LoadMoreControl alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, 50) surplusCount:3];
 //    __weak __typeof(self) wself = self;
 //    [_loadMore setOnLoad:^{
@@ -152,12 +149,12 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
         [UIView animateWithDuration:0.15
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                //UITableView滑动到指定cell
-                                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                            } completion:^(BOOL finished) {
-                                //UITableView可以响应其他滑动手势
-                                scrollView.panGestureRecognizer.enabled = YES;
-                            }];
+            //UITableView滑动到指定cell
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        } completion:^(BOOL finished) {
+            //UITableView可以响应其他滑动手势
+            scrollView.panGestureRecognizer.enabled = YES;
+        }];
         
     });
 }
@@ -169,6 +166,8 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
         //设置用于标记当前视频是否播放的BOOL值为NO
         _isCurPlayerPause = NO;
         //获取当前显示的cell
+        
+        AwemeListCell *cell1 = [self.tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class]) forIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         AwemeListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         [cell startDownloadHighPriorityTask];
         __weak typeof (cell) wcell = cell;
