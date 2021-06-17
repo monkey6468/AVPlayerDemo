@@ -17,7 +17,6 @@ typedef NS_ENUM(NSUInteger, AwemeType) {
 @class Aweme;
 @interface AwemeListController : UIViewController
 
-@property (nonatomic, strong) UITableView                       *tableView;
 @property (nonatomic, assign) NSInteger                         currentIndex;
 
 @property (copy, nonatomic) NSArray *urlsArray;

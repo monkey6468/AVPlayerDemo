@@ -16,6 +16,8 @@
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
 @interface AwemeListController () <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, assign) BOOL                              isCurPlayerPause;
 @property (nonatomic, assign) NSInteger                         pageIndex;
@@ -85,9 +87,10 @@
 //        [wself loadData:wself.pageIndex pageSize:wself.pageSize];
 //    }];
 //    [_tableView addSubview:_loadMore];
-    
+    [self.view addSubview:self.tableView];
+    [self.view insertSubview:self.tableView belowSubview:self.backButton];
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.view addSubview:self.tableView];
         self.data = self.awemes;
         [self.tableView reloadData];
         
@@ -111,6 +114,11 @@
     [self removeObserver:self forKeyPath:@"currentIndex"];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - other
+- (IBAction)onActionBack:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma tableView delegate
@@ -167,7 +175,6 @@
         _isCurPlayerPause = NO;
         //获取当前显示的cell
         
-        AwemeListCell *cell1 = [self.tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class]) forIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         AwemeListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         [cell startDownloadHighPriorityTask];
         __weak typeof (cell) wcell = cell;

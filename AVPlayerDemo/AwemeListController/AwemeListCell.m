@@ -17,6 +17,7 @@
 
 @interface AwemeListCell()<AVPlayerUpdateDelegate>
 
+@property (weak, nonatomic) IBOutlet UISwitch *testSeg;
 @property (nonatomic, strong) UIView                   *container;
 @property (nonatomic ,strong) UIImageView              *pauseIcon;
 @property (nonatomic, strong) UIView                   *playerStatusBar;
@@ -31,6 +32,10 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.backgroundColor = UIColor.redColor;
     [self initSubViews];
+    
+    [_container addSubview:self.testSeg];
+
+//    [self.contentView insertSubview:self.container belowSubview:];
 }
 
 - (void)initSubViews {
