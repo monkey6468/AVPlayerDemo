@@ -56,10 +56,12 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
     [super viewDidLoad];
     _awemes = [self.urlsArray mutableCopy];
     _data = [[NSMutableArray alloc] initWithObjects:[_awemes objectAtIndex:_currentIndex], nil];
-
-//    [self setBackgroundImage:@"img_video_loading"];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([AwemeListCell class])
+                                               bundle:nil]
+         forCellReuseIdentifier:NSStringFromClass([AwemeListCell class])];
+    
     [self setUpView];
-//    [self setLeftButton:@"icon_titlebar_whiteback"];
 }
 
 - (void)setUpView {
@@ -128,7 +130,7 @@ NSString * const kAwemeListCell   = @"AwemeListCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //填充视频数据
-    AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:kAwemeListCell forIndexPath:indexPath];
+    AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class])];
     cell.aweme = _data[indexPath.row];
     [cell startDownloadBackgroundTask];
     return cell;

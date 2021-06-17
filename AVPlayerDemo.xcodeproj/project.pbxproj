@@ -14,7 +14,6 @@
 		A652B0AE266A257B0019F2C8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0AD266A257B0019F2C8 /* Utility.m */; };
 		A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A654EE6826671A0E00B0D838 /* PlayerViewController.m */; };
 		A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A654EE6926671A0E00B0D838 /* PlayerViewController.xib */; };
-		A65669C7267B43BD00CA65BF /* AwemeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669C4267B43BD00CA65BF /* AwemeListCell.m */; };
 		A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669C5267B43BD00CA65BF /* AwemeListController.m */; };
 		A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CB267B43CC00CA65BF /* AVPlayerView.m */; };
 		A65669CF267B43CC00CA65BF /* AVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CC267B43CC00CA65BF /* AVPlayerManager.m */; };
@@ -30,6 +29,8 @@
 		A6566A68267B4E6000CA65BF /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A5D267B4E6000CA65BF /* MASConstraint.m */; };
 		A6566A69267B4E6000CA65BF /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A5F267B4E6000CA65BF /* MASViewConstraint.m */; };
 		A6566A6A267B4E6000CA65BF /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A60267B4E6000CA65BF /* MASViewAttribute.m */; };
+		A6566A6E267B53FD00CA65BF /* AwemeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A6C267B53FD00CA65BF /* AwemeListCell.m */; };
+		A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -52,8 +53,6 @@
 		A654EE6726671A0E00B0D838 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		A654EE6826671A0E00B0D838 /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		A654EE6926671A0E00B0D838 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
-		A65669C3267B43BD00CA65BF /* AwemeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwemeListCell.h; sourceTree = "<group>"; };
-		A65669C4267B43BD00CA65BF /* AwemeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwemeListCell.m; sourceTree = "<group>"; };
 		A65669C5267B43BD00CA65BF /* AwemeListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwemeListController.m; sourceTree = "<group>"; };
 		A65669C6267B43BD00CA65BF /* AwemeListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwemeListController.h; sourceTree = "<group>"; };
 		A65669CA267B43CC00CA65BF /* AVPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerManager.h; sourceTree = "<group>"; };
@@ -88,6 +87,9 @@
 		A6566A5E267B4E6000CA65BF /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		A6566A5F267B4E6000CA65BF /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
 		A6566A60267B4E6000CA65BF /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
+		A6566A6B267B53FD00CA65BF /* AwemeListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwemeListCell.h; sourceTree = "<group>"; };
+		A6566A6C267B53FD00CA65BF /* AwemeListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwemeListCell.m; sourceTree = "<group>"; };
+		A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AwemeListCell.xib; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -160,8 +162,9 @@
 			isa = PBXGroup;
 			children = (
 				A6566A47267B4E6000CA65BF /* Masonry */,
-				A65669C3267B43BD00CA65BF /* AwemeListCell.h */,
-				A65669C4267B43BD00CA65BF /* AwemeListCell.m */,
+				A6566A6B267B53FD00CA65BF /* AwemeListCell.h */,
+				A6566A6C267B53FD00CA65BF /* AwemeListCell.m */,
+				A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */,
 				A65669C6267B43BD00CA65BF /* AwemeListController.h */,
 				A65669C5267B43BD00CA65BF /* AwemeListController.m */,
 			);
@@ -339,6 +342,7 @@
 				A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
+				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
 				A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */,
 				A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */,
 			);
@@ -360,7 +364,6 @@
 				A6566A65267B4E6000CA65BF /* MASLayoutConstraint.m in Sources */,
 				A6566A64267B4E6000CA65BF /* MASConstraintMaker.m in Sources */,
 				A6566A69267B4E6000CA65BF /* MASViewConstraint.m in Sources */,
-				A65669C7267B43BD00CA65BF /* AwemeListCell.m in Sources */,
 				A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
 				A652B0AE266A257B0019F2C8 /* Utility.m in Sources */,
@@ -374,6 +377,7 @@
 				A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */,
 				A652B0A22669DC830019F2C8 /* VideoPageViewController.m in Sources */,
 				A652B0AA2669DCA90019F2C8 /* PlayerContentViewController.m in Sources */,
+				A6566A6E267B53FD00CA65BF /* AwemeListCell.m in Sources */,
 				A6566A67267B4E6000CA65BF /* View+MASAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -520,7 +524,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QM32T3R7FX;
 				INFOPLIST_FILE = AVPlayerDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -539,7 +543,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QM32T3R7FX;
 				INFOPLIST_FILE = AVPlayerDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

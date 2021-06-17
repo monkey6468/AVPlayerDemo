@@ -1,9 +1,8 @@
 //
 //  AwemeListCell.h
-//  Douyin
+//  AVPlayerDemo
 //
-//  Created by Qiao Shi on 2018/7/30.
-//  Copyright © 2018年 Qiao Shi. All rights reserved.
+//  Created by HN on 2021/6/17.
 //
 
 #import <UIKit/UIKit.h>
