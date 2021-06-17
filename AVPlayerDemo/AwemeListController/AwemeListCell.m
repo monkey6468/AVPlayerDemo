@@ -11,9 +11,6 @@
 
 #import "Masonry.h"
 
-static const NSInteger kAwemeListLikeCommentTag = 0x01;
-static const NSInteger kAwemeListLikeShareTag   = 0x02;
-
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
