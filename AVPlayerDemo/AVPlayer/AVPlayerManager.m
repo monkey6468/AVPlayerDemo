@@ -25,54 +25,53 @@
 
 + (void)setAudioMode {
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance]setActive:YES error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
 }
 
 - (instancetype)init {
-    self = [super init];
-    if (self) {
-        _playerArray = [NSMutableArray array];
+    if (self = [super init]) {
+        self.playerArray = [NSMutableArray array];
     }
-    
     return self;
 }
+
 - (void)play:(AVPlayer *)player {
-    [_playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
+    [self.playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
         [obj pause];
     }];
-    if(![_playerArray containsObject:player]) {
-        [_playerArray addObject:player];
+    if(![self.playerArray containsObject:player]) {
+        [self.playerArray addObject:player];
     }
     [player play];
 }
 
 - (void)pause:(AVPlayer *)player {
-    if([_playerArray containsObject:player]) {
+    if([self.playerArray containsObject:player]) {
         [player pause];
     }
 }
 
 - (void)pauseAll {
-    [_playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
+    [self.playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
         [obj pause];
     }];
 }
 
 - (void)replay:(AVPlayer *)player {
-    [_playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
+    [self.playerArray enumerateObjectsUsingBlock:^(AVPlayer * obj, NSUInteger idx, BOOL *stop) {
         [obj pause];
     }];
-    if([_playerArray containsObject:player]) {
+    if([self.playerArray containsObject:player]) {
         [player seekToTime:kCMTimeZero];
         [self play:player];
     }else {
-        [_playerArray addObject:player];
+        [self.playerArray addObject:player];
         [self play:player];
     }
 }
 
 - (void)removeAllPlayers {
-    [_playerArray removeAllObjects];
+    [self.playerArray removeAllObjects];
 }
 
 @end

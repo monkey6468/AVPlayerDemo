@@ -30,7 +30,7 @@
 @property (strong, nonatomic) dispatch_queue_t cancelLoadingQueue;
 
 @property (strong, nonatomic) WebCombineOperation  *combineOperation;
-@property (assign, nonatomic) BOOL                 retried;
+@property (assign, nonatomic) BOOL retried;
 @end
 
 @implementation AVPlayerView
