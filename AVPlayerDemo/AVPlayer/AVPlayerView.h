@@ -23,6 +23,9 @@
 
 //播放状态更新回调方法
 - (void)avPlayerView:(AVPlayerView *)playerView onPlayItemStatusUpdate:(AVPlayerItemStatus)status;
+- (void)avPlayerView:(AVPlayerView *)playerView
+        playerStatus:(VideoPlayerStatus)status
+               error:(NSError *_Nullable)error;
 
 @end
 
@@ -37,7 +40,8 @@
 //播放进度、状态更新代理
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;
 
-//设置播放路径
+/// 设置播放路径
+//@property (copy, nonatomic) NSString *videoUrl;
 - (void)setPlayerWithUrl:(NSString *)url;
 
 //取消播放

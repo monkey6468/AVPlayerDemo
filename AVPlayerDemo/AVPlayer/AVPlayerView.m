@@ -34,6 +34,7 @@
 @end
 
 @implementation AVPlayerView
+
 //重写initWithFrame
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -62,45 +63,11 @@
     [CATransaction commit];
 }
 
-//设置播放路径
-- (void)setPlayerWithUrl:(NSString *)url {
-    //播放路径
-    self.sourceURL = [NSURL URLWithString:url];
-    
-    //获取路径schema
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
-    self.sourceScheme = components.scheme;
-    
-    //路径作为视频缓存key
-    self.cacheFileKey = self.sourceURL.absoluteString;
-    
-    __weak __typeof(self) wself = self;
-    //查找本地视频缓存数据
-    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //hasCache是否有缓存，data为本地缓存路径
-            if (!hasCache) {
-                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
-                
-            } else {
-                //当前路径有缓存，则使用本地路径作为播放源
-                wself.sourceURL = [NSURL fileURLWithPath:data];
-            }
-            //初始化AVURLAsset
-            wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
-            //设置AVAssetResourceLoaderDelegate代理
-            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-            //初始化AVPlayerItem
-            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
-            //观察playerItem.status属性
-            [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
-            //切换当前AVPlayer播放器的视频源
-            wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
-            wself.playerLayer.player = wself.player;
-            //给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
-            [wself addProgressObserver];
-        });
-    } extension:@"mp4"];
+- (void)dealloc {
+    [self.playerItem removeObserver:self forKeyPath:@"status"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    [self.player removeObserver:self forKeyPath:@"timeControlStatus"];
+    [self.player removeTimeObserver:self.timeObserver];
 }
 
 //取消播放
@@ -193,6 +160,7 @@
 
 //暂停
 - (void)pause {
+    self.status = VideoPlayerStatusPaused;
     [[AVPlayerManager shareManager] pause:self.player];
 }
 
@@ -209,6 +177,7 @@
 //重新请求
 - (void)retry {
     [self cancelLoading];
+//    self.videoUrl = self.sourceURL.absoluteString;
     [self setPlayerWithUrl:self.sourceURL.absoluteString];
     self.retried = YES;
 }
@@ -284,33 +253,153 @@
             }
         }
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+}
+
+- (void)didPlayToEndTime:(NSNotification *)notify {
+    if (notify.object == self.playerItem) {
+        self.status = VideoPlayerStatusFinished;
+    }
 }
 
 // 响应KVO值变化的方法
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    //AVPlayerItem.status
-    if ([keyPath isEqualToString:@"status"]) {
-        if (self.playerItem.status == AVPlayerItemStatusFailed) {
-            if (!self.retried) {
-                [self retry];
+    if (object == self.player) {
+        if ([keyPath isEqualToString:@"timeControlStatus"]) {
+            if (self.player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
+                // not to do
+            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate) {
+                // not to do
+            } else if (self.player.timeControlStatus == AVPlayerTimeControlStatusPlaying) {
+                self.status = VideoPlayerStatusPlaying;
             }
         }
-        //视频源装备完毕，则显示playerLayer
-        if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
-            [self.playerLayer setHidden:NO];
+    }
+    
+    if (object == self.playerItem) {
+        //AVPlayerItem.status
+        if ([keyPath isEqualToString:@"status"]) {
+            if (self.playerItem.status == AVPlayerItemStatusFailed) {
+                self.status = VideoPlayerStatusFailed;
+                if (!self.retried) {
+                    [self retry];
+                }
+            }
+            //视频源装备完毕，则显示playerLayer
+            if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
+                self.status = VideoPlayerStatusReadyToPlay;
+                [self.playerLayer setHidden:NO];
+            }
+            
+            if (self.playerItem.status == AVPlayerItemStatusUnknown) {
+                self.status = VideoPlayerStatusUnknown;
+            }
+            
+            //视频播放状体更新方法回调
+            if ([self.delegate respondsToSelector:@selector(avPlayerView:onPlayItemStatusUpdate:)]) {
+                [self.delegate avPlayerView:self onPlayItemStatusUpdate:self.playerItem.status];
+            }
+        } else {
+            return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
-        //视频播放状体更新方法回调
-        if ([self.delegate respondsToSelector:@selector(avPlayerView:onPlayItemStatusUpdate:)]) {
-            [self.delegate avPlayerView:self onPlayItemStatusUpdate:self.playerItem.status];
-        }
-    } else {
-        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
-- (void)dealloc {
-    [self.playerItem removeObserver:self forKeyPath:@"status"];
-    [self.player removeTimeObserver:self.timeObserver];
+#pragma mark - set data
+//设置播放路径
+//- (void)setVideoUrl:(NSString *)videoUrl {
+//    _videoUrl = videoUrl;
+//    self.status = VideoPlayerStatusReadyToPlay;
+//
+//    //播放路径
+//    self.sourceURL = [NSURL URLWithString:videoUrl];
+//
+//    //获取路径schema
+//    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
+//    self.sourceScheme = components.scheme;
+//
+//    //路径作为视频缓存key
+//    self.cacheFileKey = self.sourceURL.absoluteString;
+//
+//    __weak __typeof(self) wself = self;
+//    //查找本地视频缓存数据
+//    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            //hasCache是否有缓存，data为本地缓存路径
+//            if (!hasCache) {
+//                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
+//
+//            } else {
+//                //当前路径有缓存，则使用本地路径作为播放源
+//                wself.sourceURL = [NSURL fileURLWithPath:data];
+//            }
+//            //初始化AVURLAsset
+//            wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+//            //设置AVAssetResourceLoaderDelegate代理
+//            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
+//            //初始化AVPlayerItem
+//            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
+//            //观察playerItem.status属性
+//            [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+//            //切换当前AVPlayer播放器的视频源
+//            wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
+//            wself.playerLayer.player = wself.player;
+//            //给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
+//            [wself addProgressObserver];
+//        });
+//    } extension:@"mp4"];
+//}
+
+//设置播放路径
+- (void)setPlayerWithUrl:(NSString *)url {
+    //播放路径
+    self.sourceURL = [NSURL URLWithString:url];
+    
+    //获取路径schema
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
+    self.sourceScheme = components.scheme;
+    
+    //路径作为视频缓存key
+    self.cacheFileKey = self.sourceURL.absoluteString;
+    
+    __weak __typeof(self) wself = self;
+    //查找本地视频缓存数据
+    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //hasCache是否有缓存，data为本地缓存路径
+            if (!hasCache) {
+                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
+                
+            } else {
+                //当前路径有缓存，则使用本地路径作为播放源
+                wself.sourceURL = [NSURL fileURLWithPath:data];
+            }
+            //初始化AVURLAsset
+            wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+            //设置AVAssetResourceLoaderDelegate代理
+            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
+            //初始化AVPlayerItem
+            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
+            //观察playerItem.status属性
+            [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+            //切换当前AVPlayer播放器的视频源
+            wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
+            [wself.player addObserver:self forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:nil];
+            wself.playerLayer.player = wself.player;
+            //给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
+            [wself addProgressObserver];
+        });
+    } extension:@"mp4"];
+}
+
+- (void)setStatus:(VideoPlayerStatus)status {
+    _status = status;
+    
+    //视频播放状体更新方法回调
+    if ([self.delegate respondsToSelector:@selector(avPlayerView:playerStatus:error:)]) {
+        [self.delegate avPlayerView:self playerStatus:self.status error:self.playerItem.error];
+    }
 }
 
 @end

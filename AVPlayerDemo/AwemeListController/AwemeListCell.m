@@ -8,6 +8,8 @@
 #import "AwemeListCell.h"
 #import "AVPlayerView.h"
 
+#import "Utility.h"
+
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -132,26 +134,47 @@
 }
 
 - (void)avPlayerView:(AVPlayerView *)playerView onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
-    switch (status) {
-        case AVPlayerItemStatusUnknown:
-            [self startLoadingPlayItemAnim:YES];
-            break;
-        case AVPlayerItemStatusReadyToPlay:
-            [self startLoadingPlayItemAnim:NO];
-            
-            self.isPlayerReady = YES;
-            
-            if (self.onPlayerReady) {
-                self.onPlayerReady();
-            }
-            break;
-        case AVPlayerItemStatusFailed:
-            [self startLoadingPlayItemAnim:NO];
-            break;
-        default:
-            break;
+//    switch (status) {
+//        case AVPlayerItemStatusUnknown:
+//            [self startLoadingPlayItemAnim:YES];
+//            break;
+//        case AVPlayerItemStatusReadyToPlay:
+//            [self startLoadingPlayItemAnim:NO];
+//
+//            self.isPlayerReady = YES;
+//
+//            if (self.onPlayerReady) {
+//                self.onPlayerReady();
+//            }
+//            break;
+//        case AVPlayerItemStatusFailed:
+//            [self startLoadingPlayItemAnim:NO];
+//            break;
+//        default:
+//            break;
+//    }
+}
+- (void)avPlayerView:(AVPlayerView *)playerView playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
+        NSLog(@"playerStatus: %ld url: %@", self.index, self.videoUrl);
+//    NSLog(@"playerStatus: %ld url: %@", self.index, playerView.videoUrl);
+    [Utility videoPlayer:nil
+            playerStatus:status
+                   error:error
+                tipLabel:self.tipLabel];
+    if (status == VideoPlayerStatusUnknown) {
+        [self startLoadingPlayItemAnim:YES];
+    } else if (status == VideoPlayerStatusReadyToPlay) {
+        [self startLoadingPlayItemAnim:NO];
+
+        self.isPlayerReady = YES;
+
+        if (self.onPlayerReady) {
+            self.onPlayerReady();
+        }
+    } else if (status == VideoPlayerStatusFailed) {
+        [self startLoadingPlayItemAnim:NO];
     }
-    [self playerStatus:status tipLabel:self.tipLabel];
+//    [self playerStatus:status tipLabel:self.tipLabel];
 }
 
 - (void)playerStatus:(AVPlayerItemStatus)status
@@ -194,13 +217,15 @@
 }
 
 - (void)startDownloadBackgroundTask {
-    NSString *playUrl = _videoUrl;
-    [self.playerView setPlayerWithUrl:playUrl];
+    [self.playerView setPlayerWithUrl:self.videoUrl];
+
+//    self.playerView.videoUrl = self.videoUrl;
+//    NSString *playUrl = _videoUrl;
+//    [self.playerView setPlayerWithUrl:self.videoUrl];
 }
 
 - (void)startDownloadHighPriorityTask {
-    NSString *playUrl = _videoUrl;
-    [self.playerView startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
+    [self.playerView startDownloadTask:[[NSURL alloc] initWithString:self.videoUrl] isBackground:NO];
 }
 
 #pragma mark - set data
