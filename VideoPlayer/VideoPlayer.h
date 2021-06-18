@@ -17,7 +17,8 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusPaused             = 4,
     VideoPlayerStatusFinished           = 5,
     VideoPlayerStatusChangeEsolution    = 6,
-    VideoPlayerStatusFailed             = 7,
+    VideoPlayerStatusDownload           = 7,
+    VideoPlayerStatusFailed             = 8,
 };
 
 typedef NS_ENUM(NSInteger, VideoRenderMode) {

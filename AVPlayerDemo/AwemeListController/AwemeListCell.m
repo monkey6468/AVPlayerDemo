@@ -117,7 +117,7 @@
 
 //暂停播放动画
 - (void)showPauseViewAnim:(CGFloat)rate {
-    if(rate == 0) {
+    if (rate == 0) {
         [UIView animateWithDuration:0.25f
                          animations:^{
             self.pauseIcon.alpha = 0.0f;
@@ -168,13 +168,13 @@
 }
 
 #pragma mark - AVPlayerUpdateDelegate
-- (void)onProgressUpdate:(CGFloat)current total:(CGFloat)total {
+- (void)avPlayerView:(AVPlayerView *)playerView onProgressUpdate:(CGFloat)current total:(CGFloat)total {
     //播放进度更新
     self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2lf", current];
     self.durationLabel.text = [NSString stringWithFormat:@"%.2lf", total];
 }
 
-- (void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
+- (void)avPlayerView:(AVPlayerView *)playerView onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
     switch (status) {
         case AVPlayerItemStatusUnknown:
             [self startLoadingPlayItemAnim:YES];
@@ -184,7 +184,7 @@
             
             _isPlayerReady = YES;
             
-            if(_onPlayerReady) {
+            if (_onPlayerReady) {
                 _onPlayerReady();
             }
             break;

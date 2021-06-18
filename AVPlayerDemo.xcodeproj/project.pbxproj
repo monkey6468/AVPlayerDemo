@@ -31,6 +31,7 @@
 		A6566A6A267B4E6000CA65BF /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A60267B4E6000CA65BF /* MASViewAttribute.m */; };
 		A6566A6E267B53FD00CA65BF /* AwemeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A6C267B53FD00CA65BF /* AwemeListCell.m */; };
 		A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */; };
+		A6566A71267C35E900CA65BF /* AwemeListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6566A70267C35E800CA65BF /* AwemeListController.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -90,6 +91,7 @@
 		A6566A6B267B53FD00CA65BF /* AwemeListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwemeListCell.h; sourceTree = "<group>"; };
 		A6566A6C267B53FD00CA65BF /* AwemeListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwemeListCell.m; sourceTree = "<group>"; };
 		A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AwemeListCell.xib; sourceTree = "<group>"; };
+		A6566A70267C35E800CA65BF /* AwemeListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AwemeListController.xib; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */,
 				A65669C6267B43BD00CA65BF /* AwemeListController.h */,
 				A65669C5267B43BD00CA65BF /* AwemeListController.m */,
+				A6566A70267C35E800CA65BF /* AwemeListController.xib */,
 			);
 			path = AwemeListController;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
 				A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */,
 				A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */,
+				A6566A71267C35E900CA65BF /* AwemeListController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

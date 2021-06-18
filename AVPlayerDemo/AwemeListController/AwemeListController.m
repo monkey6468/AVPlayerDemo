@@ -32,6 +32,7 @@
 
 @implementation AwemeListController
 
+#pragma mark - life
 -(instancetype)initWithVideoData:(NSMutableArray<NSString *> *)data currentIndex:(NSInteger)currentIndex pageIndex:(NSInteger)pageIndex pageSize:(NSInteger)pageSize awemeType:(AwemeType)type uid:(NSString *)uid {
     self = [super init];
     if(self) {
@@ -60,6 +61,11 @@
     [self setUpView];
 }
 
+- (void)dealloc {
+    NSLog(@"%s",__func__);
+}
+
+#pragma mark - UI
 - (void)setUpView {
     self.view.layer.masksToBounds = YES;
     
@@ -269,10 +275,6 @@
 //            [wself.loadMore loadingFailed];
 //        }];
 //    }
-}
-
-- (void)dealloc {
-    NSLog(@"======== dealloc =======");
 }
 
 @end
