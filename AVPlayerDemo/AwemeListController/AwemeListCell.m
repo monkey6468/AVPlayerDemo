@@ -36,8 +36,6 @@
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self initSubViews];
-    
-    [self.container addSubview:self.stackView];
 }
 
 - (void)initSubViews {
@@ -51,14 +49,14 @@
     self.singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.container addGestureRecognizer:self.singleTapGesture];
     
-    //init focus action
     self.playerView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
 }
 
+// cell 重用
 - (void)prepareForReuse {
     [super prepareForReuse];
     
-    _isPlayerReady = NO;
+    self.isPlayerReady = NO;
     [self.playerView cancelLoading];
     [self.pauseIcon setHidden:YES];
 }
@@ -98,9 +96,9 @@
 //加载动画
 - (void)startLoadingPlayItemAnim:(BOOL)isStart {
     if (isStart) {
-        _playerStatusBar.backgroundColor = UIColor.whiteColor;
-        [_playerStatusBar setHidden:NO];
-        [_playerStatusBar.layer removeAllAnimations];
+        self.playerStatusBar.backgroundColor = UIColor.whiteColor;
+        [self.playerStatusBar setHidden:NO];
+        [self.playerStatusBar.layer removeAllAnimations];
         
         CAAnimationGroup *animationGroup = [[CAAnimationGroup alloc]init];
         animationGroup.duration = 0.5;
@@ -141,7 +139,7 @@
         case AVPlayerItemStatusReadyToPlay:
             [self startLoadingPlayItemAnim:NO];
             
-            _isPlayerReady = YES;
+            self.isPlayerReady = YES;
             
             if (self.onPlayerReady) {
                 self.onPlayerReady();
@@ -157,8 +155,7 @@
 }
 
 - (void)playerStatus:(AVPlayerItemStatus)status
-           tipLabel:(UILabel *)tipLabel
-{
+           tipLabel:(UILabel *)tipLabel {
 //    NSLog(@"%ld %@",(long)status, error.description);
     if (status == AVPlayerItemStatusUnknown) {
         tipLabel.text = @"视频还未播放";
