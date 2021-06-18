@@ -133,27 +133,6 @@
     self.durationLabel.text = [NSString stringWithFormat:@"%.2lf", total];
 }
 
-- (void)avPlayerView:(AVPlayerView *)playerView onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
-//    switch (status) {
-//        case AVPlayerItemStatusUnknown:
-//            [self startLoadingPlayItemAnim:YES];
-//            break;
-//        case AVPlayerItemStatusReadyToPlay:
-//            [self startLoadingPlayItemAnim:NO];
-//
-//            self.isPlayerReady = YES;
-//
-//            if (self.onPlayerReady) {
-//                self.onPlayerReady();
-//            }
-//            break;
-//        case AVPlayerItemStatusFailed:
-//            [self startLoadingPlayItemAnim:NO];
-//            break;
-//        default:
-//            break;
-//    }
-}
 - (void)avPlayerView:(AVPlayerView *)playerView playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
         NSLog(@"playerStatus: %ld url: %@", self.index, self.videoUrl);
 //    NSLog(@"playerStatus: %ld url: %@", self.index, playerView.videoUrl);

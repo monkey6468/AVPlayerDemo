@@ -22,7 +22,6 @@
                total:(CGFloat)total;
 
 //播放状态更新回调方法
-- (void)avPlayerView:(AVPlayerView *)playerView onPlayItemStatusUpdate:(AVPlayerItemStatus)status;
 - (void)avPlayerView:(AVPlayerView *)playerView
         playerStatus:(VideoPlayerStatus)status
                error:(NSError *_Nullable)error;

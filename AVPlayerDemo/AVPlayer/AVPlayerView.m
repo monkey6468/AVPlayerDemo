@@ -296,10 +296,6 @@
                 self.status = VideoPlayerStatusUnknown;
             }
             
-            //视频播放状体更新方法回调
-            if ([self.delegate respondsToSelector:@selector(avPlayerView:onPlayItemStatusUpdate:)]) {
-                [self.delegate avPlayerView:self onPlayItemStatusUpdate:self.playerItem.status];
-            }
         } else {
             return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
