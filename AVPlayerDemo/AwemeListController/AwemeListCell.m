@@ -17,7 +17,15 @@
 
 @interface AwemeListCell()<AVPlayerUpdateDelegate>
 
-@property (weak, nonatomic) IBOutlet UISwitch *testSeg;
+@property (weak, nonatomic) IBOutlet UIStackView *stackView;
+@property (weak, nonatomic) IBOutlet UILabel *indexLabel;
+@property (weak, nonatomic) IBOutlet UITextView *pathTextView;
+
+@property (weak, nonatomic) IBOutlet UILabel *durationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentTimeLabel;
+//@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
+
 @property (nonatomic, strong) UIView                   *container;
 @property (nonatomic ,strong) UIImageView              *pauseIcon;
 @property (nonatomic, strong) UIView                   *playerStatusBar;
@@ -33,9 +41,7 @@
     self.backgroundColor = UIColor.redColor;
     [self initSubViews];
     
-    [_container addSubview:self.testSeg];
-
-//    [self.contentView insertSubview:self.container belowSubview:];
+    [_container addSubview:self.stackView];
 }
 
 - (void)initSubViews {
@@ -66,10 +72,6 @@
     [_container addSubview:_playerStatusBar];
     
     
-    
-    
-    
-    
     //init focus action
     
     [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -93,7 +95,7 @@
 
 }
 
--(void)prepareForReuse {
+- (void)prepareForReuse {
     [super prepareForReuse];
     
     _isPlayerReady = NO;
@@ -102,16 +104,6 @@
     
 }
 
--(void)layoutSubviews {
-    [super layoutSubviews];
-}
-
-
-
-//HoverTextViewDelegate delegate
--(void)hoverTextViewStateChange:(BOOL)isHover {
-    _container.alpha = isHover ? 0.0f : 1.0f;
-}
 
 //gesture
 - (void)handleGesture:(UITapGestureRecognizer *)sender {
@@ -132,7 +124,7 @@
         } completion:^(BOOL finished) {
             [self.pauseIcon setHidden:YES];
         }];
-    }else {
+    } else {
         [_pauseIcon setHidden:NO];
         _pauseIcon.transform = CGAffineTransformMakeScale(1.8f, 1.8f);
         _pauseIcon.alpha = 1.0f;
@@ -145,7 +137,7 @@
 }
 
 //加载动画
--(void)startLoadingPlayItemAnim:(BOOL)isStart {
+- (void)startLoadingPlayItemAnim:(BOOL)isStart {
     if (isStart) {
         _playerStatusBar.backgroundColor = UIColor.whiteColor;
         [_playerStatusBar setHidden:NO];
@@ -175,12 +167,14 @@
     
 }
 
-// AVPlayerUpdateDelegate
--(void)onProgressUpdate:(CGFloat)current total:(CGFloat)total {
+#pragma mark - AVPlayerUpdateDelegate
+- (void)onProgressUpdate:(CGFloat)current total:(CGFloat)total {
     //播放进度更新
+    self.currentTimeLabel.text = [NSString stringWithFormat:@"%.2lf", current];
+    self.durationLabel.text = [NSString stringWithFormat:@"%.2lf", total];
 }
 
--(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
+- (void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
     switch (status) {
         case AVPlayerItemStatusUnknown:
             [self startLoadingPlayItemAnim:YES];
@@ -200,11 +194,32 @@
         default:
             break;
     }
+    [self playerStatus:status tipLabel:self.tipLabel];
 }
 
-// update method
-- (void)setAweme:(NSString *)aweme {
-    _aweme = aweme;
+- (void)playerStatus:(AVPlayerItemStatus)status
+           tipLabel:(UILabel *)tipLabel
+{
+//    NSLog(@"%ld %@",(long)status, error.description);
+    if (status == AVPlayerItemStatusUnknown) {
+        tipLabel.text = @"视频还未播放";
+    } else if (status == AVPlayerItemStatusReadyToPlay) {
+        tipLabel.text = @"视频加载中...";
+//    } else if (status == VideoPlayerStatusPlaying) {
+//        tipLabel.text = @"视频播放中...";
+//    } else if (status == VideoPlayerStatusPaused) {
+//        tipLabel.text = @"视频已暂停";
+//    } else if (status == VideoPlayerStatusFinished) {
+//        tipLabel.text = @"视频已结束";
+//    } else if (status == VideoPlayerStatusChangeEsolution) {
+//        if (player.height/player.width <= 4/3.0) {
+//            player.renderMode = VideoRenderModeFillEdge;
+//        } else {
+//            player.renderMode = VideoRenderModeFillScreen;
+//        }
+    } else {
+        tipLabel.text = @"视频播放中...";
+    }
 }
 
 - (void)play {
@@ -223,13 +238,24 @@
 }
 
 - (void)startDownloadBackgroundTask {
-    NSString *playUrl = _aweme;// YES ? _aweme.video.play_addr.url_list.firstObject : _aweme.video.play_addr_lowbr.url_list.firstObject;
+    NSString *playUrl = _videoUrl;
     [_playerView setPlayerWithUrl:playUrl];
 }
 
 - (void)startDownloadHighPriorityTask {
-    NSString *playUrl = _aweme;// = YES ? _aweme.video.play_addr.url_list.firstObject : _aweme.video.play_addr_lowbr.url_list.firstObject;
+    NSString *playUrl = _videoUrl;
     [_playerView startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
+}
+
+#pragma mark - set data
+- (void)setVideoUrl:(NSString *)videoUrl {
+    _videoUrl = videoUrl;
+    self.pathTextView.text = videoUrl;
+}
+
+- (void)setIndex:(NSInteger)index {
+    _index = index;
+    self.indexLabel.text = [NSString stringWithFormat:@"%ld", index];
 }
 
 @end

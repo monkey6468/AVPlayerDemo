@@ -289,7 +289,7 @@
 -(void)addProgressObserver{
     __weak __typeof(self) weakSelf = self;
     //AVPlayer添加周期性回调观察者，一秒调用一次block，用于更新视频播放进度
-    _timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    _timeObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         if(weakSelf.playerItem.status == AVPlayerItemStatusReadyToPlay) {
             //获取当前播放时间
             float current = CMTimeGetSeconds(time);
@@ -324,7 +324,7 @@
         if(_delegate) {
             [_delegate onPlayItemStatusUpdate:_playerItem.status];
         }
-    }else {
+    } else {
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }

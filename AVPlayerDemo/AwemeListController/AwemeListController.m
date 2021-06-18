@@ -136,7 +136,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //填充视频数据
     AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class])];
-    cell.aweme = _data[indexPath.row];
+    cell.videoUrl = _data[indexPath.row];
+    cell.index = indexPath.row;
     [cell startDownloadBackgroundTask];
     return cell;
 }

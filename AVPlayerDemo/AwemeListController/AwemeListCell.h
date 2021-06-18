@@ -13,9 +13,10 @@ typedef void (^OnPlayerReady)(void);
 
 @interface AwemeListCell : UITableViewCell
 
-@property (copy, nonatomic) NSString *aweme;
+@property (copy, nonatomic) NSString *videoUrl;
+@property (assign, nonatomic) NSInteger index;
 
-@property (nonatomic, strong) AVPlayerView     *playerView;
+@property (nonatomic, strong) AVPlayerView *playerView;
 
 
 @property (nonatomic, strong) OnPlayerReady    onPlayerReady;

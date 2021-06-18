@@ -174,10 +174,10 @@
 		A65669C9267B43CC00CA65BF /* AVPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				A65669CA267B43CC00CA65BF /* AVPlayerManager.h */,
-				A65669CB267B43CC00CA65BF /* AVPlayerView.m */,
-				A65669CC267B43CC00CA65BF /* AVPlayerManager.m */,
 				A65669CD267B43CC00CA65BF /* AVPlayerView.h */,
+				A65669CB267B43CC00CA65BF /* AVPlayerView.m */,
+				A65669CA267B43CC00CA65BF /* AVPlayerManager.h */,
+				A65669CC267B43CC00CA65BF /* AVPlayerManager.m */,
 			);
 			path = AVPlayer;
 			sourceTree = "<group>";
