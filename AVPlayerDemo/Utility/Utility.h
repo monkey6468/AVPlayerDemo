@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 #import "VideoPlayer.h"
+#import "AVPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getFrameImagePathWithVideoPath:(NSString *)videoPath
                                showWatermark:(BOOL)isShowWatermark;
 
-+ (void)videoPlayer:(VideoPlayer *)player
++ (void)videoPlayer:(AVPlayerView *)player
        playerStatus:(VideoPlayerStatus)status
               error:(NSError *)error
            tipLabel:(UILabel *)tipLabel;

@@ -32,17 +32,30 @@
 //封装了AVPlayerLayer的自定义View
 @interface AVPlayerView : UIView
 
+/// 充满模式，默认VideoRenderModeFillEdge
+@property (assign, nonatomic) VideoRenderMode renderMode;
 /// 视频播放状态
 @property (assign, nonatomic) VideoPlayerStatus status;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)
 @property (nonatomic, assign, readwrite) NSUInteger autoPlayCount;
+
+/// 是否需要预览图(耗时)
+@property (assign, nonatomic) BOOL bNeedPreView;
+/// 获取帧图片
+@property (strong, nonatomic, readonly) UIImage *preViewImage;
+/// 赋值帧图片
+@property (strong, nonatomic, readwrite) NSString *preViewImageUrl;
 
 //播放进度、状态更新代理
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;
 
 /// 设置播放路径
 @property (copy, nonatomic) NSString *videoUrl;
-//- (void)setPlayerWithUrl:(NSString *)url;
+
+/// 视频宽度
+@property (assign, nonatomic) CGFloat videoWidth;
+/// 视频高度
+@property (assign, nonatomic) CGFloat videoHeight;
 
 //取消播放
 - (void)cancelLoading;

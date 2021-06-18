@@ -12,6 +12,8 @@
 #import <CoreServices/UTType.h>
 
 @interface AVPlayerView () <NSURLSessionTaskDelegate, NSURLSessionDataDelegate, AVAssetResourceLoaderDelegate>
+@property (nonatomic, strong) UIImageView *thumbImageView;
+
 @property (strong, nonatomic) NSURL *sourceURL; // 视频路径
 @property (strong, nonatomic) NSString *sourceScheme; //路径Scheme
 @property (strong, nonatomic) AVURLAsset *urlAsset; // 视频资源
@@ -33,6 +35,8 @@
 @property (assign, nonatomic) BOOL retried;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)
 @property (nonatomic, assign) NSUInteger autoPlayCountTemp;
+@property (strong, nonatomic) UIImage *preViewImage;
+
 @end
 
 @implementation AVPlayerView
@@ -65,6 +69,7 @@
     [CATransaction setDisableActions:YES];
     self.playerLayer.frame = self.layer.bounds;
     [CATransaction commit];
+    [self addSubview:self.thumbImageView];
 }
 
 - (void)dealloc {
@@ -74,6 +79,7 @@
     [self.player removeTimeObserver:self.timeObserver];
 }
 
+#pragma mark - other
 //取消播放
 - (void)cancelLoading {
     //暂停视频播放
@@ -196,7 +202,7 @@
     }
 }
 
-#pragma AVAssetResourceLoaderDelegate
+#pragma mark AVAssetResourceLoaderDelegate
 - (void)processPendingRequests {
     NSMutableArray *requestsCompleted = [NSMutableArray array];
     //获取所有已完成AVAssetResourceLoadingRequest
@@ -243,7 +249,52 @@
     return didRespondFully;
 }
 
-#pragma kvo
+#pragma mark ---- 获取图片第一帧
+- (void)getFirstFrameWithVideoWithAsset:(AVAsset *)asset
+                                  block:(void(^)(UIImage *image))block
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+        assetGen.appliesPreferredTrackTransform = YES;
+        CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+        NSError *error = nil;
+        CMTime actualTime;
+        CGImageRef image = [assetGen copyCGImageAtTime:time
+                                            actualTime:&actualTime
+                                                 error:&error];
+        UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+        CGImageRelease(image);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.thumbImageView.image = videoImage;
+            if (block) {
+                block(videoImage);
+            }
+        });
+    });
+}
+
+- (BOOL)isVideoPortrait:(CGAffineTransform)t {
+    BOOL isPortrait = NO;
+    // Portrait
+    if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) {
+        isPortrait = YES;
+    }
+    // PortraitUpsideDown
+    if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0) {
+        isPortrait = YES;
+    }
+    // LandscapeRight
+    if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0) {
+        isPortrait = NO;
+    }
+    // LandscapeLeft
+    if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0) {
+        isPortrait = NO;
+    }
+    return isPortrait;
+}
+
+#pragma mark KVO
 // 给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
 - (void)addProgressObserver {
     __weak __typeof(self) weakSelf = self;
@@ -296,26 +347,31 @@
     if (object == self.playerItem) {
         //AVPlayerItem.status
         if ([keyPath isEqualToString:@"status"]) {
-            if (self.playerItem.status == AVPlayerItemStatusFailed) {
+            if (self.playerItem.status == AVPlayerItemStatusUnknown) {
+                self.status = VideoPlayerStatusUnknown;
+            } else if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
+                //视频源装备完毕，则显示playerLayer
+                self.status = VideoPlayerStatusReadyToPlay;
+                [self.playerLayer setHidden:NO];
+            } else if (self.playerItem.status == AVPlayerItemStatusFailed) {
                 self.status = VideoPlayerStatusFailed;
                 if (!self.retried) {
                     [self retry];
                 }
             }
-            //视频源装备完毕，则显示playerLayer
-            if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
-                self.status = VideoPlayerStatusReadyToPlay;
-                [self.playerLayer setHidden:NO];
-            }
-            
-            if (self.playerItem.status == AVPlayerItemStatusUnknown) {
-                self.status = VideoPlayerStatusUnknown;
-            }
-            
         } else {
             return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
     }
+}
+
+#pragma mark - get data
+- (UIImageView *)thumbImageView {
+    if (!_thumbImageView) {
+        _thumbImageView = [UIImageView new];
+        _thumbImageView.layer.masksToBounds = YES;
+    }
+    return _thumbImageView;
 }
 
 #pragma mark - set data
@@ -349,6 +405,24 @@
             }
             //初始化AVURLAsset
             wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+            {
+                NSArray *tracks = [wself.urlAsset tracksWithMediaType:AVMediaTypeVideo];
+                if ([tracks count] > 0) {
+                    AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+                    CGFloat width = videoTrack.naturalSize.width;
+                    CGFloat height = videoTrack.naturalSize.height;
+                    CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+                    if ([self isVideoPortrait:t] == NO) {
+                        self.videoHeight = height;
+                        self.videoWidth = width;
+                    } else {
+                        self.videoWidth = height;
+                        self.videoHeight = width;
+                    }
+                    self.status = VideoPlayerStatusChangeEsolution;
+                }
+            }
+            
             //设置AVAssetResourceLoaderDelegate代理
             [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
             //初始化AVPlayerItem
@@ -359,6 +433,19 @@
             wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
             [wself.player addObserver:self forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:nil];
             wself.playerLayer.player = wself.player;
+            
+            {
+                if (self.videoHeight/self.videoWidth <= 4/3.0) {
+                    self.renderMode = VideoRenderModeFillEdge;
+                    self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+                    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+                } else {
+                    self.renderMode = VideoRenderModeFillScreen;
+                    self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+                    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                }
+            }
+            
             //给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
             [wself addProgressObserver];
         });
@@ -372,10 +459,55 @@
     if ([self.delegate respondsToSelector:@selector(avPlayerView:playerStatus:error:)]) {
         [self.delegate avPlayerView:self playerStatus:self.status error:self.playerItem.error];
     }
+    
+    if (status == VideoPlayerStatusReady) {
+        self.thumbImageView.hidden = NO;
+    } else if (status == VideoPlayerStatusPlaying) {
+        self.thumbImageView.hidden = YES;
+    }
 }
 
 - (void)setAutoPlayCount:(NSUInteger)autoPlayCount {
     _autoPlayCount = autoPlayCount;
     self.autoPlayCountTemp = autoPlayCount;
+}
+
+- (void)setPreViewImageUrl:(NSString * _Nonnull)preViewImageUrl {
+    _preViewImageUrl = preViewImageUrl;
+    
+    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:preViewImageUrl]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+            {
+                NSLog(@"预览图片(URL)加载时间: %f", t1-t0);
+            }
+            CGFloat width = image.size.width;
+            CGFloat height = image.size.height;
+            self.videoWidth = width;
+            self.videoHeight = height;
+            
+            self.status = VideoPlayerStatusChangeEsolution;
+            self.preViewImage = image;
+        });
+    });
+}
+
+- (void)setPreViewImage:(UIImage *)preViewImage {
+    _preViewImage = preViewImage;
+    
+    self.videoHeight = preViewImage.size.height;
+    self.videoWidth = preViewImage.size.width;
+
+    if (self.videoHeight/self.videoWidth <= 4/3.0) {
+        self.renderMode = VideoRenderModeFillEdge;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+    } else {
+        self.renderMode = VideoRenderModeFillScreen;
+        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
+    self.thumbImageView.image = preViewImage;
+    self.thumbImageView.frame = self.bounds;
 }
 @end

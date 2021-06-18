@@ -134,12 +134,7 @@
 }
 
 - (void)avPlayerView:(AVPlayerView *)playerView playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
-//    if ([playerView.videoUrl isEqualToString:self.videoUrl] == NO) {
-//        return;
-//    }
-        NSLog(@"playerStatus: %ld url: %@", self.index, self.videoUrl);
-//    NSLog(@"playerStatus: %ld url: %@", self.index, playerView.videoUrl);
-    [Utility videoPlayer:nil
+    [Utility videoPlayer:playerView
             playerStatus:status
                    error:error
                 tipLabel:self.tipLabel];
@@ -186,6 +181,8 @@
 #pragma mark - set data
 - (void)setVideoUrl:(NSString *)videoUrl {
     _videoUrl = videoUrl;
+    self.playerView.bNeedPreView = YES;
+    self.playerView.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
     self.pathTextView.text = videoUrl;
 }
 
