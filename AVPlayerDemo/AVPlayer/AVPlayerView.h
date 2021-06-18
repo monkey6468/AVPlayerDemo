@@ -29,7 +29,6 @@
 @end
 
 
-
 //封装了AVPlayerLayer的自定义View
 @interface AVPlayerView : UIView
 
@@ -42,8 +41,8 @@
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;
 
 /// 设置播放路径
-//@property (copy, nonatomic) NSString *videoUrl;
-- (void)setPlayerWithUrl:(NSString *)url;
+@property (copy, nonatomic) NSString *videoUrl;
+//- (void)setPlayerWithUrl:(NSString *)url;
 
 //取消播放
 - (void)cancelLoading;

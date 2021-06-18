@@ -134,6 +134,9 @@
 }
 
 - (void)avPlayerView:(AVPlayerView *)playerView playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
+//    if ([playerView.videoUrl isEqualToString:self.videoUrl] == NO) {
+//        return;
+//    }
         NSLog(@"playerStatus: %ld url: %@", self.index, self.videoUrl);
 //    NSLog(@"playerStatus: %ld url: %@", self.index, playerView.videoUrl);
     [Utility videoPlayer:nil
@@ -173,11 +176,7 @@
 }
 
 - (void)startDownloadBackgroundTask {
-    [self.playerView setPlayerWithUrl:self.videoUrl];
-
-//    self.playerView.videoUrl = self.videoUrl;
-//    NSString *playUrl = _videoUrl;
-//    [self.playerView setPlayerWithUrl:self.videoUrl];
+    self.playerView.videoUrl = self.videoUrl;
 }
 
 - (void)startDownloadHighPriorityTask {

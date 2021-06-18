@@ -186,8 +186,7 @@
 //重新请求
 - (void)retry {
     [self cancelLoading];
-//    self.videoUrl = self.sourceURL.absoluteString;
-    [self setPlayerWithUrl:self.sourceURL.absoluteString];
+    self.videoUrl = self.sourceURL.absoluteString;
     self.retried = YES;
 }
 
@@ -321,53 +320,13 @@
 
 #pragma mark - set data
 //设置播放路径
-//- (void)setVideoUrl:(NSString *)videoUrl {
-//    _videoUrl = videoUrl;
-//    self.status = VideoPlayerStatusReadyToPlay;
-//
-//    //播放路径
-//    self.sourceURL = [NSURL URLWithString:videoUrl];
-//
-//    //获取路径schema
-//    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
-//    self.sourceScheme = components.scheme;
-//
-//    //路径作为视频缓存key
-//    self.cacheFileKey = self.sourceURL.absoluteString;
-//
-//    __weak __typeof(self) wself = self;
-//    //查找本地视频缓存数据
-//    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            //hasCache是否有缓存，data为本地缓存路径
-//            if (!hasCache) {
-//                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
-//
-//            } else {
-//                //当前路径有缓存，则使用本地路径作为播放源
-//                wself.sourceURL = [NSURL fileURLWithPath:data];
-//            }
-//            //初始化AVURLAsset
-//            wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
-//            //设置AVAssetResourceLoaderDelegate代理
-//            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-//            //初始化AVPlayerItem
-//            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
-//            //观察playerItem.status属性
-//            [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
-//            //切换当前AVPlayer播放器的视频源
-//            wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
-//            wself.playerLayer.player = wself.player;
-//            //给AVPlayerLayer添加周期性调用的观察者，用于更新视频播放进度
-//            [wself addProgressObserver];
-//        });
-//    } extension:@"mp4"];
-//}
+- (void)setVideoUrl:(NSString *)videoUrl {
+    _videoUrl = videoUrl;
 
-//设置播放路径
-- (void)setPlayerWithUrl:(NSString *)url {
+    self.status = VideoPlayerStatusReady;
+
     //播放路径
-    self.sourceURL = [NSURL URLWithString:url];
+    self.sourceURL = [NSURL URLWithString:videoUrl];
     
     //获取路径schema
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
