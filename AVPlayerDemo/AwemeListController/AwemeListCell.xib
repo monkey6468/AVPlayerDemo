@@ -18,6 +18,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I0s-7s-BCQ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <subviews>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_play_pause" translatesAutoresizingMaskIntoConstraints="NO" id="fRe-zs-2Ow">
+                                <rect key="frame" x="135" y="215" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="fRe-zs-2Ow" secondAttribute="height" multiplier="1:1" id="5Wt-JB-SXB"/>
+                                    <constraint firstAttribute="width" constant="50" id="mJD-I9-IfF"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ObD-kh-5p8">
+                                <rect key="frame" x="159.5" y="422.5" width="1" height="0.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="1" id="GK9-Zz-u1M"/>
+                                    <constraint firstAttribute="height" constant="0.5" id="b9I-aU-aIw"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="fRe-zs-2Ow" firstAttribute="centerY" secondItem="I0s-7s-BCQ" secondAttribute="centerY" id="2Jj-sN-gR9"/>
+                            <constraint firstItem="ObD-kh-5p8" firstAttribute="centerX" secondItem="I0s-7s-BCQ" secondAttribute="centerX" id="5x0-34-fUM"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="ObD-kh-5p8" secondAttribute="bottom" constant="49" id="GKm-9j-9gw"/>
+                            <constraint firstItem="fRe-zs-2Ow" firstAttribute="centerX" secondItem="I0s-7s-BCQ" secondAttribute="centerX" id="PLj-pZ-9ag"/>
+                        </constraints>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpd-Co-6TH">
                         <rect key="frame" x="116.5" y="218.5" width="87" height="43"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="36"/>
@@ -66,19 +93,27 @@
                     <constraint firstItem="XVP-2O-4Ii" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="5ji-AQ-GfB"/>
                     <constraint firstItem="xpd-Co-6TH" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="7oS-tB-8u2"/>
                     <constraint firstItem="VnY-F3-Gtl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="HOt-1H-ZTa"/>
+                    <constraint firstItem="I0s-7s-BCQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Kdr-qs-uKJ"/>
                     <constraint firstItem="xpd-Co-6TH" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="L1b-tU-d5J"/>
                     <constraint firstItem="XVP-2O-4Ii" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="20" id="Rgk-er-Gan"/>
                     <constraint firstItem="VnY-F3-Gtl" firstAttribute="top" secondItem="xpd-Co-6TH" secondAttribute="bottom" constant="50" id="YAu-kS-vBM"/>
+                    <constraint firstAttribute="trailing" secondItem="I0s-7s-BCQ" secondAttribute="trailing" id="fFi-3U-XjS"/>
                     <constraint firstAttribute="trailing" secondItem="XVP-2O-4Ii" secondAttribute="trailing" constant="20" id="k4G-eM-izp"/>
                     <constraint firstAttribute="trailing" secondItem="VnY-F3-Gtl" secondAttribute="trailing" constant="20" id="kkF-eW-akw"/>
+                    <constraint firstItem="I0s-7s-BCQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="n3J-Jg-NLe"/>
+                    <constraint firstAttribute="bottom" secondItem="I0s-7s-BCQ" secondAttribute="bottom" id="shG-n2-LJh"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="container" destination="I0s-7s-BCQ" id="aPn-Gn-set"/>
                 <outlet property="currentTimeLabel" destination="hNe-bC-Uhr" id="MHC-rj-ptt"/>
                 <outlet property="durationLabel" destination="I9X-cE-CQT" id="Ehq-FA-lww"/>
                 <outlet property="indexLabel" destination="xpd-Co-6TH" id="AEX-rT-w2R"/>
                 <outlet property="pathTextView" destination="VnY-F3-Gtl" id="Omn-nO-27M"/>
+                <outlet property="pauseIcon" destination="fRe-zs-2Ow" id="pNp-Vr-91b"/>
+                <outlet property="playerStatusBar" destination="ObD-kh-5p8" id="1uX-3Q-Cn5"/>
                 <outlet property="stackView" destination="XVP-2O-4Ii" id="Iet-YW-YEB"/>
                 <outlet property="tipLabel" destination="dog-vg-pNn" id="QU0-ei-TcS"/>
             </connections>
@@ -86,6 +121,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="icon_play_pause" width="52.5" height="62"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

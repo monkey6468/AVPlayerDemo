@@ -8,14 +8,14 @@
 #import "AwemeListCell.h"
 #import "AVPlayerView.h"
 
-#import "Masonry.h"
-
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 
-#define SafeAreaBottomHeight ((ScreenHeight >= 812.0) && [[UIDevice currentDevice].model isEqualToString:@"iPhone"]  ? 30 : 0)
+@interface AwemeListCell ()<AVPlayerUpdateDelegate>
 
-@interface AwemeListCell()<AVPlayerUpdateDelegate>
+@property (weak, nonatomic) IBOutlet UIView *container;
+@property (weak, nonatomic) IBOutlet UIImageView *pauseIcon;
+@property (weak, nonatomic) IBOutlet UIView *playerStatusBar;
 
 @property (weak, nonatomic) IBOutlet UIStackView *stackView;
 @property (weak, nonatomic) IBOutlet UILabel *indexLabel;
@@ -26,10 +26,7 @@
 //@property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
-@property (nonatomic, strong) UIView                   *container;
-@property (nonatomic ,strong) UIImageView              *pauseIcon;
-@property (nonatomic, strong) UIView                   *playerStatusBar;
-@property (nonatomic, strong) UITapGestureRecognizer   *singleTapGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *singleTapGesture;
 
 @end
 
@@ -38,70 +35,32 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.backgroundColor = UIColor.redColor;
     [self initSubViews];
     
-    [_container addSubview:self.stackView];
+    [self.container addSubview:self.stackView];
 }
 
 - (void)initSubViews {
     //init player view;
-    _playerView = [AVPlayerView new];
-    _playerView.delegate = self;
-    [self.contentView addSubview:_playerView];
+    self.playerView = [AVPlayerView new];
+    self.playerView.delegate = self;
+    [self.contentView addSubview:self.playerView];
     
-    //init hover on player view container
-    _container = [UIView new];
-    [self.contentView addSubview:_container];
+    [self.contentView insertSubview:self.container aboveSubview:self.playerView];
     
-    _singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    [_container addGestureRecognizer:_singleTapGesture];
-    
-    _pauseIcon = [[UIImageView alloc] init];
-    _pauseIcon.image = [UIImage imageNamed:@"icon_play_pause"];
-    _pauseIcon.contentMode = UIViewContentModeCenter;
-    _pauseIcon.layer.zPosition = 3;
-    _pauseIcon.hidden = YES;
-    [_container addSubview:_pauseIcon];
-    
-    
-    //init player status bar
-    _playerStatusBar = [[UIView alloc]init];
-    _playerStatusBar.backgroundColor = UIColor.whiteColor;
-    [_playerStatusBar setHidden:YES];
-    [_container addSubview:_playerStatusBar];
-    
+    self.singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [self.container addGestureRecognizer:self.singleTapGesture];
     
     //init focus action
-    
-    [_playerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
-    }];
-    [_container mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
-    }];
-    [_pauseIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
-        make.width.height.mas_equalTo(100);
-    }];
-
-    //make constraintes
-    [_playerStatusBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self);
-        make.bottom.equalTo(self).inset(49.5f + SafeAreaBottomHeight);
-        make.width.mas_equalTo(1.0f);
-        make.height.mas_equalTo(0.5f);
-    }];
-
+    self.playerView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
     
     _isPlayerReady = NO;
-    [_playerView cancelLoading];
-    [_pauseIcon setHidden:YES];
-    
+    [self.playerView cancelLoading];
+    [self.pauseIcon setHidden:YES];
 }
 
 
@@ -111,8 +70,8 @@
 }
 
 - (void)singleTapAction {
-    [self showPauseViewAnim:[_playerView rate]];
-    [_playerView updatePlayerState];
+    [self showPauseViewAnim:[self.playerView rate]];
+    [self.playerView updatePlayerState];
 }
 
 //暂停播放动画
@@ -125,9 +84,9 @@
             [self.pauseIcon setHidden:YES];
         }];
     } else {
-        [_pauseIcon setHidden:NO];
-        _pauseIcon.transform = CGAffineTransformMakeScale(1.8f, 1.8f);
-        _pauseIcon.alpha = 1.0f;
+        [self.pauseIcon setHidden:NO];
+        self.pauseIcon.transform = CGAffineTransformMakeScale(1.8f, 1.8f);
+        self.pauseIcon.alpha = 1.0f;
         [UIView animateWithDuration:0.25f delay:0
                             options:UIViewAnimationOptionCurveEaseIn animations:^{
             self.pauseIcon.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
@@ -184,8 +143,8 @@
             
             _isPlayerReady = YES;
             
-            if (_onPlayerReady) {
-                _onPlayerReady();
+            if (self.onPlayerReady) {
+                self.onPlayerReady();
             }
             break;
         case AVPlayerItemStatusFailed:
@@ -223,28 +182,28 @@
 }
 
 - (void)play {
-    [_playerView play];
-    [_pauseIcon setHidden:YES];
+    [self.playerView play];
+    [self.pauseIcon setHidden:YES];
 }
 
 - (void)pause {
-    [_playerView pause];
-    [_pauseIcon setHidden:NO];
+    [self.playerView pause];
+    [self.pauseIcon setHidden:NO];
 }
 
 - (void)replay {
-    [_playerView replay];
-    [_pauseIcon setHidden:YES];
+    [self.playerView replay];
+    [self.pauseIcon setHidden:YES];
 }
 
 - (void)startDownloadBackgroundTask {
     NSString *playUrl = _videoUrl;
-    [_playerView setPlayerWithUrl:playUrl];
+    [self.playerView setPlayerWithUrl:playUrl];
 }
 
 - (void)startDownloadHighPriorityTask {
     NSString *playUrl = _videoUrl;
-    [_playerView startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
+    [self.playerView startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
 }
 
 #pragma mark - set data
