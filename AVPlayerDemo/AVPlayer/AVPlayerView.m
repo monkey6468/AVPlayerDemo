@@ -374,6 +374,14 @@
     return _thumbImageView;
 }
 
+- (NSTimeInterval)duration {
+    return CMTimeGetSeconds(self.player.currentItem.currentTime);
+}
+
+- (NSTimeInterval)currentTime {
+    return CMTimeGetSeconds(self.player.currentItem.duration);
+}
+
 #pragma mark - set data
 //设置播放路径
 - (void)setVideoUrl:(NSString *)videoUrl {

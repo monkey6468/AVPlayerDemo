@@ -56,6 +56,10 @@
 @property (assign, nonatomic) CGFloat videoWidth;
 /// 视频高度
 @property (assign, nonatomic) CGFloat videoHeight;
+/// 视频总时长
+@property (assign, nonatomic, readonly) NSTimeInterval duration;
+/// 视频当前进度时长
+@property (assign, nonatomic, readonly) NSTimeInterval currentTime;
 
 //取消播放
 - (void)cancelLoading;
