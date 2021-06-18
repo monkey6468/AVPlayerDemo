@@ -7,7 +7,7 @@
 //
 
 #import "AVPlayerView.h"
-#import "WebCacheHelpler.h"
+#import "CacheHelpler.h"
 #import "AVPlayerManager.h"
 #import <CoreServices/UTType.h>
 
@@ -29,7 +29,7 @@
 @property (strong, nonatomic) NSOperation *queryCacheOperation;    // 查找本地视频缓存数据的NSOperation
 @property (strong, nonatomic) dispatch_queue_t cancelLoadingQueue;
 
-@property (strong, nonatomic) WebCombineOperation  *combineOperation;
+@property (strong, nonatomic) CombineOperation *combineOperation;
 @property (assign, nonatomic) BOOL retried;
 @end
 
@@ -76,7 +76,7 @@
     
     __weak __typeof(self) wself = self;
     //查找本地视频缓存数据
-    self.queryCacheOperation = [[WebCacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
         dispatch_async(dispatch_get_main_queue(), ^{
             //hasCache是否有缓存，data为本地缓存路径
             if (!hasCache) {
@@ -147,7 +147,7 @@
     self.status = VideoPlayerStatusDownload;
     
     __weak __typeof(self) wself = self;
-    self.queryCacheOperation = [[WebCacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+    self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (hasCache) {
                 return;
@@ -157,7 +157,7 @@
                 [wself.combineOperation cancel];
             }
             
-            wself.combineOperation = [[WebDownloader sharedDownloader] downloadWithURL:URL responseBlock:^(NSHTTPURLResponse *response) {
+            wself.combineOperation = [[Downloader sharedDownloader] downloadWithURL:URL responseBlock:^(NSHTTPURLResponse *response) {
                 wself.data = [NSMutableData data];
                 wself.mimeType = response.MIMEType;
                 wself.expectedContentLength = response.expectedContentLength;
@@ -169,7 +169,7 @@
             } completedBlock:^(NSData *data, NSError *error, BOOL finished) {
                 if (!error && finished) {
                     //下载完毕，将缓存数据保存到本地
-                    [[WebCacheHelpler sharedWebCache] storeDataToDiskCache:wself.data key:wself.cacheFileKey extension:@"mp4"];
+                    [[CacheHelpler sharedWebCache] storeDataToDiskCache:wself.data key:wself.cacheFileKey extension:@"mp4"];
                 }
             } cancelBlock:^{
             } isBackground:isBackground];

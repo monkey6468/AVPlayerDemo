@@ -17,7 +17,7 @@
 		A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669C5267B43BD00CA65BF /* AwemeListController.m */; };
 		A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CB267B43CC00CA65BF /* AVPlayerView.m */; };
 		A65669CF267B43CC00CA65BF /* AVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CC267B43CC00CA65BF /* AVPlayerManager.m */; };
-		A6566A43267B48F300CA65BF /* WebCacheHelpler.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A42267B48F300CA65BF /* WebCacheHelpler.m */; };
+		A6566A43267B48F300CA65BF /* CacheHelpler.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A42267B48F300CA65BF /* CacheHelpler.m */; };
 		A6566A46267B498100CA65BF /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6566A45267B498100CA65BF /* CoreServices.framework */; };
 		A6566A6E267B53FD00CA65BF /* AwemeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6566A6C267B53FD00CA65BF /* AwemeListCell.m */; };
 		A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */; };
@@ -50,8 +50,8 @@
 		A65669CB267B43CC00CA65BF /* AVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerView.m; sourceTree = "<group>"; };
 		A65669CC267B43CC00CA65BF /* AVPlayerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerManager.m; sourceTree = "<group>"; };
 		A65669CD267B43CC00CA65BF /* AVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerView.h; sourceTree = "<group>"; };
-		A6566A41267B48F300CA65BF /* WebCacheHelpler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebCacheHelpler.h; sourceTree = "<group>"; };
-		A6566A42267B48F300CA65BF /* WebCacheHelpler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebCacheHelpler.m; sourceTree = "<group>"; };
+		A6566A41267B48F300CA65BF /* CacheHelpler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CacheHelpler.h; sourceTree = "<group>"; };
+		A6566A42267B48F300CA65BF /* CacheHelpler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CacheHelpler.m; sourceTree = "<group>"; };
 		A6566A45267B498100CA65BF /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		A6566A6B267B53FD00CA65BF /* AwemeListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AwemeListCell.h; sourceTree = "<group>"; };
 		A6566A6C267B53FD00CA65BF /* AwemeListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwemeListCell.m; sourceTree = "<group>"; };
@@ -152,8 +152,8 @@
 		A6566A3D267B48BC00CA65BF /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				A6566A41267B48F300CA65BF /* WebCacheHelpler.h */,
-				A6566A42267B48F300CA65BF /* WebCacheHelpler.m */,
+				A6566A41267B48F300CA65BF /* CacheHelpler.h */,
+				A6566A42267B48F300CA65BF /* CacheHelpler.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -291,7 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6566A43267B48F300CA65BF /* WebCacheHelpler.m in Sources */,
+				A6566A43267B48F300CA65BF /* CacheHelpler.m in Sources */,
 				A6C7F87826661D0700A49576 /* ViewController.m in Sources */,
 				A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */,
 				A6C7F88326661D0A00A49576 /* main.m in Sources */,

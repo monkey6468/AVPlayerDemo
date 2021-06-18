@@ -17,37 +17,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
-                                <rect key="frame" x="144.5" y="225" width="31" height="30"/>
-                                <state key="normal" title="播放"/>
-                                <connections>
-                                    <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0z-dx-DlC">
-                                <rect key="frame" x="129" y="263" width="62" height="30"/>
-                                <state key="normal" title="列表播放"/>
-                                <connections>
-                                    <action selector="onActionPlayList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pWZ-9k-DN1"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
-                                <rect key="frame" x="137" y="301" width="46" height="30"/>
-                                <state key="normal" title="第三方"/>
-                                <connections>
-                                    <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QSJ-fV-xBy">
+                                <rect key="frame" x="121" y="168" width="78" height="144"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
+                                        <rect key="frame" x="0.0" y="0.0" width="78" height="30"/>
+                                        <state key="normal" title="播放"/>
+                                        <connections>
+                                            <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0z-dx-DlC">
+                                        <rect key="frame" x="0.0" y="38" width="78" height="30"/>
+                                        <state key="normal" title="列表播放"/>
+                                        <connections>
+                                            <action selector="onActionPlayList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pWZ-9k-DN1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
+                                        <rect key="frame" x="0.0" y="76" width="78" height="30"/>
+                                        <state key="normal" title="第三方"/>
+                                        <connections>
+                                            <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikn-Sx-AKd">
+                                        <rect key="frame" x="0.0" y="114" width="78" height="30"/>
+                                        <state key="normal" title="clearCache"/>
+                                        <connections>
+                                            <action selector="onActionClearCache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4cP-zI-SQT"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="S5c-a8-pc0" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DqG-9o-NC2"/>
-                            <constraint firstItem="v0z-dx-DlC" firstAttribute="top" secondItem="S5c-a8-pc0" secondAttribute="bottom" constant="8" symbolic="YES" id="EwH-cz-KYW"/>
-                            <constraint firstItem="v0z-dx-DlC" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="HRi-8P-CJd"/>
-                            <constraint firstItem="oVC-Ou-o4m" firstAttribute="top" secondItem="v0z-dx-DlC" secondAttribute="bottom" constant="8" symbolic="YES" id="gdx-a0-V2U"/>
-                            <constraint firstItem="S5c-a8-pc0" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qhT-Ww-Dlm"/>
-                            <constraint firstItem="oVC-Ou-o4m" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="z6b-Yl-bFR"/>
+                            <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8zu-Iy-qGu"/>
+                            <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E6r-h1-565"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV"/>

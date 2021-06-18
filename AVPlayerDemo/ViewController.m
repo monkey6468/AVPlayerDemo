@@ -11,6 +11,7 @@
 #import "AwemeListController.h"
 
 #import "Utility.h"
+#import "CacheHelpler.h"
 
 @interface ViewController ()
 
@@ -46,6 +47,12 @@
     vc.urlsArray = [Utility getUrls];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (IBAction)onActionClearCache:(UIButton *)sender {
+    [[CacheHelpler sharedWebCache] clearCache:^(NSString *cacheSize) {
+        NSLog(@"%@",cacheSize);
+    }];
 }
 
 @end
