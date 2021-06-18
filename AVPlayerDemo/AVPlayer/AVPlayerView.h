@@ -24,7 +24,7 @@
 //播放状态更新回调方法
 - (void)avPlayerView:(AVPlayerView *)playerView
         playerStatus:(VideoPlayerStatus)status
-               error:(NSError *_Nullable)error;
+               error:(NSError *)error;
 
 @end
 
@@ -35,6 +35,8 @@
 
 /// 视频播放状态
 @property (assign, nonatomic) VideoPlayerStatus status;
+/// 自动播放次数。默认无限循环(NSUIntegerMax)
+@property (nonatomic, assign, readwrite) NSUInteger autoPlayCount;
 
 //播放进度、状态更新代理
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;

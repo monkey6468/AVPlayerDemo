@@ -43,6 +43,7 @@
 - (void)initSubViews {
     //init player view;
     self.playerView = [AVPlayerView new];
+//    self.playerView.autoPlayCount = 1;
     self.playerView.delegate = self;
     [self.contentView addSubview:self.playerView];
     
@@ -123,7 +124,6 @@
         [self.playerStatusBar.layer removeAllAnimations];
         [self.playerStatusBar setHidden:YES];
     }
-    
 }
 
 #pragma mark - AVPlayerUpdateDelegate
@@ -152,31 +152,8 @@
         }
     } else if (status == VideoPlayerStatusFailed) {
         [self startLoadingPlayItemAnim:NO];
-    }
-//    [self playerStatus:status tipLabel:self.tipLabel];
-}
-
-- (void)playerStatus:(AVPlayerItemStatus)status
-           tipLabel:(UILabel *)tipLabel {
-//    NSLog(@"%ld %@",(long)status, error.description);
-    if (status == AVPlayerItemStatusUnknown) {
-        tipLabel.text = @"视频还未播放";
-    } else if (status == AVPlayerItemStatusReadyToPlay) {
-        tipLabel.text = @"视频加载中...";
-//    } else if (status == VideoPlayerStatusPlaying) {
-//        tipLabel.text = @"视频播放中...";
-//    } else if (status == VideoPlayerStatusPaused) {
-//        tipLabel.text = @"视频已暂停";
-//    } else if (status == VideoPlayerStatusFinished) {
-//        tipLabel.text = @"视频已结束";
-//    } else if (status == VideoPlayerStatusChangeEsolution) {
-//        if (player.height/player.width <= 4/3.0) {
-//            player.renderMode = VideoRenderModeFillEdge;
-//        } else {
-//            player.renderMode = VideoRenderModeFillScreen;
-//        }
-    } else {
-        tipLabel.text = @"视频播放中...";
+    } else if (status == VideoPlayerStatusFinished) {
+        //
     }
 }
 

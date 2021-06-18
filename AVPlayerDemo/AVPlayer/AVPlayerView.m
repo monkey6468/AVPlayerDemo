@@ -31,6 +31,8 @@
 
 @property (strong, nonatomic) CombineOperation *combineOperation;
 @property (assign, nonatomic) BOOL retried;
+/// 自动播放次数。默认无限循环(NSUIntegerMax)
+@property (nonatomic, assign) NSUInteger autoPlayCountTemp;
 @end
 
 @implementation AVPlayerView
@@ -41,6 +43,8 @@
         //初始化存储AVAssetResourceLoadingRequest的数组
         self.pendingRequests = [NSMutableArray array];
         
+        self.autoPlayCountTemp = NSUIntegerMax;
+
         //初始化播放器
         self.player = [AVPlayer new];
         //添加视频播放器图形化载体AVPlayerLayer
@@ -155,7 +159,12 @@
 
 //播放
 - (void)play {
-    [[AVPlayerManager shareManager] play:self.player];
+    if (self.autoPlayCountTemp == 0) {
+        self.autoPlayCountTemp = self.autoPlayCount;
+        [self replay];
+    } else {
+        [[AVPlayerManager shareManager] play:self.player];
+    }
 }
 
 //暂停
@@ -182,6 +191,11 @@
     self.retried = YES;
 }
 
+- (void)didPlayToEndTime:(NSNotification *)notify {
+    if (notify.object == self.playerItem) {
+        self.status = VideoPlayerStatusFinished;
+    }
+}
 
 #pragma AVAssetResourceLoaderDelegate
 - (void)processPendingRequests {
@@ -241,9 +255,18 @@
             float current = CMTimeGetSeconds(time);
             //获取视频播放总时间
             float total = CMTimeGetSeconds([weakSelf.playerItem duration]);
+            
+           
             //重新播放视频
             if (total == current) {
-                [weakSelf replay];
+                if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
+                    [weakSelf replay];
+                } else {
+                    --weakSelf.autoPlayCountTemp;
+                    if (weakSelf.autoPlayCountTemp > 0) {
+                        [weakSelf replay];
+                    }
+                }
             }
             //更新视频播放进度方法回调
             if ([weakSelf.delegate respondsToSelector:@selector(avPlayerView:onProgressUpdate:total:)]) {
@@ -255,12 +278,6 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
-}
-
-- (void)didPlayToEndTime:(NSNotification *)notify {
-    if (notify.object == self.playerItem) {
-        self.status = VideoPlayerStatusFinished;
-    }
 }
 
 // 响应KVO值变化的方法
@@ -398,4 +415,8 @@
     }
 }
 
+- (void)setAutoPlayCount:(NSUInteger)autoPlayCount {
+    _autoPlayCount = autoPlayCount;
+    self.autoPlayCountTemp = autoPlayCount;
+}
 @end
