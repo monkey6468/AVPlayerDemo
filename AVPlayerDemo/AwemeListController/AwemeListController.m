@@ -144,7 +144,6 @@
     AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class])];
     cell.videoUrl = _data[indexPath.row];
     cell.index = indexPath.row;
-    [cell startDownloadBackgroundTask];
     return cell;
 }
 

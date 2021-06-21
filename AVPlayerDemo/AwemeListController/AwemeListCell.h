@@ -16,15 +16,13 @@ typedef void (^OnPlayerReady)(void);
 @property (copy, nonatomic) NSString *videoUrl;
 @property (assign, nonatomic) NSInteger index;
 
-@property (nonatomic, strong) AVPlayerView *playerView;
-
-@property (nonatomic, strong) OnPlayerReady onPlayerReady;
-@property (nonatomic, assign) BOOL isPlayerReady;
+@property (strong, nonatomic) AVPlayerView *playerView;
+@property (strong, nonatomic) OnPlayerReady onPlayerReady;
+@property (assign, nonatomic) BOOL isPlayerReady;
 
 - (void)play;
 - (void)pause;
 - (void)replay;
-- (void)startDownloadBackgroundTask;
 - (void)startDownloadHighPriorityTask;
 
 @end

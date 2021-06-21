@@ -170,10 +170,6 @@
     [self.pauseIcon setHidden:YES];
 }
 
-- (void)startDownloadBackgroundTask {
-    self.playerView.videoUrl = self.videoUrl;
-}
-
 - (void)startDownloadHighPriorityTask {
     [self.playerView startDownloadTask:[[NSURL alloc] initWithString:self.videoUrl] isBackground:NO];
 }
@@ -183,6 +179,7 @@
     _videoUrl = videoUrl;
     self.playerView.bNeedPreView = YES;
     self.playerView.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
+    self.playerView.videoUrl = videoUrl;
     self.pathTextView.text = videoUrl;
 }
 
