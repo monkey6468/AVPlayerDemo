@@ -203,6 +203,26 @@
 }
 
 #pragma mark AVAssetResourceLoaderDelegate
+- (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
+    //创建用于下载视频源的NSURLSessionDataTask，当前方法会多次调用，所以需判断self.task == nil
+    if(_combineOperation == nil) {
+        //将当前的请求路径的scheme换成https，进行普通的网络请求
+        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:[NSURL URLWithString:[loadingRequest.request URL].absoluteString] resolvingAgainstBaseURL:NO];
+        components.scheme = _sourceScheme;
+
+        NSURL *URL = components.URL;
+        [self startDownloadTask:URL isBackground:YES];
+    }
+    //将视频加载请求依此存储到pendingRequests中，因为当前方法会多次调用，所以需用数组缓存
+    [_pendingRequests addObject:loadingRequest];
+    return YES;
+}
+
+- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+    //AVAssetResourceLoadingRequest请求被取消，移除视频加载请求
+    [_pendingRequests removeObject:loadingRequest];
+}
+
 - (void)processPendingRequests {
     NSMutableArray *requestsCompleted = [NSMutableArray array];
     //获取所有已完成AVAssetResourceLoadingRequest
@@ -406,7 +426,11 @@
             //hasCache是否有缓存，data为本地缓存路径
             if (!hasCache) {
                 //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
-                
+                NSURLComponents *components = [[NSURLComponents alloc] initWithURL:wself.sourceURL resolvingAgainstBaseURL:NO];
+                components.scheme = @"streaming";
+
+                wself.sourceURL = components.URL;//[wself.sourceURL.absoluteString urlScheme:@"streaming"];
+
             } else {
                 //当前路径有缓存，则使用本地路径作为播放源
                 wself.sourceURL = [NSURL fileURLWithPath:data];
@@ -430,11 +454,16 @@
                     self.status = VideoPlayerStatusChangeEsolution;
                 }
             }
+#warning <#message#>
+            AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+            [urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
+            wself.playerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
+
             
             //设置AVAssetResourceLoaderDelegate代理
-            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-            //初始化AVPlayerItem
-            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
+//            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
+//            //初始化AVPlayerItem
+//            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
             //观察playerItem.status属性
             [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
             //切换当前AVPlayer播放器的视频源

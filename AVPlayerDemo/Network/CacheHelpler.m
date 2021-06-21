@@ -153,7 +153,8 @@
 - (void)storeDataCache:(NSData *)data forKey:(NSString *)key {
     dispatch_async(_ioQueue, ^{
         [self storeDataToMemoryCache:data key:key];
-        [self storeDataToDiskCache:data key:key];
+#warning <#message#>
+//        [self storeDataToDiskCache:data key:key];
     });
 }
 
