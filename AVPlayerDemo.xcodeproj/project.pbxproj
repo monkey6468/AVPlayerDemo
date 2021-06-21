@@ -30,6 +30,7 @@
 		A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */; };
 		A6C7F88326661D0A00A49576 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88226661D0A00A49576 /* main.m */; };
 		A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88A2666213400A49576 /* VideoPlayer.m */; };
+		A6D9B17F268040F800CF7E62 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D9B17E268040F800CF7E62 /* ImageCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +72,8 @@
 		A6C7F88226661D0A00A49576 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A6C7F8892666213400A49576 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		A6C7F88A2666213400A49576 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
+		A6D9B17D268040F800CF7E62 /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
+		A6D9B17E268040F800CF7E62 /* ImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +194,8 @@
 				A652B0AB266A25720019F2C8 /* Utility */,
 				A6C7F87026661D0700A49576 /* AppDelegate.h */,
 				A6C7F87126661D0700A49576 /* AppDelegate.m */,
+				A6D9B17D268040F800CF7E62 /* ImageCache.h */,
+				A6D9B17E268040F800CF7E62 /* ImageCache.m */,
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
 				A65669C9267B43CC00CA65BF /* AVPlayer */,
@@ -298,6 +303,7 @@
 				A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */,
 				A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */,
 				A652B0AE266A257B0019F2C8 /* Utility.m in Sources */,
+				A6D9B17F268040F800CF7E62 /* ImageCache.m in Sources */,
 				A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */,
 				A65669CF267B43CC00CA65BF /* AVPlayerManager.m in Sources */,
 				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,

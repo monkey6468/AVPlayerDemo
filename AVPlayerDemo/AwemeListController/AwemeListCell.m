@@ -9,6 +9,7 @@
 #import "AVPlayerView.h"
 
 #import "Utility.h"
+#import "ImageCache.h"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -177,10 +178,16 @@
 #pragma mark - set data
 - (void)setVideoUrl:(NSString *)videoUrl {
     _videoUrl = videoUrl;
-    self.playerView.bNeedPreView = YES;
-    self.playerView.preViewImageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
     self.playerView.videoUrl = videoUrl;
     self.pathTextView.text = videoUrl;
+
+#warning ImageCache
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
+    ImageCache *imageCache = [[ImageCache alloc]init];
+//    imageCache.imageUrl = imageUrl;
+//    [imageCache startDownloadTask:[NSURL URLWithString:imageUrl] isBackground:NO];
+//    self.playerView.bNeedPreView = YES;
+//    self.playerView.preViewImageUrl = imageUrl;
 }
 
 - (void)setIndex:(NSInteger)index {
