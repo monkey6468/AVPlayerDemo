@@ -202,27 +202,6 @@
     }
 }
 
-#pragma mark AVAssetResourceLoaderDelegate
-- (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
-    //创建用于下载视频源的NSURLSessionDataTask，当前方法会多次调用，所以需判断self.task == nil
-    if(_combineOperation == nil) {
-        //将当前的请求路径的scheme换成https，进行普通的网络请求
-        NSURLComponents *components = [[NSURLComponents alloc] initWithURL:[NSURL URLWithString:[loadingRequest.request URL].absoluteString] resolvingAgainstBaseURL:NO];
-        components.scheme = _sourceScheme;
-
-        NSURL *URL = components.URL;
-        [self startDownloadTask:URL isBackground:YES];
-    }
-    //将视频加载请求依此存储到pendingRequests中，因为当前方法会多次调用，所以需用数组缓存
-    [_pendingRequests addObject:loadingRequest];
-    return YES;
-}
-
-- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
-    //AVAssetResourceLoadingRequest请求被取消，移除视频加载请求
-    [_pendingRequests removeObject:loadingRequest];
-}
-
 - (void)processPendingRequests {
     NSMutableArray *requestsCompleted = [NSMutableArray array];
     //获取所有已完成AVAssetResourceLoadingRequest
@@ -267,6 +246,35 @@
     BOOL didRespondFully = self.data.length >= endOffset;
     
     return didRespondFully;
+}
+
+- (void)getVideoEsolutionWithAsset:(AVURLAsset *)urlAsset {
+    NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
+    if ([tracks count] > 0) {
+        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        CGFloat width = videoTrack.naturalSize.width;
+        CGFloat height = videoTrack.naturalSize.height;
+        CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+        if ([self isVideoPortrait:t] == NO) {
+            self.videoHeight = height;
+            self.videoWidth = width;
+        } else {
+            self.videoWidth = height;
+            self.videoHeight = width;
+        }
+        self.status = VideoPlayerStatusChangeEsolution;
+    }
+}
+
+- (NSURL *)getSchemeResourceLoaderWithURL:(NSURL *)url scheme:(NSString *)scheme {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
+    components.scheme = scheme;
+    return components.URL;
+}
+
+- (NSString *)getSourceSchemeWithURL:(NSURL *)url {
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
+    return components.scheme;
 }
 
 #pragma mark ---- 获取图片第一帧
@@ -385,6 +393,25 @@
     }
 }
 
+#pragma mark - AVAssetResourceLoaderDelegate
+
+- (BOOL)resourceLoader:(AVAssetResourceLoader *)resourceLoader shouldWaitForLoadingOfRequestedResource:(AVAssetResourceLoadingRequest *)loadingRequest {
+    //创建用于下载视频源的NSURLSessionDataTask，当前方法会多次调用，所以需判断self.task == nil
+    if (_combineOperation == nil) {
+        //将当前的请求路径的scheme换成https，进行普通的网络请求
+        NSURL *videoUrl = [self getSchemeResourceLoaderWithURL:[loadingRequest.request URL] scheme:self.sourceScheme];
+        [self startDownloadTask:videoUrl isBackground:YES];
+    }
+    //将视频加载请求依此存储到pendingRequests中，因为当前方法会多次调用，所以需用数组缓存
+    [self.pendingRequests addObject:loadingRequest];
+    return YES;
+}
+
+- (void)resourceLoader:(AVAssetResourceLoader *)resourceLoader didCancelLoadingRequest:(AVAssetResourceLoadingRequest *)loadingRequest {
+    //AVAssetResourceLoadingRequest请求被取消，移除视频加载请求
+    [self.pendingRequests removeObject:loadingRequest];
+}
+
 #pragma mark - get data
 - (UIImageView *)thumbImageView {
     if (!_thumbImageView) {
@@ -413,8 +440,7 @@
     self.sourceURL = [NSURL URLWithString:videoUrl];
     
     //获取路径schema
-    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.sourceURL resolvingAgainstBaseURL:NO];
-    self.sourceScheme = components.scheme;
+    self.sourceScheme = [self getSourceSchemeWithURL:self.sourceURL];
     
     //路径作为视频缓存key
     self.cacheFileKey = self.sourceURL.absoluteString;
@@ -426,44 +452,23 @@
             //hasCache是否有缓存，data为本地缓存路径
             if (!hasCache) {
                 //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
-                NSURLComponents *components = [[NSURLComponents alloc] initWithURL:wself.sourceURL resolvingAgainstBaseURL:NO];
-                components.scheme = @"streaming";
+                wself.sourceURL = [wself getSchemeResourceLoaderWithURL:wself.sourceURL scheme:@"streaming"];
 
-                wself.sourceURL = components.URL;//[wself.sourceURL.absoluteString urlScheme:@"streaming"];
+                wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+                //设置AVAssetResourceLoaderDelegate代理
+                [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
 
             } else {
                 //当前路径有缓存，则使用本地路径作为播放源
                 wself.sourceURL = [NSURL fileURLWithPath:data];
+                
+                //初始化AVURLAsset
+                wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+                [wself getVideoEsolutionWithAsset:wself.urlAsset];
             }
-            //初始化AVURLAsset
-            wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
-            {
-                NSArray *tracks = [wself.urlAsset tracksWithMediaType:AVMediaTypeVideo];
-                if ([tracks count] > 0) {
-                    AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-                    CGFloat width = videoTrack.naturalSize.width;
-                    CGFloat height = videoTrack.naturalSize.height;
-                    CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
-                    if ([self isVideoPortrait:t] == NO) {
-                        self.videoHeight = height;
-                        self.videoWidth = width;
-                    } else {
-                        self.videoWidth = height;
-                        self.videoHeight = width;
-                    }
-                    self.status = VideoPlayerStatusChangeEsolution;
-                }
-            }
-#warning <#message#>
-            AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
-            [urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-            wself.playerItem = [AVPlayerItem playerItemWithAsset:urlAsset];
-
             
-            //设置AVAssetResourceLoaderDelegate代理
-//            [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-//            //初始化AVPlayerItem
-//            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
+            //初始化AVPlayerItem
+            wself.playerItem = [AVPlayerItem playerItemWithAsset:wself.urlAsset];
             //观察playerItem.status属性
             [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
             //切换当前AVPlayer播放器的视频源
