@@ -13,7 +13,7 @@ typedef void (^OnPlayerReady)(void);
 
 @interface AwemeListCell : UITableViewCell
 
-@property (copy, nonatomic) NSString *videoUrl;
+- (void)setVideoUrl:(NSString *)videoUrl needCache:(BOOL)bNeedCache;
 @property (assign, nonatomic) NSInteger index;
 
 @property (strong, nonatomic) AVPlayerView *playerView;

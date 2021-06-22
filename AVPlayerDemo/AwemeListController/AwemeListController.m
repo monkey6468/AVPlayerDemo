@@ -142,7 +142,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //填充视频数据
     AwemeListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([AwemeListCell class])];
-    cell.videoUrl = _data[indexPath.row];
+    if (indexPath.row == self.currentIndex) {
+        [cell setVideoUrl:_data[indexPath.row] needCache:NO];
+    } else {
+        [cell setVideoUrl:_data[indexPath.row] needCache:YES];
+    }
+    
+//    cell.videoUrl = _data[indexPath.row];
     cell.index = indexPath.row;
     return cell;
 }

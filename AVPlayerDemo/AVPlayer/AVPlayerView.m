@@ -37,6 +37,7 @@
 @property (nonatomic, assign) NSUInteger autoPlayCountTemp;
 @property (strong, nonatomic) UIImage *preViewImage;
 
+@property (copy, nonatomic) NSString *videoUrl;
 @end
 
 @implementation AVPlayerView
@@ -249,6 +250,7 @@
 }
 
 - (void)getVideoEsolutionWithAsset:(AVURLAsset *)urlAsset {
+    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
     NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
     if ([tracks count] > 0) {
         AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
@@ -264,6 +266,8 @@
         }
         self.status = VideoPlayerStatusChangeEsolution;
     }
+    NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+    NSLog(@"%s: %f",__func__, t1-t0);
 }
 
 - (NSURL *)getSchemeResourceLoaderWithURL:(NSURL *)url scheme:(NSString *)scheme {
@@ -431,8 +435,8 @@
 
 #pragma mark - set data
 //设置播放路径
-- (void)setVideoUrl:(NSString *)videoUrl {
-    _videoUrl = videoUrl;
+- (void)setVideoUrl:(NSString *)videoUrl needCache:(BOOL)bNeedCache {
+    self.videoUrl = videoUrl;
 
     self.status = VideoPlayerStatusReady;
 
@@ -450,21 +454,25 @@
     self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
         dispatch_async(dispatch_get_main_queue(), ^{
             //hasCache是否有缓存，data为本地缓存路径
-            if (!hasCache) {
-                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
-                wself.sourceURL = [wself getSchemeResourceLoaderWithURL:wself.sourceURL scheme:@"streaming"];
-
-                wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
-                //设置AVAssetResourceLoaderDelegate代理
-                [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
-
-            } else {
-                //当前路径有缓存，则使用本地路径作为播放源
+            if (hasCache) {
                 wself.sourceURL = [NSURL fileURLWithPath:data];
-                
-                //初始化AVURLAsset
                 wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
                 [wself getVideoEsolutionWithAsset:wself.urlAsset];
+            } else {
+                //当前路径无缓存，则将视频的网络路径的scheme改为其他自定义的scheme类型，http、https这类预留的scheme类型不能使AVAssetResourceLoaderDelegate中的方法回调
+                if (bNeedCache) {
+#warning 为了获取缓冲时的分辨率
+                    AVURLAsset *urlAssetTemp = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+                    [wself getVideoEsolutionWithAsset:urlAssetTemp];
+                    
+                    wself.sourceURL = [wself getSchemeResourceLoaderWithURL:wself.sourceURL scheme:@"streaming"];
+                    wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+                    [wself.urlAsset.resourceLoader setDelegate:wself queue:dispatch_get_main_queue()];
+                } else {
+                    wself.sourceURL = wself.sourceURL;
+                    wself.urlAsset = [AVURLAsset URLAssetWithURL:wself.sourceURL options:nil];
+                    [wself getVideoEsolutionWithAsset:wself.urlAsset];
+                }
             }
             
             //初始化AVPlayerItem
@@ -473,7 +481,7 @@
             [wself.playerItem addObserver:wself forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
             //切换当前AVPlayer播放器的视频源
             wself.player = [[AVPlayer alloc] initWithPlayerItem:wself.playerItem];
-            [wself.player addObserver:self forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:nil];
+            [wself.player addObserver:wself forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:nil];
             wself.playerLayer.player = wself.player;
             
             {

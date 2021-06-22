@@ -29,6 +29,8 @@
 //@property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
+@property (copy, nonatomic) NSString *videoUrl;
+
 @property (nonatomic, strong) UITapGestureRecognizer *singleTapGesture;
 
 @end
@@ -176,9 +178,11 @@
 }
 
 #pragma mark - set data
-- (void)setVideoUrl:(NSString *)videoUrl {
+- (void)setVideoUrl:(NSString *)videoUrl needCache:(BOOL)bNeedCache {
     _videoUrl = videoUrl;
-    self.playerView.videoUrl = videoUrl;
+//    self.playerView.videoUrl = videoUrl;
+    [self.playerView setVideoUrl:videoUrl needCache:bNeedCache];
+    
     self.pathTextView.text = videoUrl;
 
 #warning ImageCache

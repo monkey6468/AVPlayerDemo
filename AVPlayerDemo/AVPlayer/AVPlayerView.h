@@ -50,7 +50,7 @@
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;
 
 /// 设置播放路径
-@property (copy, nonatomic) NSString *videoUrl;
+- (void)setVideoUrl:(NSString *)videoUrl needCache:(BOOL)bNeedCache;
 
 /// 视频宽度
 @property (assign, nonatomic) CGFloat videoWidth;
