@@ -32,7 +32,7 @@
 @property (copy, nonatomic) NSString *videoUrl;
 
 @property (nonatomic, strong) UITapGestureRecognizer *singleTapGesture;
-
+@property (strong, nonatomic) ImageCache *imageCache;
 @end
 
 @implementation AwemeListCell
@@ -174,7 +174,11 @@
 }
 
 - (void)startDownloadHighPriorityTask {
+    
     [self.playerView startDownloadTask:[[NSURL alloc] initWithString:self.videoUrl] isBackground:NO];
+
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    [self.imageCache startDownloadTask:[[NSURL alloc] initWithString:imageUrl] isBackground:NO];    
 }
 
 #pragma mark - set data
@@ -187,8 +191,8 @@
 
 #warning ImageCache
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
-    ImageCache *imageCache = [[ImageCache alloc]init];
-//    imageCache.imageUrl = imageUrl;
+    self.imageCache = [[ImageCache alloc]init];
+    [self.imageCache setImageUrl:imageUrl needCache:bNeedCache];
 //    [imageCache startDownloadTask:[NSURL URLWithString:imageUrl] isBackground:NO];
 //    self.playerView.bNeedPreView = YES;
 //    self.playerView.preViewImageUrl = imageUrl;

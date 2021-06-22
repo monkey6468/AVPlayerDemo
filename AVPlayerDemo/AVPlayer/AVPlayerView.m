@@ -249,23 +249,25 @@
     return didRespondFully;
 }
 
+//
+#warning 实时的话会导致卡顿
 - (void)getVideoEsolutionWithAsset:(AVURLAsset *)urlAsset {
     NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
-    NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
-    if ([tracks count] > 0) {
-        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-        CGFloat width = videoTrack.naturalSize.width;
-        CGFloat height = videoTrack.naturalSize.height;
-        CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
-        if ([self isVideoPortrait:t] == NO) {
-            self.videoHeight = height;
-            self.videoWidth = width;
-        } else {
-            self.videoWidth = height;
-            self.videoHeight = width;
-        }
-        self.status = VideoPlayerStatusChangeEsolution;
-    }
+//    NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
+//    if ([tracks count] > 0) {
+//        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+//        CGFloat width = videoTrack.naturalSize.width;
+//        CGFloat height = videoTrack.naturalSize.height;
+//        CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+//        if ([self isVideoPortrait:t] == NO) {
+//            self.videoHeight = height;
+//            self.videoWidth = width;
+//        } else {
+//            self.videoWidth = height;
+//            self.videoHeight = width;
+//        }
+//        self.status = VideoPlayerStatusChangeEsolution;
+//    }
     NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
     NSLog(@"%s: %f",__func__, t1-t0);
 }

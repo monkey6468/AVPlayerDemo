@@ -13,8 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ImageCache : NSObject
 
 
-@property (copy, nonatomic) NSString *imageUrl;
-
+- (void)setImageUrl:(NSString *)imageUrl needCache:(BOOL)bNeedCache;
 - (void)startDownloadTask:(NSURL *)URL isBackground:(BOOL)isBackground;
 
 @end

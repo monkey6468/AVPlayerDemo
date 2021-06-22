@@ -170,7 +170,7 @@
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseOut animations:^{
             //UITableView滑动到指定cell
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         } completion:^(BOOL finished) {
             //UITableView可以响应其他滑动手势
             scrollView.panGestureRecognizer.enabled = YES;
