@@ -40,11 +40,11 @@
 @property (nonatomic, assign, readwrite) NSUInteger autoPlayCount;
 
 /// 是否需要预览图(耗时)
-@property (assign, nonatomic) BOOL bNeedPreView;
-/// 获取帧图片
-@property (strong, nonatomic, readonly) UIImage *preViewImage;
-/// 赋值帧图片
-@property (strong, nonatomic, readwrite) NSString *preViewImageUrl;
+//@property (assign, nonatomic) BOOL bNeedPreView;
+///// 获取帧图片
+//@property (strong, nonatomic, readonly) UIImage *preViewImage;
+///// 赋值帧图片
+//@property (strong, nonatomic, readwrite) NSString *preViewImageUrl;
 
 //播放进度、状态更新代理
 @property (weak, nonatomic) id<AVPlayerUpdateDelegate> delegate;

@@ -35,7 +35,7 @@
 @property (assign, nonatomic) BOOL retried;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)
 @property (nonatomic, assign) NSUInteger autoPlayCountTemp;
-@property (strong, nonatomic) UIImage *preViewImage;
+//@property (strong, nonatomic) UIImage *preViewImage;
 
 @property (copy, nonatomic) NSString *videoUrl;
 @end
@@ -524,42 +524,42 @@
     self.autoPlayCountTemp = autoPlayCount;
 }
 
-- (void)setPreViewImageUrl:(NSString * _Nonnull)preViewImageUrl {
-    _preViewImageUrl = preViewImageUrl;
-    
-    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:preViewImageUrl]]];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
-            {
-                NSLog(@"预览图片(URL)加载时间: %f", t1-t0);
-            }
-            CGFloat width = image.size.width;
-            CGFloat height = image.size.height;
-            self.videoWidth = width;
-            self.videoHeight = height;
-            
-            self.status = VideoPlayerStatusChangeEsolution;
-            self.preViewImage = image;
-        });
-    });
-}
-
-- (void)setPreViewImage:(UIImage *)preViewImage {
-    _preViewImage = preViewImage;
-    
-    self.videoHeight = preViewImage.size.height;
-    self.videoWidth = preViewImage.size.width;
-
-    if (self.videoHeight/self.videoWidth <= 4/3.0) {
-        self.renderMode = VideoRenderModeFillEdge;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
-    } else {
-        self.renderMode = VideoRenderModeFillScreen;
-        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
-    }
-    self.thumbImageView.image = preViewImage;
-    self.thumbImageView.frame = self.bounds;
-}
+//- (void)setPreViewImageUrl:(NSString * _Nonnull)preViewImageUrl {
+//    _preViewImageUrl = preViewImageUrl;
+//
+//    NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:preViewImageUrl]]];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
+//            {
+//                NSLog(@"预览图片(URL)加载时间: %f", t1-t0);
+//            }
+//            CGFloat width = image.size.width;
+//            CGFloat height = image.size.height;
+//            self.videoWidth = width;
+//            self.videoHeight = height;
+//
+//            self.status = VideoPlayerStatusChangeEsolution;
+//            self.preViewImage = image;
+//        });
+//    });
+//}
+//
+//- (void)setPreViewImage:(UIImage *)preViewImage {
+//    _preViewImage = preViewImage;
+//
+//    self.videoHeight = preViewImage.size.height;
+//    self.videoWidth = preViewImage.size.width;
+//
+//    if (self.videoHeight/self.videoWidth <= 4/3.0) {
+//        self.renderMode = VideoRenderModeFillEdge;
+//        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFit;
+//    } else {
+//        self.renderMode = VideoRenderModeFillScreen;
+//        self.thumbImageView.contentMode = UIViewContentModeScaleAspectFill;
+//    }
+//    self.thumbImageView.image = preViewImage;
+//    self.thumbImageView.frame = self.bounds;
+//}
 @end
