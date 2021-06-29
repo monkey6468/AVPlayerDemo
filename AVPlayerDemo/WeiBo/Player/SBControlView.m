@@ -20,7 +20,7 @@
 static NSInteger padding = 8;
 @implementation SBControlView
 //懒加载
--(UILabel *)timeLabel{
+- (UILabel *)timeLabel{
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc]init];
         _timeLabel.textAlignment = NSTextAlignmentRight;
@@ -29,7 +29,7 @@ static NSInteger padding = 8;
     }
     return _timeLabel;
 }
--(UILabel *)totalTimeLabel{
+- (UILabel *)totalTimeLabel{
     if (!_totalTimeLabel) {
         _totalTimeLabel = [[UILabel alloc]init];
         _totalTimeLabel.textAlignment = NSTextAlignmentLeft;
@@ -38,7 +38,7 @@ static NSInteger padding = 8;
     }
     return _totalTimeLabel;
 }
--(UISlider *)slider{
+- (UISlider *)slider{
     if (!_slider) {
         _slider = [[UISlider alloc]init];
         [_slider setThumbImage:[UIImage imageNamed:@"knob"] forState:UIControlStateNormal];
@@ -51,7 +51,7 @@ static NSInteger padding = 8;
     }
     return _slider;
 }
-//-(UIButton *)largeButton{
+//- (UIButton *)largeButton{
 //    if (!_largeButton) {
 //        _largeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        _largeButton.contentMode = UIViewContentModeScaleToFill;
@@ -60,7 +60,7 @@ static NSInteger padding = 8;
 //    }
 //    return _largeButton;
 //}
--(UISlider *)bufferSlier{
+- (UISlider *)bufferSlier{
     if (!_bufferSlier) {
         _bufferSlier = [[UISlider alloc]init];
         [_bufferSlier setThumbImage:[UIImage new] forState:UIControlStateNormal];
@@ -78,10 +78,8 @@ static NSInteger padding = 8;
     }
     return self;
 }
-- (void)drawRect:(CGRect)rect {
 
-}
--(void)setupUI{
+- (void)setupUI{
     [self addSubview:self.timeLabel];
 //    [self addSubview:self.bufferSlier];
 //    [self addSubview:self.slider];
@@ -94,11 +92,11 @@ static NSInteger padding = 8;
     [super layoutSubviews];
     [self addConstraintsForSubviews];
 }
--(void)deviceOrientationDidChange{
+- (void)deviceOrientationDidChange{
     //添加约束
     [self addConstraintsForSubviews];
 }
--(void)addConstraintsForSubviews{
+- (void)addConstraintsForSubviews{
     CGFloat heightTemp = 30;
     CGFloat widthTemp = 50;
     CGFloat height = self.frame.size.height;
@@ -106,44 +104,22 @@ static NSInteger padding = 8;
     self.timeLabel.frame = CGRectMake(0, (height-heightTemp)/2., widthTemp, heightTemp);
 
     self.totalTimeLabel.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., widthTemp, heightTemp);
-
-//    self.slider.frame = CGRectMake(CGRectGetMaxX(self.timeLabel.frame)+padding, CGRectGetMinX(self.totalTimeLabel.frame)-(CGRectGetMaxX(self.timeLabel.frame)+padding), heightTemp, height);
-
-//    [self.slider mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(self.timeLabel.mas_right).offset(padding);
-//        make.right.mas_equalTo(self.totalTimeLabel.mas_left).offset(-padding);
-//        if (kScreenWidth<kScreenHeight) {
-//            //后面的几个常数分别是各个控件的间隔和控件的宽度  添加自定义控件需在此修改参数
-//            make.width.mas_equalTo(kScreenWidth - padding - 50 - 50 - 30 - padding - padding);
-//        }
-//    }];
-//    [self.totalTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(self.slider.mas_right).offset(padding);
-//        make.right.mas_equalTo(self.largeButton.mas_left);
-//        make.bottom.mas_equalTo(self).offset(-padding);
-//        make.width.mas_equalTo(@50).priorityHigh();
-//    }];
-//    [self.largeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.right.mas_equalTo(self).offset(-padding);
-//        make.left.mas_equalTo(self.totalTimeLabel.mas_right);
-//        make.width.height.mas_equalTo(@30);
-//    }];
 //    [self.bufferSlier mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.edges.mas_equalTo(self.slider);
 //    }];
     [self layoutIfNeeded];
 }
--(void)hanleLargeBtn:(UIButton *)button{
+- (void)hanleLargeBtn:(UIButton *)button{
     if ([self.delegate respondsToSelector:@selector(controlView:withLargeButton:)]) {
         [self.delegate controlView:self withLargeButton:button];
     }
 }
--(void)handleSliderPosition:(UISlider *)slider{
+- (void)handleSliderPosition:(UISlider *)slider{
     if ([self.delegate respondsToSelector:@selector(controlView:draggedPositionWithSlider:)]) {
         [self.delegate controlView:self draggedPositionWithSlider:self.slider];
     }
 }
--(void)handleTap:(UITapGestureRecognizer *)gesture{
+- (void)handleTap:(UITapGestureRecognizer *)gesture{
     CGPoint point = [gesture locationInView:self.slider];
     CGFloat pointX = point.x;
     CGFloat sliderWidth = self.slider.frame.size.width;
@@ -154,40 +130,40 @@ static NSInteger padding = 8;
 }
 
 //setter 和 getter方法
--(void)setValue:(CGFloat)value{
+- (void)setValue:(CGFloat)value{
     self.slider.value = value;
 }
--(CGFloat)value{
+- (CGFloat)value{
     return self.slider.value;
 }
--(void)setMinValue:(CGFloat)minValue{
+- (void)setMinValue:(CGFloat)minValue{
     self.slider.minimumValue = minValue;
 }
--(CGFloat)minValue{
+- (CGFloat)minValue{
     return self.slider.minimumValue;
 }
--(void)setMaxValue:(CGFloat)maxValue{
+- (void)setMaxValue:(CGFloat)maxValue{
     self.slider.maximumValue = maxValue;
 }
--(CGFloat)maxValue{
+- (CGFloat)maxValue{
     return self.slider.maximumValue;
 }
--(void)setCurrentTime:(NSString *)currentTime{
+- (void)setCurrentTime:(NSString *)currentTime{
     self.timeLabel.text = currentTime;
 }
--(NSString *)currentTime{
+- (NSString *)currentTime{
     return self.timeLabel.text;
 }
--(void)setTotalTime:(NSString *)totalTime{
+- (void)setTotalTime:(NSString *)totalTime{
     self.totalTimeLabel.text = totalTime;
 }
--(NSString *)totalTime{
+- (NSString *)totalTime{
     return self.totalTimeLabel.text;
 }
--(CGFloat)bufferValue{
+- (CGFloat)bufferValue{
     return self.bufferSlier.value;
 }
--(void)setBufferValue:(CGFloat)bufferValue{
+- (void)setBufferValue:(CGFloat)bufferValue{
     self.bufferSlier.value = bufferValue;
 }
 @end

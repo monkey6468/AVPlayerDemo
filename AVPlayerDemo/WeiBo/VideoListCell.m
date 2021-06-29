@@ -39,7 +39,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-//    self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
+    //    self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
 }
 
 - (IBAction)playButtonClick:(UIButton *)sender {
