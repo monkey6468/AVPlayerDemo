@@ -57,19 +57,11 @@
                         <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HgY-u8-oWJ">
-                        <rect key="frame" x="0.0" y="200" width="320" height="129"/>
-                        <color key="backgroundColor" systemColor="darkTextColor"/>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="7tC-hY-KV8" secondAttribute="trailing" id="Fuq-bL-etu"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Nuf-pd-9Zk"/>
-                    <constraint firstAttribute="trailing" secondItem="HgY-u8-oWJ" secondAttribute="trailing" id="OI6-8U-1Oy"/>
-                    <constraint firstAttribute="bottom" secondItem="HgY-u8-oWJ" secondAttribute="bottom" id="cAX-rR-7n6"/>
-                    <constraint firstItem="HgY-u8-oWJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="efn-qe-kfZ"/>
-                    <constraint firstItem="HgY-u8-oWJ" firstAttribute="top" secondItem="7tC-hY-KV8" secondAttribute="bottom" id="h3t-4R-sIX"/>
                     <constraint firstItem="pcj-wo-foX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hXS-aS-qVq"/>
                     <constraint firstAttribute="trailing" secondItem="pcj-wo-foX" secondAttribute="trailing" id="i8i-wL-Scx"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ifv-oa-iEK"/>
@@ -78,7 +70,6 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="bottomBlackView" destination="HgY-u8-oWJ" id="SOK-Ur-RqG"/>
                 <outlet property="contentLabel" destination="pcj-wo-foX" id="19t-8m-9k4"/>
                 <outlet property="playButton" destination="ebN-zs-asp" id="gxS-oF-dJi"/>
                 <outlet property="topblackView" destination="wBL-4u-SUL" id="5mt-t8-fyx"/>

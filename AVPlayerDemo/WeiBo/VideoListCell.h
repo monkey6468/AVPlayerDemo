@@ -8,18 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "SBPlayer.h"
+
 @class VideoListCell;
-@protocol ScrollPlayVideoCellDelegate<NSObject>
--(void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
+@protocol VideoListCellDelegate<NSObject>
+- (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 - (void)playButtonClick:(UIButton *)sender;
 @end
+
 @interface VideoListCell : UITableViewCell
 @property (nonatomic,strong) SBPlayer *player;
 @property (weak, nonatomic) IBOutlet UIView *topblackView;
-@property (weak, nonatomic) IBOutlet UIView *bottomBlackView;
 
 @property (weak, nonatomic) IBOutlet UIView *videoFirstImageView;
-@property (nonatomic,weak) id<ScrollPlayVideoCellDelegate> delegate;
+@property (nonatomic,weak) id<VideoListCellDelegate> delegate;
 - (void)shouldToPlay;
 @property (nonatomic,assign) NSInteger row;
 

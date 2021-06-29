@@ -10,7 +10,7 @@
 
 #import "VideoListCell.h"
 
-@interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, ScrollPlayVideoCellDelegate>
+@interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
 @property (copy, nonatomic) NSArray *dataArray;
 
@@ -65,11 +65,6 @@
     cell.topblackView.hidden = YES;
 }
 #pragma mark - ScrollPlayVideoCellDelegate
-- (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
-{
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
-    cell.bottomBlackView.hidden = !isHide;
-}
 - (void)playButtonClick:(UIButton *)sender
 {
     NSInteger row = sender.tag-788;
