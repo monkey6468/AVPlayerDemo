@@ -17,8 +17,8 @@
 		A633387E268B084C004F9BAF /* SBPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6333868268B084B004F9BAF /* SBPlayer.m */; };
 		A633387F268B084C004F9BAF /* SBControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6333869268B084B004F9BAF /* SBControlView.m */; };
 		A6333880268B084C004F9BAF /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386B268B084B004F9BAF /* VideoListViewController.m */; };
-		A6333881268B084C004F9BAF /* ScrollPlayVideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A633386E268B084B004F9BAF /* ScrollPlayVideoCell.xib */; };
-		A6333882268B084C004F9BAF /* ScrollPlayVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386F268B084B004F9BAF /* ScrollPlayVideoCell.m */; };
+		A6333881268B084C004F9BAF /* VideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A633386E268B084B004F9BAF /* VideoListCell.xib */; };
+		A6333882268B084C004F9BAF /* VideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386F268B084B004F9BAF /* VideoListCell.m */; };
 		A652B0A22669DC830019F2C8 /* VideoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0A02669DC830019F2C8 /* VideoPageViewController.m */; };
 		A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */; };
 		A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */; };
@@ -128,9 +128,9 @@
 		A6333869268B084B004F9BAF /* SBControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBControlView.m; sourceTree = "<group>"; };
 		A633386B268B084B004F9BAF /* VideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoListViewController.m; sourceTree = "<group>"; };
 		A633386C268B084B004F9BAF /* VideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoListViewController.h; sourceTree = "<group>"; };
-		A633386E268B084B004F9BAF /* ScrollPlayVideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScrollPlayVideoCell.xib; sourceTree = "<group>"; };
-		A633386F268B084B004F9BAF /* ScrollPlayVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollPlayVideoCell.m; sourceTree = "<group>"; };
-		A6333871268B084B004F9BAF /* ScrollPlayVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollPlayVideoCell.h; sourceTree = "<group>"; };
+		A633386E268B084B004F9BAF /* VideoListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoListCell.xib; sourceTree = "<group>"; };
+		A633386F268B084B004F9BAF /* VideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoListCell.m; sourceTree = "<group>"; };
+		A6333871268B084B004F9BAF /* VideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoListCell.h; sourceTree = "<group>"; };
 		A652B09F2669DC830019F2C8 /* VideoPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPageViewController.h; sourceTree = "<group>"; };
 		A652B0A02669DC830019F2C8 /* VideoPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPageViewController.m; sourceTree = "<group>"; };
 		A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoPageViewController.xib; sourceTree = "<group>"; };
@@ -363,9 +363,9 @@
 		A633386D268B084B004F9BAF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A6333871268B084B004F9BAF /* ScrollPlayVideoCell.h */,
-				A633386F268B084B004F9BAF /* ScrollPlayVideoCell.m */,
-				A633386E268B084B004F9BAF /* ScrollPlayVideoCell.xib */,
+				A6333871268B084B004F9BAF /* VideoListCell.h */,
+				A633386F268B084B004F9BAF /* VideoListCell.m */,
+				A633386E268B084B004F9BAF /* VideoListCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -747,7 +747,7 @@
 				A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */,
 				A6333879268B084C004F9BAF /* 播放按钮@2x.png in Resources */,
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
-				A6333881268B084C004F9BAF /* ScrollPlayVideoCell.xib in Resources */,
+				A6333881268B084C004F9BAF /* VideoListCell.xib in Resources */,
 				A633387B268B084C004F9BAF /* 播放按钮@3x.png in Resources */,
 				A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */,
 				A633387A268B084C004F9BAF /* 播放按钮.png in Resources */,
@@ -765,7 +765,7 @@
 			files = (
 				A6714F332681CCDF00AE7026 /* SDAnimatedImageRep.m in Sources */,
 				A6714F3A2681CCDF00AE7026 /* SDImageLoadersManager.m in Sources */,
-				A6333882268B084C004F9BAF /* ScrollPlayVideoCell.m in Sources */,
+				A6333882268B084C004F9BAF /* VideoListCell.m in Sources */,
 				A6566A43267B48F300CA65BF /* CacheHelpler.m in Sources */,
 				A6714F252681CCDF00AE7026 /* SDGraphicsImageRenderer.m in Sources */,
 				A6714F1D2681CCDF00AE7026 /* UIImage+ForceDecode.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import "VideoListViewController.h"
 
-#import "ScrollPlayVideoCell.h"
+#import "VideoListCell.h"
 
 @interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, ScrollPlayVideoCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
@@ -37,7 +37,7 @@
 #pragma mark - Private Methods
 - (void)willRemoveSubview:(UIView *)subview
 {
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell.player stop];
     cell.player = nil;
     self.lastOrCurrentPlayIndex = -1;
@@ -54,12 +54,12 @@
 
 - (void)setUI
 {
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(ScrollPlayVideoCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(ScrollPlayVideoCell.class)];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(VideoListCell.class)];
 }
 
 - (void)setStartTimeValue:(CGFloat)startTimeValue
 {
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
     [cell.player setPlayerTimeValueTo:startTimeValue];
     cell.topblackView.hidden = YES;
@@ -67,7 +67,7 @@
 #pragma mark - ScrollPlayVideoCellDelegate
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
 {
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     cell.bottomBlackView.hidden = !isHide;
 }
 - (void)playButtonClick:(UIButton *)sender
@@ -88,7 +88,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ScrollPlayVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(ScrollPlayVideoCell.class)];
+    VideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(VideoListCell.class)];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.row = indexPath.row;
@@ -133,7 +133,7 @@
 - (void)filterShouldLightCellWithScrollDirection:(BOOL)isScrollDownward
 {
     
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentLightIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentLightIndex inSection:0]];
     cell.topblackView.hidden = NO;
     //顶部
     if (self.tableView.contentOffset.y<=0) {
@@ -156,7 +156,7 @@
     }else{
         newArray = cellsArray;
     }
-    [newArray enumerateObjectsUsingBlock:^(ScrollPlayVideoCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
+    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
         NSLog(@"%ld",(long)cell.row);
         
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
@@ -176,7 +176,7 @@
 - (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex
 {
     
-    ScrollPlayVideoCell *cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldLIghtIndex inSection:0]];
+    VideoListCell *cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldLIghtIndex inSection:0]];
     cell2.topblackView.hidden = YES;
 }
 #pragma mark - 播放暂停
@@ -224,7 +224,7 @@
     }else{
         newArray = cellsArray;
     }
-    [newArray enumerateObjectsUsingBlock:^(ScrollPlayVideoCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
+    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
         NSLog(@"%ld",(long)cell.row);
 
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
@@ -248,7 +248,7 @@
         return;
     }
     if (self.lastOrCurrentPlayIndex!=-1) {
-        ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+        VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
@@ -262,13 +262,13 @@
 }
 - (void)playVideoWithShouldToPlayIndex:(NSInteger)shouldToPlayIndex
 {
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToPlayIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToPlayIndex inSection:0]];
     [cell shouldToPlay];
     self.lastOrCurrentPlayIndex = cell.row;
 }
 - (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex
 {
-    ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
     cell.topblackView.hidden = NO;
     [cell.player stop];
     cell.player = nil;

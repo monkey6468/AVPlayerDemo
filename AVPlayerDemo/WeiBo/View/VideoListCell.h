@@ -1,5 +1,5 @@
 //
-//  ScrollPlayVideoCell.h
+//  VideoListCell.h
 //  ScrollPlayVideo
 //
 //  Created by 郑旭 on 2017/10/23.
@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SBPlayer.h"
-@class ScrollPlayVideoCell;
+@class VideoListCell;
 @protocol ScrollPlayVideoCellDelegate<NSObject>
 -(void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 - (void)playButtonClick:(UIButton *)sender;
 @end
-@interface ScrollPlayVideoCell : UITableViewCell
+@interface VideoListCell : UITableViewCell
 @property (nonatomic,strong) SBPlayer  *player;
 @property (weak, nonatomic) IBOutlet UIView *topblackView;
 @property (weak, nonatomic) IBOutlet UIView *bottomBlackView;

@@ -1,20 +1,20 @@
 //
-//  ScrollPlayVideoCell.m
+//  VideoListCell.m
 //  ScrollPlayVideo
 //
 //  Created by 郑旭 on 2017/10/23.
 //  Copyright © 2017年 郑旭. All rights reserved.
 //
 
-#import "ScrollPlayVideoCell.h"
+#import "VideoListCell.h"
 
-@interface ScrollPlayVideoCell()<SBPlayerDelegate>
+@interface VideoListCell()<SBPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *videoBackView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 
 @end
-@implementation ScrollPlayVideoCell
+@implementation VideoListCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
