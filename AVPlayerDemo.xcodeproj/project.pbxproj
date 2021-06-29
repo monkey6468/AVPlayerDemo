@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A633384C268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */; };
-		A6333874268B084C004F9BAF /* ScrollPlayVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6333859268B084B004F9BAF /* ScrollPlayVideoModel.m */; };
 		A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */; };
 		A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385F268B084B004F9BAF /* 播放按钮 暂停.png */; };
 		A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */; };
@@ -117,8 +116,6 @@
 
 /* Begin PBXFileReference section */
 		A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = designedByAppleInCalifornia.mp4; sourceTree = "<group>"; };
-		A6333858268B084B004F9BAF /* ScrollPlayVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollPlayVideoModel.h; sourceTree = "<group>"; };
-		A6333859268B084B004F9BAF /* ScrollPlayVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollPlayVideoModel.m; sourceTree = "<group>"; };
 		A633385B268B084B004F9BAF /* SBPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPlayer.h; sourceTree = "<group>"; };
 		A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@2x.png"; sourceTree = "<group>"; };
 		A633385F268B084B004F9BAF /* 播放按钮 暂停.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停.png"; sourceTree = "<group>"; };
@@ -329,15 +326,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A6333857268B084B004F9BAF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				A6333858268B084B004F9BAF /* ScrollPlayVideoModel.h */,
-				A6333859268B084B004F9BAF /* ScrollPlayVideoModel.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		A633385A268B084B004F9BAF /* Player */ = {
 			isa = PBXGroup;
 			children = (
@@ -466,7 +454,6 @@
 		A66ECE36268AC60300C10BBB /* WeiBo */ = {
 			isa = PBXGroup;
 			children = (
-				A6333857268B084B004F9BAF /* Model */,
 				A633385A268B084B004F9BAF /* Player */,
 				A633386A268B084B004F9BAF /* VC */,
 				A633386D268B084B004F9BAF /* View */,
@@ -828,7 +815,6 @@
 				A6714F1C2681CCDF00AE7026 /* SDAnimatedImageView.m in Sources */,
 				A633387F268B084C004F9BAF /* SBControlView.m in Sources */,
 				A6714F192681CCDF00AE7026 /* SDImageIOAnimatedCoder.m in Sources */,
-				A6333874268B084C004F9BAF /* ScrollPlayVideoModel.m in Sources */,
 				A6714F162681CCDF00AE7026 /* SDWebImageOperation.m in Sources */,
 				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,
 				A633387E268B084C004F9BAF /* SBPlayer.m in Sources */,

@@ -104,14 +104,6 @@ static NSInteger padding = 8;
     CGFloat height = self.frame.size.height;
     CGFloat width = self.frame.size.width;
     self.timeLabel.frame = CGRectMake(0, (height-heightTemp)/2., widthTemp, heightTemp);
-//    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(self);
-//        make.bottom.mas_equalTo(self).offset(-padding);
-//        make.right.mas_equalTo(self.slider).offset(-padding).priorityLow();
-//        make.width.mas_equalTo(@50);
-//        make.centerY.mas_equalTo(@[self.timeLabel,self.slider,self.totalTimeLabel,self.largeButton]);
-//    }];
-//    self.largeButton.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., heightTemp, heightTemp);
 
     self.totalTimeLabel.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., widthTemp, heightTemp);
 

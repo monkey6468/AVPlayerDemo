@@ -10,6 +10,7 @@
 
 @interface VideoListViewController : UIViewController
 
+@property (copy, nonatomic) NSArray *urlsArray;
 
 @end
 

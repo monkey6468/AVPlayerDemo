@@ -10,13 +10,9 @@
 
 #import "ScrollPlayVideoCell.h"
 
-#import "ScrollPlayVideoModel.h"
-
-static NSString *cellIdentify = @"ScrollPlayVideoCell";
-
 @interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, ScrollPlayVideoCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
-@property (nonatomic,strong) NSMutableArray *dataArray;
+@property (copy, nonatomic) NSArray *dataArray;
 
 @property (nonatomic,assign) NSInteger lastOrCurrentPlayIndex;
 @property (nonatomic,assign) NSInteger lastOrCurrentLightIndex;
@@ -53,19 +49,14 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 }
 - (void)creatData
 {
-    for (int i = 0; i<9; i++) {
-        
-        ScrollPlayVideoModel *model = [[ScrollPlayVideoModel alloc] init];
-        model.isShouldToPlay = NO;
-        [self.dataArray addObject:model];
-    }
+    self.dataArray = self.urlsArray;
 }
 
 - (void)setUI
 {
-    [self.tableView registerNib:[UINib nibWithNibName:cellIdentify bundle:nil] forCellReuseIdentifier:cellIdentify];
-    
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(ScrollPlayVideoCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(ScrollPlayVideoCell.class)];
 }
+
 - (void)setStartTimeValue:(CGFloat)startTimeValue
 {
     ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
@@ -97,7 +88,7 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ScrollPlayVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentify];
+    ScrollPlayVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(ScrollPlayVideoCell.class)];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.row = indexPath.row;
@@ -287,7 +278,7 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.sectionFooterHeight = 1;
@@ -297,11 +288,5 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
     }
     return _tableView;
 }
-- (NSMutableArray *)dataArray
-{
-    if (!_dataArray) {
-        _dataArray = [NSMutableArray array];
-    }
-    return _dataArray;
-}
+
 @end

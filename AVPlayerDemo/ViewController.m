@@ -46,7 +46,7 @@
 
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {
     VideoListViewController *vc = [[VideoListViewController alloc]init];
-//    vc.urlsArray = [Utility getUrls];
+    vc.urlsArray = [Utility getUrls];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
