@@ -343,26 +343,24 @@ static NSInteger count = 0;
         result = window.rootViewController;
     return result;
 }
-//- (void)drawRect:(CGRect)rect {
-//    [self setupPlayerUI];
-//}
+
 //MARK: 设置界面 在此方法下面可以添加自定义视图，和删除视图
 -(void)setupPlayerUI{
     [self setSubViewsIsHide:YES];
     self.activityIndeView.hidden = NO;
     [self.activityIndeView startAnimating];
     //添加标题
-    [self addTitle];
+    [self addSubview:self.titleLabel];
     //添加点击事件
     [self addGestureEvent];
     //添加控制视图
     [self addControlView];
     //添加加载视图
-    [self addLoadingView];
+    [self addSubview:self.activityIndeView];
     //初始化时间
     [self initTimeLabels];
     //播放暂停
-    [self addPlayOrPauseButton];
+    [self addSubview:self.playOrPauseButton];
     self.playOrPauseButton.hidden = YES;
     self.isFirstPrepareToPlay = YES;
 }
@@ -377,37 +375,13 @@ static NSInteger count = 0;
     self.playOrPauseButton.center = self.center;
     self.playOrPauseButton.bounds = CGRectMake(0, 0, 70, 70);
 }
-- (void )addPlayOrPauseButton
-{
-    [self addSubview:self.playOrPauseButton];
-//    [self.playOrPauseButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.center.mas_equalTo(self);
-//        make.width.height.mas_equalTo(70);
-//    }];
-}
+
 //初始化时间
 -(void)initTimeLabels{
     self.controlView.currentTime = @"00:00";
     self.controlView.totalTime = @"00:00";
 }
-//添加加载视图
--(void)addLoadingView{
-    [self addSubview:self.activityIndeView];
 
-//    [self.activityIndeView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.width.height.mas_equalTo(@80);
-//        make.center.mas_equalTo(self);
-//    }];
-}
-//添加标题
--(void)addTitle{
-    [self addSubview:self.titleLabel];
-//    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.mas_equalTo(self);
-//        make.top.mas_equalTo(self).offset(12);
-//        make.width.mas_equalTo(self.mas_width);
-//    }];
-}
 //添加点击事件
 -(void)addGestureEvent{
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapAction:)];
@@ -436,8 +410,8 @@ static NSInteger count = 0;
             }
         }
     }
-   
 }
+
 - (void)playOrPauseButtonClick:(UIButton *)button
 {
     if (self.activityIndeView.isAnimating) {
@@ -454,8 +428,6 @@ static NSInteger count = 0;
 -(void)addControlView{
 
     [self addSubview:self.controlView];
-   
-
 //    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.right.bottom.mas_equalTo(self);
 //        make.height.mas_equalTo(@44);
@@ -519,7 +491,7 @@ static NSInteger count = 0;
 }
 -(void)controlView:(SBControlView *)controlView withLargeButton:(UIButton *)button{
     count = 0;
-    if (kScreenWidth<kScreenHeight) {
+    if ([UIScreen mainScreen].bounds.size.width < [UIScreen mainScreen].bounds.size.height) {
         [self interfaceOrientation:UIInterfaceOrientationLandscapeRight];
     }else{
         [self interfaceOrientation:UIInterfaceOrientationPortrait];
@@ -552,7 +524,7 @@ static NSInteger count = 0;
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
-        int val                  = orientation;
+        int val = orientation;
         
         [invocation setArgument:&val atIndex:2];
         [invocation invoke];

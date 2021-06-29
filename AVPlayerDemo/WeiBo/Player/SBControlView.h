@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SBCommonHeader.h"
+
 @class SBControlView;
 @protocol SBControlViewDelegate <NSObject>
 @required

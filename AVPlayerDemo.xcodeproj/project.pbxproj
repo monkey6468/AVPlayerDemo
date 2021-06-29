@@ -123,7 +123,6 @@
 		A6333858268B084B004F9BAF /* ScrollPlayVideoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollPlayVideoModel.h; sourceTree = "<group>"; };
 		A6333859268B084B004F9BAF /* ScrollPlayVideoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollPlayVideoModel.m; sourceTree = "<group>"; };
 		A633385B268B084B004F9BAF /* SBPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBPlayer.h; sourceTree = "<group>"; };
-		A633385C268B084B004F9BAF /* SBCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBCommonHeader.h; sourceTree = "<group>"; };
 		A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@2x.png"; sourceTree = "<group>"; };
 		A633385F268B084B004F9BAF /* 播放按钮 暂停.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停.png"; sourceTree = "<group>"; };
 		A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@3x.png"; sourceTree = "<group>"; };
@@ -349,10 +348,9 @@
 			isa = PBXGroup;
 			children = (
 				A633385B268B084B004F9BAF /* SBPlayer.h */,
-				A633385C268B084B004F9BAF /* SBCommonHeader.h */,
+				A6333868268B084B004F9BAF /* SBPlayer.m */,
 				A633385D268B084B004F9BAF /* Source */,
 				A6333867268B084B004F9BAF /* SBControlView.h */,
-				A6333868268B084B004F9BAF /* SBPlayer.m */,
 				A6333869268B084B004F9BAF /* SBControlView.m */,
 			);
 			path = Player;
