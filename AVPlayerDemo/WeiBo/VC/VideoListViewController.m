@@ -105,7 +105,7 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 300;
+    return 329;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

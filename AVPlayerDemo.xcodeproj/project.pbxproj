@@ -375,9 +375,9 @@
 		A633386D268B084B004F9BAF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A633386E268B084B004F9BAF /* ScrollPlayVideoCell.xib */,
-				A633386F268B084B004F9BAF /* ScrollPlayVideoCell.m */,
 				A6333871268B084B004F9BAF /* ScrollPlayVideoCell.h */,
+				A633386F268B084B004F9BAF /* ScrollPlayVideoCell.m */,
+				A633386E268B084B004F9BAF /* ScrollPlayVideoCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";

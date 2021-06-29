@@ -12,11 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIView *videoBackView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UIButton *headImageButton;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIButton *commentButton;
-@property (weak, nonatomic) IBOutlet UIButton *likeButton;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 
 @end
 @implementation ScrollPlayVideoCell
@@ -29,8 +24,6 @@
 - (void)setUI
 {
     self.videoBackView.userInteractionEnabled = YES;
-    [self.likeButton setImage:[UIImage imageNamed:@"ICON点赞"] forState:UIControlStateNormal];
-    [self.likeButton setImage:[UIImage imageNamed:@"ICON已点赞"] forState:UIControlStateSelected];
 }
 - (void)addSubviews
 {
