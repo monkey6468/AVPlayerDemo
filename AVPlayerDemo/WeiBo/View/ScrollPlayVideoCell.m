@@ -62,25 +62,7 @@
     }
     return _player;
 }
-- (IBAction)headImageButtonClick:(id)sender {
-}
-- (IBAction)commentButtonClick:(id)sender {
-}
-- (IBAction)likeButtonClick:(UIButton *)sender {
-    
-    [sender setSelected:!sender.isSelected];
-    NSInteger likeCount = [sender.titleLabel.text integerValue];
-    if (sender.isSelected) {
-        likeCount += 1;
-    }else
-    {
-        likeCount -= 1;
-    }
-    [sender setTitle:[NSString stringWithFormat:@"%ld",likeCount] forState:UIControlStateNormal];
-    
-}
-- (IBAction)shareButtonClike:(id)sender {
-}
+
 #pragma mark - SBPlayerDelegate
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
 {
