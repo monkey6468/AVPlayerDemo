@@ -351,25 +351,6 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		A633386A268B084B004F9BAF /* VC */ = {
-			isa = PBXGroup;
-			children = (
-				A633386C268B084B004F9BAF /* VideoListViewController.h */,
-				A633386B268B084B004F9BAF /* VideoListViewController.m */,
-			);
-			path = VC;
-			sourceTree = "<group>";
-		};
-		A633386D268B084B004F9BAF /* View */ = {
-			isa = PBXGroup;
-			children = (
-				A6333871268B084B004F9BAF /* VideoListCell.h */,
-				A633386F268B084B004F9BAF /* VideoListCell.m */,
-				A633386E268B084B004F9BAF /* VideoListCell.xib */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
 		A652B0932669D7EF0019F2C8 /* PlayerViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,9 +435,12 @@
 		A66ECE36268AC60300C10BBB /* WeiBo */ = {
 			isa = PBXGroup;
 			children = (
+				A633386C268B084B004F9BAF /* VideoListViewController.h */,
+				A633386B268B084B004F9BAF /* VideoListViewController.m */,
+				A6333871268B084B004F9BAF /* VideoListCell.h */,
+				A633386F268B084B004F9BAF /* VideoListCell.m */,
+				A633386E268B084B004F9BAF /* VideoListCell.xib */,
 				A633385A268B084B004F9BAF /* Player */,
-				A633386A268B084B004F9BAF /* VC */,
-				A633386D268B084B004F9BAF /* View */,
 			);
 			path = WeiBo;
 			sourceTree = "<group>";

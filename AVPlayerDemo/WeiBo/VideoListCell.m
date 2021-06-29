@@ -53,7 +53,7 @@
 - (SBPlayer *)player
 {
     if (!_player) {
-        _player = [[SBPlayer alloc] initWithUrl:[NSURL URLWithString:@"https://video.cnhnb.com/video/mp4/miniapp/2021/03/20/8664f5edc73e4d6891caeb4aa14ee337.mp4"]];
+        _player = [[SBPlayer alloc] initWithUrl:[NSURL URLWithString:self.videoUrl]];
         _player.playerSuperView  = self.videoBackView;
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];

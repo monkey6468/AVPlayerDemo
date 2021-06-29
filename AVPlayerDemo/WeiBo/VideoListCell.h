@@ -14,7 +14,7 @@
 - (void)playButtonClick:(UIButton *)sender;
 @end
 @interface VideoListCell : UITableViewCell
-@property (nonatomic,strong) SBPlayer  *player;
+@property (nonatomic,strong) SBPlayer *player;
 @property (weak, nonatomic) IBOutlet UIView *topblackView;
 @property (weak, nonatomic) IBOutlet UIView *bottomBlackView;
 
@@ -22,4 +22,7 @@
 @property (nonatomic,weak) id<ScrollPlayVideoCellDelegate> delegate;
 - (void)shouldToPlay;
 @property (nonatomic,assign) NSInteger row;
+
+@property (copy, nonatomic) NSString *videoUrl;
+
 @end
