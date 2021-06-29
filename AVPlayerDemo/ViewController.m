@@ -8,7 +8,7 @@
 #import "ViewController.h"
 #import "PlayerViewController.h"
 #import "VideoPageViewController.h"
-#import "JPVideoPlayerWeiBoListViewController.h"
+#import "ListViewController.h"
 #import "AwemeListController.h"
 
 #import "Utility.h"
@@ -44,9 +44,8 @@
 }
 
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {
-    JPVideoPlayerWeiBoListViewController *vc = [[JPVideoPlayerWeiBoListViewController alloc] initWithPlayStrategyType:JPScrollPlayStrategyTypeBestVideoView];
+    ListViewController *vc = [[ListViewController alloc]init];
 //    vc.urlsArray = [Utility getUrls];
-//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
