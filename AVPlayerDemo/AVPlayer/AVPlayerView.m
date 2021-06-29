@@ -10,6 +10,7 @@
 #import "CacheHelpler.h"
 #import "AVPlayerManager.h"
 #import <CoreServices/UTType.h>
+#import "Utility.h"
 
 @interface AVPlayerView () <NSURLSessionTaskDelegate, NSURLSessionDataDelegate, AVAssetResourceLoaderDelegate>
 @property (nonatomic, strong) UIImageView *thumbImageView;
@@ -128,6 +129,7 @@
     self.queryCacheOperation = [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:self.cacheFileKey cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (hasCache) {
+                NSLog(@"xwh: hasCache");
                 return;
             }
             
@@ -253,25 +255,75 @@
 #warning 实时的话会导致卡顿
 - (void)getVideoEsolutionWithAsset:(AVURLAsset *)urlAsset {
     NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
-//    NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
-//    if ([tracks count] > 0) {
-//        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-//        CGFloat width = videoTrack.naturalSize.width;
-//        CGFloat height = videoTrack.naturalSize.height;
-//        CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
-//        if ([self isVideoPortrait:t] == NO) {
-//            self.videoHeight = height;
-//            self.videoWidth = width;
-//        } else {
-//            self.videoWidth = height;
-//            self.videoHeight = width;
-//        }
-//        self.status = VideoPlayerStatusChangeEsolution;
-//    }
+    // 尝试从缓存读取图片设置视频分辨率
+    // key
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    NSString *imageKey = imageUrl;
+    [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:imageKey
+    cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+        if (hasCache) {
+            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL fileURLWithPath:data]]];
+            CGFloat width = image.size.width;
+            CGFloat height = image.size.height;
+            self.videoHeight = height;
+            self.videoWidth = width;
+
+            self.status = VideoPlayerStatusChangeEsolution;
+        } else {
+            NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
+            if ([tracks count] > 0) {
+                AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+                CGFloat width = videoTrack.naturalSize.width;
+                CGFloat height = videoTrack.naturalSize.height;
+                CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+                if ([self isVideoPortrait:t] == NO) {
+                    self.videoHeight = height;
+                    self.videoWidth = width;
+                } else {
+                    self.videoWidth = height;
+                    self.videoHeight = width;
+                }
+                self.status = VideoPlayerStatusChangeEsolution;
+            }
+        }
+    } extension:@"jpg"];
+    NSArray *tracks = [urlAsset tracksWithMediaType:AVMediaTypeVideo];
+    if ([tracks count] > 0) {
+        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        CGFloat width = videoTrack.naturalSize.width;
+        CGFloat height = videoTrack.naturalSize.height;
+        CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
+        if ([self isVideoPortrait:t] == NO) {
+            self.videoHeight = height;
+            self.videoWidth = width;
+        } else {
+            self.videoWidth = height;
+            self.videoHeight = width;
+        }
+        self.status = VideoPlayerStatusChangeEsolution;
+    }
     NSTimeInterval t1 = CFAbsoluteTimeGetCurrent();
     NSLog(@"%s: %f",__func__, t1-t0);
 }
 
+- (void)getImageFromDisk:(void(^)(BOOL hasCache))block {
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    NSString *imageKey = imageUrl;
+    [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:imageKey
+    cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
+        if (hasCache) {
+            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL fileURLWithPath:data]]];
+            CGFloat width = image.size.width;
+            CGFloat height = image.size.height;
+            self.videoHeight = height;
+            self.videoWidth = width;
+
+            self.status = VideoPlayerStatusChangeEsolution;
+        } else {
+            
+        }
+    } extension:@"jpg"];
+}
 - (NSURL *)getSchemeResourceLoaderWithURL:(NSURL *)url scheme:(NSString *)scheme {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:url resolvingAgainstBaseURL:NO];
     components.scheme = scheme;

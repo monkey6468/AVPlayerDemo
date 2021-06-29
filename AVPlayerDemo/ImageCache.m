@@ -32,9 +32,9 @@
 
 - (void)downloadImageUrl:(NSString *)imageUrl completion:(void(^)(void))completionBlock {
     SDWebImageDownloader *manager = [SDWebImageDownloader sharedDownloader];
-   self.downlaodToken = [manager downloadImageWithURL:[NSURL URLWithString:imageUrl]
-                          options:SDWebImageDownloaderUseNSURLCache|SDWebImageDownloaderScaleDownLargeImages
-                         progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+    self.downlaodToken = [manager downloadImageWithURL:[NSURL URLWithString:imageUrl]
+                                               options:SDWebImageDownloaderUseNSURLCache|SDWebImageDownloaderScaleDownLargeImages
+                                              progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         
     } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
         if(finished){
@@ -73,9 +73,9 @@
                 } else {
                     // 硬核下载
                     [self downloadImageUrl:imageUrl completion:^{
-                            //下载完毕，将缓存数据保存到本地
-                            [[CacheHelpler sharedWebCache] storeDataToDiskCache:data key:self.cacheFileKey extension:@"jpg"];
-                        }];
+                        //下载完毕，将缓存数据保存到本地
+                        [[CacheHelpler sharedWebCache] storeDataToDiskCache:data key:self.cacheFileKey extension:@"jpg"];
+                    }];
                 }
             }
         });
