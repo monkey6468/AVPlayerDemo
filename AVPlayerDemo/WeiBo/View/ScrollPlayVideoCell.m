@@ -18,29 +18,30 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self addSubviews];
     [self setUI];
 }
 - (void)setUI
 {
     self.videoBackView.userInteractionEnabled = YES;
 }
-- (void)addSubviews
-{
-    
-}
+
 - (void)shouldToPlay
 {
     [self.videoBackView addSubview:self.player];
+    [self layoutIfNeeded];
     self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
-//    [self.player mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.left.right.bottom.mas_equalTo(self.videoBackView);
-//    }];
 }
+
 - (void)shouldToStop
 {
     [self.player stop];
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+//    self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
+}
+
 - (IBAction)playButtonClick:(UIButton *)sender {
     [sender setSelected:!sender.isSelected];
     if ([self.delegate respondsToSelector:@selector(playButtonClick:)]) {
