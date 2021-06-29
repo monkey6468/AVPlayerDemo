@@ -38,7 +38,7 @@
 @interface SBControlView : UIView
 
 //全屏按钮
-@property (nonatomic,strong) UIButton *largeButton;
+//@property (nonatomic,strong) UIButton *largeButton;
 //进度条当前值
 @property (nonatomic,assign) CGFloat value;
 //最小值

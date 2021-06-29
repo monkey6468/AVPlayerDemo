@@ -51,15 +51,15 @@ static NSInteger padding = 8;
     }
     return _slider;
 }
--(UIButton *)largeButton{
-    if (!_largeButton) {
-        _largeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _largeButton.contentMode = UIViewContentModeScaleToFill;
-        [_largeButton setImage:[UIImage imageNamed:@"full_screen"] forState:UIControlStateNormal];
-        [_largeButton addTarget:self action:@selector(hanleLargeBtn:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _largeButton;
-}
+//-(UIButton *)largeButton{
+//    if (!_largeButton) {
+//        _largeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        _largeButton.contentMode = UIViewContentModeScaleToFill;
+//        [_largeButton setImage:[UIImage imageNamed:@"full_screen"] forState:UIControlStateNormal];
+//        [_largeButton addTarget:self action:@selector(hanleLargeBtn:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _largeButton;
+//}
 -(UISlider *)bufferSlier{
     if (!_bufferSlier) {
         _bufferSlier = [[UISlider alloc]init];
@@ -86,7 +86,7 @@ static NSInteger padding = 8;
 //    [self addSubview:self.bufferSlier];
 //    [self addSubview:self.slider];
     [self addSubview:self.totalTimeLabel];
-    [self addSubview:self.largeButton];
+//    [self addSubview:self.largeButton];
     //添加约束
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
@@ -111,9 +111,9 @@ static NSInteger padding = 8;
 //        make.width.mas_equalTo(@50);
 //        make.centerY.mas_equalTo(@[self.timeLabel,self.slider,self.totalTimeLabel,self.largeButton]);
 //    }];
-    self.largeButton.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., heightTemp, heightTemp);
+//    self.largeButton.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., heightTemp, heightTemp);
 
-    self.totalTimeLabel.frame = CGRectMake(CGRectGetMinX(self.largeButton.frame)-(widthTemp+padding), (height-heightTemp)/2., widthTemp, heightTemp);
+    self.totalTimeLabel.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., widthTemp, heightTemp);
 
 //    self.slider.frame = CGRectMake(CGRectGetMaxX(self.timeLabel.frame)+padding, CGRectGetMinX(self.totalTimeLabel.frame)-(CGRectGetMaxX(self.timeLabel.frame)+padding), heightTemp, height);
 

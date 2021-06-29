@@ -26,6 +26,7 @@
     
 //    [self onActionPlay:nil];
 //    [self onActionAwemeList:nil];
+    [self onActionWeiboPlay:nil];
 }
 
 

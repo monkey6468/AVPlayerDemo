@@ -12,12 +12,9 @@
 		A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */; };
 		A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385F268B084B004F9BAF /* 播放按钮 暂停.png */; };
 		A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */; };
-		A6333878268B084C004F9BAF /* knob.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333861268B084B004F9BAF /* knob.png */; };
 		A6333879268B084C004F9BAF /* 播放按钮@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333862268B084B004F9BAF /* 播放按钮@2x.png */; };
 		A633387A268B084C004F9BAF /* 播放按钮.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333863268B084B004F9BAF /* 播放按钮.png */; };
 		A633387B268B084C004F9BAF /* 播放按钮@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333864268B084B004F9BAF /* 播放按钮@3x.png */; };
-		A633387C268B084C004F9BAF /* full_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333865268B084B004F9BAF /* full_screen.png */; };
-		A633387D268B084C004F9BAF /* full_screen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333866268B084B004F9BAF /* full_screen@2x.png */; };
 		A633387E268B084C004F9BAF /* SBPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6333868268B084B004F9BAF /* SBPlayer.m */; };
 		A633387F268B084C004F9BAF /* SBControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6333869268B084B004F9BAF /* SBControlView.m */; };
 		A6333880268B084C004F9BAF /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386B268B084B004F9BAF /* VideoListViewController.m */; };
@@ -126,12 +123,9 @@
 		A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@2x.png"; sourceTree = "<group>"; };
 		A633385F268B084B004F9BAF /* 播放按钮 暂停.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停.png"; sourceTree = "<group>"; };
 		A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@3x.png"; sourceTree = "<group>"; };
-		A6333861268B084B004F9BAF /* knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob.png; sourceTree = "<group>"; };
 		A6333862268B084B004F9BAF /* 播放按钮@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮@2x.png"; sourceTree = "<group>"; };
 		A6333863268B084B004F9BAF /* 播放按钮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮.png"; sourceTree = "<group>"; };
 		A6333864268B084B004F9BAF /* 播放按钮@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮@3x.png"; sourceTree = "<group>"; };
-		A6333865268B084B004F9BAF /* full_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = full_screen.png; sourceTree = "<group>"; };
-		A6333866268B084B004F9BAF /* full_screen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "full_screen@2x.png"; sourceTree = "<group>"; };
 		A6333867268B084B004F9BAF /* SBControlView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBControlView.h; sourceTree = "<group>"; };
 		A6333868268B084B004F9BAF /* SBPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBPlayer.m; sourceTree = "<group>"; };
 		A6333869268B084B004F9BAF /* SBControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBControlView.m; sourceTree = "<group>"; };
@@ -362,12 +356,9 @@
 				A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */,
 				A633385F268B084B004F9BAF /* 播放按钮 暂停.png */,
 				A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */,
-				A6333861268B084B004F9BAF /* knob.png */,
 				A6333862268B084B004F9BAF /* 播放按钮@2x.png */,
 				A6333863268B084B004F9BAF /* 播放按钮.png */,
 				A6333864268B084B004F9BAF /* 播放按钮@3x.png */,
-				A6333865268B084B004F9BAF /* full_screen.png */,
-				A6333866268B084B004F9BAF /* full_screen@2x.png */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -766,16 +757,13 @@
 				A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */,
 				A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */,
 				A633384C268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 in Resources */,
-				A633387D268B084C004F9BAF /* full_screen@2x.png in Resources */,
 				A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */,
 				A6333879268B084C004F9BAF /* 播放按钮@2x.png in Resources */,
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
 				A6333881268B084C004F9BAF /* ScrollPlayVideoCell.xib in Resources */,
-				A6333878268B084C004F9BAF /* knob.png in Resources */,
 				A633387B268B084C004F9BAF /* 播放按钮@3x.png in Resources */,
 				A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */,
 				A633387A268B084C004F9BAF /* 播放按钮.png in Resources */,
-				A633387C268B084C004F9BAF /* full_screen.png in Resources */,
 				A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */,
 				A6566A71267C35E900CA65BF /* AwemeListController.xib in Resources */,
 			);
