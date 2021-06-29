@@ -1,17 +1,20 @@
 //
-//  ScrollPlayVideoView.m
+//  ViewController.m
 //  ScrollPlayVideo
 //
 //  Created by 郑旭 on 2017/10/20.
 //  Copyright © 2017年 郑旭. All rights reserved.
 //
 
-#import "ScrollPlayVideoView.h"
-#import "ScrollPlayVideoHeader.h"
+#import "VideoListViewController.h"
+
 #import "ScrollPlayVideoCell.h"
+
 #import "ScrollPlayVideoModel.h"
+
 static NSString *cellIdentify = @"ScrollPlayVideoCell";
-@interface ScrollPlayVideoView()<UITableViewDelegate,UITableViewDataSource,ScrollPlayVideoCellDelegate>
+
+@interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, ScrollPlayVideoCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
@@ -22,22 +25,19 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 //Yes-往下滑,NO-往上滑
 @property (nonatomic,assign) BOOL isScrollDownward;
 @end
-@implementation ScrollPlayVideoView
-#pragma mark - Life Cycle
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self initData];
-        [self creatData];
-        [self addSubViews];
-        [self setUI];
-        
-        //设置初次播放的
-        [self setStartTimeValue:0];
-    }
-    return self;
+
+@implementation VideoListViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self initData];
+    [self creatData];
+    [self setUI];
+    
+    //设置初次播放的
+    [self setStartTimeValue:0];
 }
+
 #pragma mark - Private Methods
 - (void)willRemoveSubview:(UIView *)subview
 {
@@ -60,10 +60,7 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
         [self.dataArray addObject:model];
     }
 }
-- (void)addSubViews
-{
-    [self addSubview:self.tableView];
-}
+
 - (void)setUI
 {
     [self.tableView registerNib:[UINib nibWithNibName:cellIdentify bundle:nil] forCellReuseIdentifier:cellIdentify];
@@ -171,9 +168,9 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
     [newArray enumerateObjectsUsingBlock:^(ScrollPlayVideoCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
         NSLog(@"%ld",(long)cell.row);
         
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self];
+        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.frame.size.height-rect.origin.y-rect.size.height;
+        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
         if (topSpacing>=-rect.size.height/3&&bottomSpacing>=-rect.size.height/3) {
             if (self.lastOrCurrentPlayIndex==-1) {
                 self.lastOrCurrentLightIndex = cell.row;
@@ -239,9 +236,9 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
     [newArray enumerateObjectsUsingBlock:^(ScrollPlayVideoCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
         NSLog(@"%ld",(long)cell.row);
 
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self];
+        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.frame.size.height-rect.origin.y-rect.size.height;
+        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
         if (topSpacing>=-rect.size.height/3&&bottomSpacing>=-rect.size.height/3) {
             if (self.lastOrCurrentPlayIndex==-1) {
                 if (self.lastOrCurrentPlayIndex!=cell.row) {
@@ -261,9 +258,9 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
     }
     if (self.lastOrCurrentPlayIndex!=-1) {
         ScrollPlayVideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self];
+        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.frame.size.height-rect.origin.y-rect.size.height;
+        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
         //当视频播放部分移除可见区域1/3的时候暂停
         if (topSpacing<-rect.size.height/3||bottomSpacing<-rect.size.height/3) {
             [cell.player stop];
@@ -290,12 +287,13 @@ static NSString *cellIdentify = @"ScrollPlayVideoCell";
 - (UITableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScrollPlayScreenWidth, ScrollPlayScreenHeight-64) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStyleGrouped];
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.sectionFooterHeight = 1;
-        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScrollPlayScreenWidth, 0.001)];
-        _tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScrollPlayScreenWidth, 0.001)];
+        _tableView.tableFooterView = [UIView new];
+        _tableView.tableHeaderView = [UIView new];
+        [self.view addSubview:self.tableView];
     }
     return _tableView;
 }

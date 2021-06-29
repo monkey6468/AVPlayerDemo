@@ -8,7 +8,7 @@
 #import "ViewController.h"
 #import "PlayerViewController.h"
 #import "VideoPageViewController.h"
-#import "ListViewController.h"
+#import "VideoListViewController.h"
 #import "AwemeListController.h"
 
 #import "Utility.h"
@@ -44,7 +44,7 @@
 }
 
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {
-    ListViewController *vc = [[ListViewController alloc]init];
+    VideoListViewController *vc = [[VideoListViewController alloc]init];
 //    vc.urlsArray = [Utility getUrls];
     [self.navigationController pushViewController:vc animated:YES];
 }

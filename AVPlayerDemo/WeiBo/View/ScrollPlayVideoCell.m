@@ -7,7 +7,7 @@
 //
 
 #import "ScrollPlayVideoCell.h"
-#import "ScrollPlayVideoHeader.h"
+
 @interface ScrollPlayVideoCell()<SBPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *videoBackView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
