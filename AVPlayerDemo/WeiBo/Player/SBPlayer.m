@@ -24,69 +24,34 @@
 @property(nonatomic, assign) BOOL isShouldToHiddenSubviews;
 @property(nonatomic, strong) UIButton *playOrPauseButton;
 @property(nonatomic, assign) BOOL isFirstPrepareToPlay;
+/// 自动播放次数。默认无限循环(NSUIntegerMax)
+@property (nonatomic, assign) NSUInteger autoPlayCountTemp;
 @end
 static NSInteger count = 0;
 
 @implementation SBPlayer
-+ (Class)layerClass {
-    return [AVPlayerLayer class];
-}
-// MARK: Get方法和Set方法
-- (AVPlayer *)player {
-    return self.playerLayer.player;
-}
-- (void)setPlayer:(AVPlayer *)player {
-    self.playerLayer.player = player;
-}
-- (AVPlayerLayer *)playerLayer {
-    return (AVPlayerLayer *)self.layer;
-}
-- (CGFloat)rate {
-    return self.player.rate;
-}
-- (void)setRate:(CGFloat)rate {
-    self.player.rate = rate;
-}
-- (void)setMode:(SBLayerVideoGravity)mode {
-    switch (mode) {
-        case SBLayerVideoGravityResizeAspect:
-            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
-            break;
-        case SBLayerVideoGravityResizeAspectFill:
-            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-            break;
-        case SBLayerVideoGravityResize:
-            self.playerLayer.videoGravity = AVLayerVideoGravityResize;
-            break;
-    }
-}
-- (void)setTitle:(NSString *)title {
-    self.titleLabel.text = title;
-}
-- (NSString *)title {
-    return self.titleLabel.text;
-}
+
 // MARK:实例化
 - (instancetype)initWithUrl:(NSURL *)url {
     self = [super init];
     if (self) {
         _url = url;
+        self.autoPlayCountTemp = NSUIntegerMax;
         [self setupPlayerUI];
         [self assetWithURL:url];
     }
     return self;
 }
+
 - (void)assetWithURL:(NSURL *)url {
     NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey : @YES};
     self.anAsset = [[AVURLAsset alloc] initWithURL:url options:options];
-    NSArray *keys = @[ @"duration" ];
+    NSArray *keys = @[@"duration"];
     
-    [self.anAsset loadValuesAsynchronouslyForKeys:keys
-                                completionHandler:^{
+    [self.anAsset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
         NSError *error = nil;
         AVKeyValueStatus tracksStatus =
-        [self.anAsset statusOfValueForKey:@"duration"
-                                    error:&error];
+        [self.anAsset statusOfValueForKey:@"duration" error:&error];
         switch (tracksStatus) {
             case AVKeyValueStatusLoaded: {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -120,14 +85,15 @@ static NSInteger count = 0;
     }];
     [self setupPlayerWithAsset:self.anAsset];
 }
+
 - (instancetype)initWithAsset:(AVURLAsset *)asset {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         [self setupPlayerUI];
         [self setupPlayerWithAsset:asset];
     }
     return self;
 }
+
 - (void)setupPlayerWithAsset:(AVURLAsset *)asset {
     self.item = [[AVPlayerItem alloc] initWithAsset:asset];
     self.player = [[AVPlayer alloc] initWithPlayerItem:self.item];
@@ -139,46 +105,50 @@ static NSInteger count = 0;
     //添加消息中心
     [self addNotificationCenter];
 }
+
 // FIXME: Tracking time,跟踪时间的改变
 - (void)addPeriodicTimeObserver {
     __weak typeof(self) weakSelf = self;
-    playbackTimerObserver = [self.player
-                             addPeriodicTimeObserverForInterval:CMTimeMake(1.f, 1.f)
-                             queue:NULL
-                             usingBlock:^(CMTime time) {
-        weakSelf.controlView.value =
-        weakSelf.item.currentTime.value /
-        weakSelf.item.currentTime.timescale;
-        if (!CMTIME_IS_INDEFINITE(
-                                  self.anAsset.duration)) {
-            weakSelf.controlView.currentTime = [weakSelf
-                                                convertTime:weakSelf.controlView.value];
+    playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.f, 1000.f)
+                                                                      queue:dispatch_get_main_queue()
+                                                                 usingBlock:^(CMTime time) {
+        //获取当前播放时间
+//        Float64 current1 = CMTimeGetSeconds(time);
+//        //获取视频播放总时间
+//        Float64 total2 = CMTimeGetSeconds([weakSelf.item duration]);
+//        weakSelf.controlView.value = current1 / total2;
+
+        weakSelf.controlView.value = weakSelf.item.currentTime.value / weakSelf.item.currentTime.timescale;
+        if (!CMTIME_IS_INDEFINITE(self.anAsset.duration)) {
+            weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
         }
-        NSLog(@"%f", weakSelf.controlView.value);
-        if (count >= 5) {
+        if (count >= 500) {
             [weakSelf setSubViewsIsHide:YES];
-            if ([weakSelf.delegate
-                 respondsToSelector:@selector
-                 (playerTapActionWithIsShouldToHideSubviews:
-                  )]) {
-                [weakSelf.delegate
-                 playerTapActionWithIsShouldToHideSubviews:
-                 YES];
+            if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
+                [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:YES];
             }
         } else {
             [weakSelf setSubViewsIsHide:NO];
-            if ([weakSelf.delegate
-                 respondsToSelector:@selector
-                 (playerTapActionWithIsShouldToHideSubviews:
-                  )]) {
-                [weakSelf.delegate
-                 playerTapActionWithIsShouldToHideSubviews:
-                 NO];
+            if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
+                [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:NO];
             }
         }
         count += 1;
+#warning <#message#>
+        //重新播放视频
+//        if (total == current) {
+//            if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
+//                [weakSelf play];
+//            } else {
+//                --weakSelf.autoPlayCountTemp;
+//                if (weakSelf.autoPlayCountTemp > 0) {
+//                    [weakSelf play];
+//                }
+//            }
+//        }
     }];
 }
+
 // TODO: KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
@@ -204,8 +174,7 @@ static NSInteger count = 0;
             default:
                 break;
         }
-    } else if ([keyPath
-                isEqualToString:@"loadedTimeRanges"]) { //监听播放器的下载进度
+    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { //监听播放器的下载进度
         NSArray *loadedTimeRanges = [self.item loadedTimeRanges];
         CMTimeRange timeRange =
         [loadedTimeRanges.firstObject CMTimeRangeValue]; // 获取缓冲区域
@@ -217,9 +186,7 @@ static NSInteger count = 0;
         CGFloat totalDuration = CMTimeGetSeconds(duration);
         //缓存值
         self.controlView.bufferValue = timeInterval / totalDuration;
-    } else if ([keyPath
-                isEqualToString:
-                @"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
+    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
         _status = SBPlayerStatusBuffering;
         if (self.player.status == SBPlayerStatusPlaying ||
             self.player.status == AVPlayerStatusReadyToPlay) {
@@ -231,7 +198,6 @@ static NSInteger count = 0;
             [self.activityIndeView startAnimating];
         }
     } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-        
         if (self.isFirstPrepareToPlay) {
             NSLog(@"缓冲达到可播放");
             [self.activityIndeView stopAnimating];
@@ -242,23 +208,19 @@ static NSInteger count = 0;
             [self play];
             self.isFirstPrepareToPlay = NO;
         }
-    } else if (
-               [keyPath
-                isEqualToString:
-                @"rate"]) { //当rate==0时为暂停,rate==1时为播放,当rate等于负数时为回放
+    } else if ([keyPath isEqualToString:@"rate"]) { //当rate==0时为暂停,rate==1时为播放,当rate等于负数时为回放
         if ([[change objectForKey:NSKeyValueChangeNewKey] integerValue] == 0) {
             _isPlaying = false;
             _status = SBPlayerStatusPlaying;
         } else {
-            
             _isPlaying = true;
             _status = SBPlayerStatusStopped;
         }
     }
 }
+
 //添加KVO
 - (void)addKVO {
-    
     if (self.item || self.item != nil) {
         //监听状态属性
         [self.item addObserver:self
@@ -289,33 +251,29 @@ static NSInteger count = 0;
                          context:nil];
     }
 }
+
 // MARK:添加消息中心
 - (void)addNotificationCenter {
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(SBPlayerItemDidPlayToEndTimeNotification:)
-     name:AVPlayerItemDidPlayToEndTimeNotification
-     object:[self.player currentItem]];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(deviceOrientationDidChange:)
-     name:UIDeviceOrientationDidChangeNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(willResignActive:)
-     name:UIApplicationWillResignActiveNotification
-     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SBPlayerItemDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
 }
+
+- (void)removeNotificationCenter {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+}
+
 // MARK: NotificationCenter
-- (void)SBPlayerItemDidPlayToEndTimeNotification:
-(NSNotification *)notification {
+- (void)SBPlayerItemDidPlayToEndTimeNotification:(NSNotification *)notification {
     [self.item seekToTime:kCMTimeZero];
     [self setSubViewsIsHide:NO];
     count = 0;
     [self pause];
     [self.playOrPauseButton setSelected:NO];
 }
+
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
     UIInterfaceOrientation _interfaceOrientation =
     [[UIApplication sharedApplication] statusBarOrientation];
@@ -328,20 +286,14 @@ static NSInteger count = 0;
             }
             [self.controlView updateConstraintsIfNeeded];
             //删除UIView animate可以去除横竖屏切换过渡动画
-            [UIView animateWithDuration:kTransitionTime
-                                  delay:0
-                 usingSpringWithDamping:0.5
-                  initialSpringVelocity:0.
-                                options:UIViewAnimationOptionTransitionCurlUp
-                             animations:^{
-                [[UIApplication sharedApplication].keyWindow
-                 addSubview:self];
-                //                [self
-                //                mas_makeConstraints:^(MASConstraintMaker
-                //                *make) {
-                //                    make.edges.mas_equalTo([UIApplication
-                //                    sharedApplication].keyWindow);
-                //                }];
+            [UIView animateWithDuration:kTransitionTime delay:0 usingSpringWithDamping:0.5 initialSpringVelocity:0. options:UIViewAnimationOptionTransitionCurlUp animations:^{
+                [[UIApplication sharedApplication].keyWindow addSubview:self];
+//                [self
+//                mas_makeConstraints:^(MASConstraintMaker
+//                *make) {
+//                    make.edges.mas_equalTo([UIApplication
+//                    sharedApplication].keyWindow);
+//                }];
                 [self layoutIfNeeded];
             }
                              completion:nil];
@@ -351,17 +303,13 @@ static NSInteger count = 0;
             _isFullScreen = NO;
             [self.playerSuperView addSubview:self];
             //删除UIView animate可以去除横竖屏切换过渡动画
-            [UIView
-             animateKeyframesWithDuration:kTransitionTime
-             delay:0
-             options:
-             UIViewKeyframeAnimationOptionCalculationModeLinear
+            [UIView animateKeyframesWithDuration:kTransitionTime delay:0 options:UIViewKeyframeAnimationOptionCalculationModeLinear
              animations:^{
-                //                [self
-                //                mas_remakeConstraints:^(MASConstraintMaker
-                //                *make) {
-                //                    make.top.left.right.bottom.mas_equalTo(self.playerSuperView);
-                //                }];
+//                [self
+//                mas_remakeConstraints:^(MASConstraintMaker
+//                *make) {
+//                    make.top.left.right.bottom.mas_equalTo(self.playerSuperView);
+//                }];
                 [self layoutIfNeeded];
             }
              completion:nil];
@@ -372,6 +320,7 @@ static NSInteger count = 0;
     }
     [[self getCurrentVC].view layoutIfNeeded];
 }
+
 - (void)willResignActive:(NSNotification *)notification {
     if (_isPlaying) {
         [self setSubViewsIsHide:NO];
@@ -379,28 +328,6 @@ static NSInteger count = 0;
         [self pause];
         [self.playOrPauseButton setSelected:NO];
     }
-}
-
-//获取当前屏幕显示的viewcontroller
-- (UIViewController *)getCurrentVC {
-    UIViewController *result = nil;
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal) {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for (UIWindow *tmpWin in windows) {
-            if (tmpWin.windowLevel == UIWindowLevelNormal) {
-                window = tmpWin;
-                break;
-            }
-        }
-    }
-    UIView *frontView = [[window subviews] objectAtIndex:0];
-    id nextResponder = [frontView nextResponder];
-    if ([nextResponder isKindOfClass:[UIViewController class]])
-        result = nextResponder;
-    else
-        result = window.rootViewController;
-    return result;
 }
 
 // MARK: 设置界面 在此方法下面可以添加自定义视图，和删除视图
@@ -413,7 +340,7 @@ static NSInteger count = 0;
     //添加点击事件
     [self addGestureEvent];
     //添加控制视图
-    [self addControlView];
+    [self addSubview:self.controlView];
     //添加加载视图
     [self addSubview:self.activityIndeView];
     //初始化时间
@@ -490,59 +417,9 @@ static NSInteger count = 0;
         [self pause];
     }
 }
-//添加控制视图
-- (void)addControlView {
-    
-    [self addSubview:self.controlView];
-    //    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.right.bottom.mas_equalTo(self);
-    //        make.height.mas_equalTo(@44);
-    //    }];
-    [self layoutIfNeeded];
-}
-//懒加载ActivityIndicateView
-- (UIActivityIndicatorView *)activityIndeView {
-    if (!_activityIndeView) {
-        _activityIndeView = [[UIActivityIndicatorView alloc]
-                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        _activityIndeView.hidesWhenStopped = YES;
-    }
-    return _activityIndeView;
-}
-//懒加载标题
-- (UILabel *)titleLabel {
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.backgroundColor = [UIColor clearColor];
-        _titleLabel.font = [UIFont systemFontOfSize:15];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.textColor = [UIColor whiteColor];
-        _titleLabel.numberOfLines = 2;
-    }
-    return _titleLabel;
-}
-
-//懒加载控制视图
-- (SBControlView *)controlView {
-    if (!_controlView) {
-        _controlView = [[SBControlView alloc] init];
-        _controlView.delegate = self;
-        _controlView.backgroundColor = [UIColor clearColor];
-//        [_controlView.tapGesture
-//        requireGestureRecognizerToFail:self.pauseOrPlayView.imageBtn.gestureRecognizers.firstObject];
-    }
-    return _controlView;
-}
-//设置子视图是否隐藏
-- (void)setSubViewsIsHide:(BOOL)isHide {
-    self.controlView.hidden = isHide;
-    self.playOrPauseButton.hidden = isHide;
-    self.titleLabel.hidden = isHide;
-}
 
 // MARK: SBControlViewDelegate
-- (void)controlView:(SBControlView *)controlView
-pointSliderLocationWithCurrentValue:(CGFloat)value {
+- (void)controlView:(SBControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value {
     
     count = 0;
     CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale,
@@ -551,23 +428,21 @@ pointSliderLocationWithCurrentValue:(CGFloat)value {
           toleranceBefore:kCMTimeZero
            toleranceAfter:kCMTimeZero];
 }
-- (void)controlView:(SBControlView *)controlView
-draggedPositionWithSlider:(UISlider *)slider {
+
+- (void)controlView:(SBControlView *)controlView draggedPositionWithSlider:(UISlider *)slider {
     count = 0;
     CMTime pointTime =
     CMTimeMake(controlView.value * self.item.currentTime.timescale,
                self.item.currentTime.timescale);
-    [self.item seekToTime:pointTime
-          toleranceBefore:kCMTimeZero
-           toleranceAfter:kCMTimeZero];
+    [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
+
 - (void)setPlayerTimeValueTo:(CGFloat)value {
     CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale,
                                   self.item.currentTime.timescale);
-    [self.item seekToTime:pointTime
-          toleranceBefore:kCMTimeZero
-           toleranceAfter:kCMTimeZero];
+    [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
+
 - (void)controlView:(SBControlView *)controlView
     withLargeButton:(UIButton *)button {
     count = 0;
@@ -578,6 +453,7 @@ draggedPositionWithSlider:(UISlider *)slider {
         [self interfaceOrientation:UIInterfaceOrientationPortrait];
     }
 }
+
 // MARK: UIGestureRecognizer
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
        shouldReceiveTouch:(UITouch *)touch {
@@ -586,6 +462,7 @@ draggedPositionWithSlider:(UISlider *)slider {
     }
     return YES;
 }
+
 //将数值转换成时间
 - (NSString *)convertTime:(CGFloat)second {
     NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
@@ -598,14 +475,13 @@ draggedPositionWithSlider:(UISlider *)slider {
     NSString *showtimeNew = [formatter stringFromDate:d];
     return showtimeNew;
 }
+
 //旋转方向
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
     if ([[UIDevice currentDevice]
          respondsToSelector:@selector(setOrientation:)]) {
         SEL selector = NSSelectorFromString(@"setOrientation:");
-        NSInvocation *invocation = [NSInvocation
-                                    invocationWithMethodSignature:
-                                    [UIDevice instanceMethodSignatureForSelector:selector]];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
         [invocation setSelector:selector];
         [invocation setTarget:[UIDevice currentDevice]];
         int val = orientation;
@@ -623,12 +499,14 @@ draggedPositionWithSlider:(UISlider *)slider {
     }
 }
 
+#pragma mark - player operation
 - (void)play {
     if (self.player) {
         [self.player play];
         [self.playOrPauseButton setSelected:YES];
     }
 }
+
 - (void)pause {
     if (self.player) {
         [self.player pause];
@@ -647,18 +525,9 @@ draggedPositionWithSlider:(UISlider *)slider {
         [self.player removeTimeObserver:playbackTimerObserver];
         [self.player removeObserver:self forKeyPath:@"rate"];
     }
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-     name:AVPlayerItemDidPlayToEndTimeNotification
-     object:[self.player currentItem]];
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-     name:UIDeviceOrientationDidChangeNotification
-     object:nil];
-    [[NSNotificationCenter defaultCenter]
-     removeObserver:self
-     name:UIApplicationWillResignActiveNotification
-     object:nil];
+    
+    [self removeNotificationCenter];
+    
     if (self.player) {
         [self pause];
         self.anAsset = nil;
@@ -673,6 +542,29 @@ draggedPositionWithSlider:(UISlider *)slider {
         [self removeFromSuperview];
     }
 }
+
+
+#pragma mark - get data
++ (Class)layerClass {
+    return [AVPlayerLayer class];
+}
+
+- (AVPlayer *)player {
+    return self.playerLayer.player;
+}
+
+- (AVPlayerLayer *)playerLayer {
+    return (AVPlayerLayer *)self.layer;
+}
+
+- (CGFloat)rate {
+    return self.player.rate;
+}
+
+- (NSString *)title {
+    return self.titleLabel.text;
+}
+
 - (UIButton *)playOrPauseButton {
     if (!_playOrPauseButton) {
         _playOrPauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -687,6 +579,89 @@ draggedPositionWithSlider:(UISlider *)slider {
     }
     return _playOrPauseButton;
 }
+
+//懒加载控制视图
+- (SBControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [[SBControlView alloc] init];
+        _controlView.delegate = self;
+        _controlView.backgroundColor = [UIColor clearColor];
+    }
+    return _controlView;
+}
+
+//懒加载ActivityIndicateView
+- (UIActivityIndicatorView *)activityIndeView {
+    if (!_activityIndeView) {
+        _activityIndeView = [[UIActivityIndicatorView alloc]
+                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndeView.hidesWhenStopped = YES;
+    }
+    return _activityIndeView;
+}
+
+//懒加载标题
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.backgroundColor = [UIColor clearColor];
+        _titleLabel.font = [UIFont systemFontOfSize:15];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.textColor = [UIColor whiteColor];
+        _titleLabel.numberOfLines = 2;
+    }
+    return _titleLabel;
+}
+
+//获取当前屏幕显示的viewcontroller
+- (UIViewController *)getCurrentVC {
+    UIViewController *result = nil;
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for (UIWindow *tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    if ([nextResponder isKindOfClass:[UIViewController class]])
+        result = nextResponder;
+    else
+        result = window.rootViewController;
+    return result;
+}
+
+#pragma mark - set data
+- (void)setPlayer:(AVPlayer *)player {
+    self.playerLayer.player = player;
+}
+
+- (void)setRate:(CGFloat)rate {
+    self.player.rate = rate;
+}
+
+- (void)setMode:(SBLayerVideoGravity)mode {
+    switch (mode) {
+        case SBLayerVideoGravityResizeAspect:
+            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+            break;
+        case SBLayerVideoGravityResizeAspectFill:
+            self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            break;
+        case SBLayerVideoGravityResize:
+            self.playerLayer.videoGravity = AVLayerVideoGravityResize;
+            break;
+    }
+}
+
+- (void)setTitle:(NSString *)title {
+    self.titleLabel.text = title;
+}
+
 - (void)setIsHidenAllSubviews:(BOOL)isHidenAllSubviews {
     _isHidenAllSubviews = isHidenAllSubviews;
     if (isHidenAllSubviews) {
@@ -695,5 +670,17 @@ draggedPositionWithSlider:(UISlider *)slider {
         [self.titleLabel removeFromSuperview];
         self.player.volume = 0;
     }
+}
+
+//设置子视图是否隐藏
+- (void)setSubViewsIsHide:(BOOL)isHide {
+    self.controlView.hidden = isHide;
+    self.playOrPauseButton.hidden = isHide;
+    self.titleLabel.hidden = isHide;
+}
+
+- (void)setAutoPlayCount:(NSUInteger)autoPlayCount {
+    _autoPlayCount = autoPlayCount;
+    self.autoPlayCountTemp = autoPlayCount;
 }
 @end

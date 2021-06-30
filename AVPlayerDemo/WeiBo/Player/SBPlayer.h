@@ -59,6 +59,8 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 @property(nonatomic, assign, readonly) BOOL isPlaying;
 //是否全屏
 @property(nonatomic, assign, readonly) BOOL isFullScreen;
+/// 自动播放次数。默认无限循环(NSUIntegerMax)
+@property (nonatomic, assign, readwrite) NSUInteger autoPlayCount;
 //设置标题
 @property(nonatomic, copy) NSString *title;
 //与url初始化

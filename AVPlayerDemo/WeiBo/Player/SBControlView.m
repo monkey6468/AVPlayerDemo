@@ -79,23 +79,26 @@ static NSInteger padding = 8;
     return self;
 }
 
-- (void)setupUI{
+- (void)setupUI {
     [self addSubview:self.timeLabel];
-//    [self addSubview:self.bufferSlier];
-//    [self addSubview:self.slider];
+    [self addSubview:self.bufferSlier];
+    [self addSubview:self.slider];
     [self addSubview:self.totalTimeLabel];
 //    [self addSubview:self.largeButton];
     //添加约束
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addConstraintsForSubviews];
 }
+
 - (void)deviceOrientationDidChange{
     //添加约束
     [self addConstraintsForSubviews];
 }
+
 - (void)addConstraintsForSubviews{
     CGFloat heightTemp = 30;
     CGFloat widthTemp = 50;
@@ -103,22 +106,23 @@ static NSInteger padding = 8;
     CGFloat width = self.frame.size.width;
     self.timeLabel.frame = CGRectMake(0, (height-heightTemp)/2., widthTemp, heightTemp);
 
-    self.totalTimeLabel.frame = CGRectMake(width-heightTemp-padding, (height-heightTemp)/2., widthTemp, heightTemp);
-//    [self.bufferSlier mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(self.slider);
-//    }];
-    [self layoutIfNeeded];
+    self.totalTimeLabel.frame = CGRectMake(width-widthTemp-padding, (height-heightTemp)/2., widthTemp, heightTemp);
+    self.slider.frame = CGRectMake(widthTemp+padding, 0, width-(widthTemp*2+padding*3), height);
+    self.bufferSlier.frame = CGRectMake(widthTemp+padding, 0, width-(widthTemp*2+padding*3), height);
 }
+
 - (void)hanleLargeBtn:(UIButton *)button{
     if ([self.delegate respondsToSelector:@selector(controlView:withLargeButton:)]) {
         [self.delegate controlView:self withLargeButton:button];
     }
 }
+
 - (void)handleSliderPosition:(UISlider *)slider{
     if ([self.delegate respondsToSelector:@selector(controlView:draggedPositionWithSlider:)]) {
         [self.delegate controlView:self draggedPositionWithSlider:self.slider];
     }
 }
+
 - (void)handleTap:(UITapGestureRecognizer *)gesture{
     CGPoint point = [gesture locationInView:self.slider];
     CGFloat pointX = point.x;
