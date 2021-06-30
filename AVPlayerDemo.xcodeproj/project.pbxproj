@@ -19,13 +19,7 @@
 		A6333880268B084C004F9BAF /* VideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386B268B084B004F9BAF /* VideoListViewController.m */; };
 		A6333881268B084C004F9BAF /* VideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A633386E268B084B004F9BAF /* VideoListCell.xib */; };
 		A6333882268B084C004F9BAF /* VideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A633386F268B084B004F9BAF /* VideoListCell.m */; };
-		A652B0A22669DC830019F2C8 /* VideoPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0A02669DC830019F2C8 /* VideoPageViewController.m */; };
-		A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */; };
-		A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */; };
-		A652B0AA2669DCA90019F2C8 /* PlayerContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0A82669DCA90019F2C8 /* PlayerContentViewController.m */; };
 		A652B0AE266A257B0019F2C8 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = A652B0AD266A257B0019F2C8 /* Utility.m */; };
-		A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A654EE6826671A0E00B0D838 /* PlayerViewController.m */; };
-		A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A654EE6926671A0E00B0D838 /* PlayerViewController.xib */; };
 		A65669C8267B43BD00CA65BF /* AwemeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669C5267B43BD00CA65BF /* AwemeListController.m */; };
 		A65669CE267B43CC00CA65BF /* AVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CB267B43CC00CA65BF /* AVPlayerView.m */; };
 		A65669CF267B43CC00CA65BF /* AVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A65669CC267B43CC00CA65BF /* AVPlayerManager.m */; };
@@ -110,7 +104,6 @@
 		A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87C26661D0A00A49576 /* Assets.xcassets */; };
 		A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */; };
 		A6C7F88326661D0A00A49576 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88226661D0A00A49576 /* main.m */; };
-		A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88A2666213400A49576 /* VideoPlayer.m */; };
 		A6D9B17F268040F800CF7E62 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D9B17E268040F800CF7E62 /* ImageCache.m */; };
 /* End PBXBuildFile section */
 
@@ -131,17 +124,8 @@
 		A633386E268B084B004F9BAF /* VideoListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoListCell.xib; sourceTree = "<group>"; };
 		A633386F268B084B004F9BAF /* VideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoListCell.m; sourceTree = "<group>"; };
 		A6333871268B084B004F9BAF /* VideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoListCell.h; sourceTree = "<group>"; };
-		A652B09F2669DC830019F2C8 /* VideoPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPageViewController.h; sourceTree = "<group>"; };
-		A652B0A02669DC830019F2C8 /* VideoPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPageViewController.m; sourceTree = "<group>"; };
-		A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoPageViewController.xib; sourceTree = "<group>"; };
-		A652B0A62669DCA90019F2C8 /* PlayerContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerContentViewController.h; sourceTree = "<group>"; };
-		A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerContentViewController.xib; sourceTree = "<group>"; };
-		A652B0A82669DCA90019F2C8 /* PlayerContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerContentViewController.m; sourceTree = "<group>"; };
 		A652B0AC266A257B0019F2C8 /* Utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		A652B0AD266A257B0019F2C8 /* Utility.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
-		A654EE6726671A0E00B0D838 /* PlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
-		A654EE6826671A0E00B0D838 /* PlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
-		A654EE6926671A0E00B0D838 /* PlayerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayerViewController.xib; sourceTree = "<group>"; };
 		A65669C5267B43BD00CA65BF /* AwemeListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwemeListController.m; sourceTree = "<group>"; };
 		A65669C6267B43BD00CA65BF /* AwemeListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwemeListController.h; sourceTree = "<group>"; };
 		A65669CA267B43CC00CA65BF /* AVPlayerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerManager.h; sourceTree = "<group>"; };
@@ -308,8 +292,6 @@
 		A6C7F87F26661D0A00A49576 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A6C7F88126661D0A00A49576 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A6C7F88226661D0A00A49576 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A6C7F8892666213400A49576 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
-		A6C7F88A2666213400A49576 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 		A6D9B17D268040F800CF7E62 /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		A6D9B17E268040F800CF7E62 /* ImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -349,37 +331,6 @@
 				A6333864268B084B004F9BAF /* 播放按钮@3x.png */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		A652B0932669D7EF0019F2C8 /* PlayerViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A654EE6726671A0E00B0D838 /* PlayerViewController.h */,
-				A654EE6826671A0E00B0D838 /* PlayerViewController.m */,
-				A654EE6926671A0E00B0D838 /* PlayerViewController.xib */,
-			);
-			path = PlayerViewController;
-			sourceTree = "<group>";
-		};
-		A652B0A42669DC870019F2C8 /* VideoPage */ = {
-			isa = PBXGroup;
-			children = (
-				A652B09F2669DC830019F2C8 /* VideoPageViewController.h */,
-				A652B0A02669DC830019F2C8 /* VideoPageViewController.m */,
-				A652B0A12669DC830019F2C8 /* VideoPageViewController.xib */,
-				A652B0A52669DCA90019F2C8 /* PlayerContentViewController */,
-			);
-			path = VideoPage;
-			sourceTree = "<group>";
-		};
-		A652B0A52669DCA90019F2C8 /* PlayerContentViewController */ = {
-			isa = PBXGroup;
-			children = (
-				A652B0A62669DCA90019F2C8 /* PlayerContentViewController.h */,
-				A652B0A82669DCA90019F2C8 /* PlayerContentViewController.m */,
-				A652B0A72669DCA90019F2C8 /* PlayerContentViewController.xib */,
-			);
-			path = PlayerContentViewController;
 			sourceTree = "<group>";
 		};
 		A652B0AB266A25720019F2C8 /* Utility */ = {
@@ -613,7 +564,6 @@
 			isa = PBXGroup;
 			children = (
 				A6714E822681CCDE00AE7026 /* SDWebImage */,
-				A6C7F88C2666213900A49576 /* VideoPlayer */,
 				A6C7F86F26661D0700A49576 /* AVPlayerDemo */,
 				A6C7F86E26661D0700A49576 /* Products */,
 				A6566A44267B498100CA65BF /* Frameworks */,
@@ -644,8 +594,6 @@
 				A65669C2267B43A300CA65BF /* AwemeListController */,
 				A6C7F87626661D0700A49576 /* ViewController.h */,
 				A6C7F87726661D0700A49576 /* ViewController.m */,
-				A652B0A42669DC870019F2C8 /* VideoPage */,
-				A652B0932669D7EF0019F2C8 /* PlayerViewController */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
@@ -654,15 +602,6 @@
 				A6C7F88226661D0A00A49576 /* main.m */,
 			);
 			path = AVPlayerDemo;
-			sourceTree = "<group>";
-		};
-		A6C7F88C2666213900A49576 /* VideoPlayer */ = {
-			isa = PBXGroup;
-			children = (
-				A6C7F8892666213400A49576 /* VideoPlayer.h */,
-				A6C7F88A2666213400A49576 /* VideoPlayer.m */,
-			);
-			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -722,7 +661,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */,
-				A654EE6B26671A0E00B0D838 /* PlayerViewController.xib in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
 				A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */,
@@ -733,9 +671,7 @@
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
 				A6333881268B084C004F9BAF /* VideoListCell.xib in Resources */,
 				A633387B268B084C004F9BAF /* 播放按钮@3x.png in Resources */,
-				A652B0A32669DC830019F2C8 /* VideoPageViewController.xib in Resources */,
 				A633387A268B084C004F9BAF /* 播放按钮.png in Resources */,
-				A652B0A92669DCA90019F2C8 /* PlayerContentViewController.xib in Resources */,
 				A6566A71267C35E900CA65BF /* AwemeListController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -800,17 +736,14 @@
 				A633387F268B084C004F9BAF /* SBControlView.m in Sources */,
 				A6714F192681CCDF00AE7026 /* SDImageIOAnimatedCoder.m in Sources */,
 				A6714F162681CCDF00AE7026 /* SDWebImageOperation.m in Sources */,
-				A6C7F88B2666213400A49576 /* VideoPlayer.m in Sources */,
 				A633387E268B084C004F9BAF /* SBPlayer.m in Sources */,
 				A6714F1A2681CCDF00AE7026 /* UIImageView+HighlightedWebCache.m in Sources */,
 				A6714F532681CCDF00AE7026 /* NSBezierPath+SDRoundedCorners.m in Sources */,
 				A6714F352681CCDF00AE7026 /* SDWebImageDownloaderConfig.m in Sources */,
 				A6714F492681CCDF00AE7026 /* UIImage+Metadata.m in Sources */,
-				A654EE6A26671A0E00B0D838 /* PlayerViewController.m in Sources */,
 				A6714F2D2681CCDF00AE7026 /* SDWebImageError.m in Sources */,
 				A6714F2C2681CCDF00AE7026 /* SDWebImageDownloaderResponseModifier.m in Sources */,
 				A6714F2B2681CCDF00AE7026 /* SDImageAPNGCoder.m in Sources */,
-				A652B0A22669DC830019F2C8 /* VideoPageViewController.m in Sources */,
 				A6714F292681CCDF00AE7026 /* SDMemoryCache.m in Sources */,
 				A6714F412681CCDF00AE7026 /* SDImageCacheDefine.m in Sources */,
 				A6714F2F2681CCDF00AE7026 /* SDImageCoderHelper.m in Sources */,
@@ -823,7 +756,6 @@
 				A6714F4A2681CCDF00AE7026 /* UIButton+WebCache.m in Sources */,
 				A6714F1E2681CCDF00AE7026 /* SDImageAWebPCoder.m in Sources */,
 				A6714F122681CCDF00AE7026 /* SDImageHEICCoder.m in Sources */,
-				A652B0AA2669DCA90019F2C8 /* PlayerContentViewController.m in Sources */,
 				A6714F4D2681CCDF00AE7026 /* SDImageCachesManagerOperation.m in Sources */,
 				A6714F2E2681CCDF00AE7026 /* SDWebImagePrefetcher.m in Sources */,
 				A6714F402681CCDF00AE7026 /* SDImageGraphics.m in Sources */,

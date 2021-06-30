@@ -6,8 +6,6 @@
 //
 
 #import "ViewController.h"
-#import "PlayerViewController.h"
-#import "VideoPageViewController.h"
 #import "VideoListViewController.h"
 #import "AwemeListController.h"
 
@@ -27,21 +25,6 @@
 //    [self onActionPlay:nil];
 //    [self onActionAwemeList:nil];
     [self onActionWeiboPlay:nil];
-}
-
-
-- (IBAction)onActionPlay:(UIButton *)sender {
-    PlayerViewController *vc = [[PlayerViewController alloc]init];
-    vc.urlsArray = [Utility getUrls];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
-- (IBAction)onActionPlayList:(UIButton *)sender {
-    VideoPageViewController *vc = [[VideoPageViewController alloc]init];
-    vc.urlsArray = [Utility getUrls];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {

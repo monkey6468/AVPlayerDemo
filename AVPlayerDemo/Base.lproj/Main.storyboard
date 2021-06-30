@@ -18,38 +18,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QSJ-fV-xBy">
-                                <rect key="frame" x="121" y="149" width="78" height="182"/>
+                                <rect key="frame" x="121" y="187" width="78" height="106"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5c-a8-pc0">
-                                        <rect key="frame" x="0.0" y="0.0" width="78" height="30"/>
-                                        <state key="normal" title="播放"/>
-                                        <connections>
-                                            <action selector="onActionPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="c7a-Va-IME"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v0z-dx-DlC">
-                                        <rect key="frame" x="0.0" y="38" width="78" height="30"/>
-                                        <state key="normal" title="列表播放"/>
-                                        <connections>
-                                            <action selector="onActionPlayList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pWZ-9k-DN1"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="658-8g-A7T">
-                                        <rect key="frame" x="0.0" y="76" width="78" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="78" height="30"/>
                                         <state key="normal" title="微博"/>
                                         <connections>
                                             <action selector="onActionWeiboPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V7r-dd-lOl"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
-                                        <rect key="frame" x="0.0" y="114" width="78" height="30"/>
+                                        <rect key="frame" x="0.0" y="38" width="78" height="30"/>
                                         <state key="normal" title="抖音"/>
                                         <connections>
                                             <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikn-Sx-AKd">
-                                        <rect key="frame" x="0.0" y="152" width="78" height="30"/>
+                                        <rect key="frame" x="0.0" y="76" width="78" height="30"/>
                                         <state key="normal" title="clearCache"/>
                                         <connections>
                                             <action selector="onActionClearCache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4cP-zI-SQT"/>

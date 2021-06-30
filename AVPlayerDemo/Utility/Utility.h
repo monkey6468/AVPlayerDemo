@@ -7,7 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VideoPlayer.h"
 #import "AVPlayerView.h"
 
 NS_ASSUME_NONNULL_BEGIN
