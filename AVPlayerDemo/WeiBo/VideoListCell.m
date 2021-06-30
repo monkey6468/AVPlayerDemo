@@ -8,7 +8,7 @@
 
 #import "VideoListCell.h"
 
-@interface VideoListCell()<SBPlayerDelegate>
+@interface VideoListCell()<VideoPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *videoBackView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
@@ -54,20 +54,20 @@
     }
 }
 
-- (SBPlayer *)player
+- (VideoPlayer *)player
 {
     if (!_player) {
-        _player = [[SBPlayer alloc] initWithUrl:[NSURL URLWithString:self.videoUrl]];
+        _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.videoUrl]];
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
-        //设置播放器填充模式 默认SBLayerVideoGravityResizeAspectFill，可以不添加此语句
-        _player.mode = SBLayerVideoGravityResizeAspectFill;
+        //设置播放器填充模式 默认VideoPlayerGravityResizeAspectFill，可以不添加此语句
+        _player.mode =VideoPlayerGravityResizeAspectFill;
         _player.delegate = self;
     }
     return _player;
 }
 
-#pragma mark - SBPlayerDelegate
+#pragma mark - VideoPlayerDelegate
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
 {
     if ([self.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {

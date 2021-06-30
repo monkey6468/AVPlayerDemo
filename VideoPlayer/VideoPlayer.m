@@ -1,19 +1,17 @@
 //
-//  SBView.m
-//  SBPlayer
+//  VideoPlayer.m
 //
-//  Created by sycf_ios on 2017/4/10.
-//  Copyright © 2017年 shibiao. All rights reserved.
+//  Created by HN on 2021/6/30.
 //
 
-#import "SBPlayer.h"
-@interface SBPlayer ()
+#import "VideoPlayer.h"
+@interface VideoPlayer ()
 
 @property(nonatomic, strong, readonly) AVPlayerLayer *playerLayer;
 //当前播放url
 @property(nonatomic, strong) NSURL *url;
 //底部控制视图
-@property(nonatomic, strong) SBControlView *controlView;
+@property(nonatomic, strong) VideoPlayerControlView *controlView;
 
 //原始约束
 @property(nonatomic, strong) NSArray *oldConstriants;
@@ -30,7 +28,7 @@
 @end
 static NSInteger count = 0;
 
-@implementation SBPlayer
+@implementation VideoPlayer
 
 #pragma mark - life
 - (instancetype)initWithUrl:(NSURL *)url {
@@ -44,20 +42,18 @@ static NSInteger count = 0;
 }
 
 - (void)assetWithURL:(NSURL *)url {
-    NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey : @YES};
+    NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey:@YES};
     self.anAsset = [[AVURLAsset alloc] initWithURL:url options:options];
     NSArray *keys = @[@"duration"];
 
     __weak typeof(self) weakSelf = self;
     [self.anAsset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
         NSError *error = nil;
-        AVKeyValueStatus tracksStatus =
-        [weakSelf.anAsset statusOfValueForKey:@"duration" error:&error];
+        AVKeyValueStatus tracksStatus = [weakSelf.anAsset statusOfValueForKey:@"duration" error:&error];
         switch (tracksStatus) {
             case AVKeyValueStatusLoaded: {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
-                        
                         if (weakSelf.anAsset.duration.timescale > 0) {
                             CGFloat second = weakSelf.anAsset.duration.value /
                             weakSelf.anAsset.duration.timescale;
@@ -101,7 +97,6 @@ static NSInteger count = 0;
 
 - (void)dealloc {
     [self stop];
-    NSLog(@"__%s__",__func__);
 }
 
 #pragma mark - other
@@ -161,15 +156,15 @@ static NSInteger count = 0;
         
         switch (itemStatus) {
             case AVPlayerItemStatusUnknown: {
-                _status = SBPlayerStatusUnknown;
+                _status = VideoPlayerStatusUnknown;
                 NSLog(@"AVPlayerItemStatusUnknown");
             } break;
             case AVPlayerItemStatusReadyToPlay: {
-                _status = SBPlayerStatusReadyToPlay;
+                _status = VideoPlayerStatusReadyToPlay;
                 NSLog(@"AVPlayerItemStatusReadyToPlay");
             } break;
             case AVPlayerItemStatusFailed: {
-                _status = SBPlayerStatusFailed;
+                _status = VideoPlayerStatusFailed;
                 NSLog(@"AVPlayerItemStatusFailed");
             } break;
             default:
@@ -188,8 +183,8 @@ static NSInteger count = 0;
         //缓存值
         self.controlView.bufferValue = timeInterval / totalDuration;
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
-        _status = SBPlayerStatusBuffering;
-        if (self.player.status == SBPlayerStatusPlaying ||
+        _status = VideoPlayerStatusBuffering;
+        if (self.player.status == VideoPlayerStatusPlaying ||
             self.player.status == AVPlayerStatusReadyToPlay) {
             return;
         }
@@ -212,10 +207,10 @@ static NSInteger count = 0;
     } else if ([keyPath isEqualToString:@"rate"]) { //当rate==0时为暂停,rate==1时为播放,当rate等于负数时为回放
         if ([[change objectForKey:NSKeyValueChangeNewKey] integerValue] == 0) {
             _isPlaying = false;
-            _status = SBPlayerStatusPlaying;
+            _status = VideoPlayerStatusPlaying;
         } else {
             _isPlaying = true;
-            _status = SBPlayerStatusStopped;
+            _status = VideoPlayerStatusStopped;
         }
     }
 }
@@ -255,7 +250,7 @@ static NSInteger count = 0;
 
 // MARK:添加消息中心
 - (void)addNotificationCenter {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SBPlayerItemDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -268,7 +263,7 @@ static NSInteger count = 0;
 }
 
 // MARK: NotificationCenter
-- (void)SBPlayerItemDidPlayToEndTimeNotification:(NSNotification *)notification {
+- (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification {
     [self.item seekToTime:kCMTimeZero];
     [self setSubViewsIsHide:NO];
     count = 0;
@@ -428,15 +423,15 @@ static NSInteger count = 0;
     }
 }
 
-#pragma mark - SBControlViewDelegate
-- (void)controlView:(SBControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value {
+#pragma mark - VideoPlayerControlViewDelegate
+- (void)controlView:(VideoPlayerControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value {
     count = 0;
     CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale,
                                   self.item.currentTime.timescale);
     [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 
-- (void)controlView:(SBControlView *)controlView draggedPositionWithSlider:(UISlider *)slider {
+- (void)controlView:(VideoPlayerControlView *)controlView draggedPositionWithSlider:(UISlider *)slider {
     count = 0;
     CMTime pointTime =
     CMTimeMake(controlView.value * self.item.currentTime.timescale,
@@ -450,7 +445,7 @@ static NSInteger count = 0;
     [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 
-- (void)controlView:(SBControlView *)controlView
+- (void)controlView:(VideoPlayerControlView *)controlView
     withLargeButton:(UIButton *)button {
     count = 0;
     if ([UIScreen mainScreen].bounds.size.width <
@@ -464,7 +459,7 @@ static NSInteger count = 0;
 // MARK: UIGestureRecognizer
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
        shouldReceiveTouch:(UITouch *)touch {
-    if ([touch.view isKindOfClass:[SBControlView class]]) {
+    if ([touch.view isKindOfClass:[VideoPlayerControlView class]]) {
         return NO;
     }
     return YES;
@@ -587,9 +582,9 @@ static NSInteger count = 0;
 }
 
 //懒加载控制视图
-- (SBControlView *)controlView {
+- (VideoPlayerControlView *)controlView {
     if (!_controlView) {
-        _controlView = [[SBControlView alloc] init];
+        _controlView = [[VideoPlayerControlView alloc] init];
         _controlView.delegate = self;
         _controlView.backgroundColor = [UIColor clearColor];
     }
@@ -650,15 +645,15 @@ static NSInteger count = 0;
     self.player.rate = rate;
 }
 
-- (void)setMode:(SBLayerVideoGravity)mode {
+- (void)setMode:(VideoPlayerGravity)mode {
     switch (mode) {
-        case SBLayerVideoGravityResizeAspect:
+        case VideoPlayerGravityResizeAspect:
             self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
             break;
-        case SBLayerVideoGravityResizeAspectFill:
+        case VideoPlayerGravityResizeAspectFill:
             self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
             break;
-        case SBLayerVideoGravityResize:
+        case VideoPlayerGravityResize:
             self.playerLayer.videoGravity = AVLayerVideoGravityResize;
             break;
     }

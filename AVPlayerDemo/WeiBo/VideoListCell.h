@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SBPlayer.h"
+#import "VideoPlayer.h"
 
 @class VideoListCell;
 @protocol VideoListCellDelegate <NSObject>
@@ -17,7 +17,7 @@
 @end
 
 @interface VideoListCell : UITableViewCell
-@property (nonatomic,strong) SBPlayer *player;
+@property (nonatomic,strong) VideoPlayer *player;
 @property (weak, nonatomic) IBOutlet UIView *topblackView;
 
 @property (weak, nonatomic) IBOutlet UIView *videoFirstImageView;

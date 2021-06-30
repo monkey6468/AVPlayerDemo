@@ -1,12 +1,10 @@
 //
-//  SBView.h
-//  SBPlayer
+//  VideoPlayer.h
 //
-//  Created by sycf_ios on 2017/4/10.
-//  Copyright © 2017年 shibiao. All rights reserved.
+//  Created by HN on 2021/6/30.
 //
 
-#import "SBControlView.h"
+#import "VideoPlayerControlView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
@@ -14,28 +12,29 @@
 #define kTransitionTime 0.2
 
 //填充模式枚举值
-typedef NS_ENUM(NSInteger, SBLayerVideoGravity) {
-    SBLayerVideoGravityResizeAspect,
-    SBLayerVideoGravityResizeAspectFill,
-    SBLayerVideoGravityResize,
-};
-//播放状态枚举值
-typedef NS_ENUM(NSInteger, SBPlayerStatus) {
-    SBPlayerStatusFailed,
-    SBPlayerStatusReadyToPlay,
-    SBPlayerStatusUnknown,
-    SBPlayerStatusBuffering,
-    SBPlayerStatusPlaying,
-    SBPlayerStatusStopped,
+typedef NS_ENUM(NSInteger, VideoPlayerGravity) {
+   VideoPlayerGravityResizeAspect,
+   VideoPlayerGravityResizeAspectFill,
+   VideoPlayerGravityResize,
 };
 
-@class SBPlayer;
-@protocol SBPlayerDelegate <NSObject>
+//播放状态枚举值
+typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
+    VideoPlayerStatusFailed,
+    VideoPlayerStatusReadyToPlay,
+    VideoPlayerStatusUnknown,
+    VideoPlayerStatusBuffering,
+    VideoPlayerStatusPlaying,
+    VideoPlayerStatusStopped,
+};
+
+@class VideoPlayer;
+@protocol VideoPlayerDelegate <NSObject>
 @optional
 - (void)playerTapActionWithCurrentTimeValue:(CGFloat)currentTimeValue;
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 @end
-@interface SBPlayer : UIView <SBControlViewDelegate, UIGestureRecognizerDelegate> 
+@interface VideoPlayer : UIView <VideoPlayerControlViewDelegate, UIGestureRecognizerDelegate> 
 // AVPlayer
 @property(nonatomic, strong) AVPlayer *player;
 // AVPlayer的播放item
@@ -49,9 +48,9 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 //播放器Playback Rate
 @property(nonatomic, assign) CGFloat rate;
 //播放状态
-@property(nonatomic, assign, readonly) SBPlayerStatus status;
+@property(nonatomic, assign, readonly) VideoPlayerStatus status;
 // videoGravity设置屏幕填充模式，（只写）
-@property(nonatomic, assign) SBLayerVideoGravity mode;
+@property(nonatomic, assign) VideoPlayerGravity mode;
 //是否正在播放
 @property(nonatomic, assign, readonly) BOOL isPlaying;
 //是否全屏
@@ -71,6 +70,6 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 - (void)setPlayerTimeValueTo:(CGFloat)value;
 
 @property(nonatomic, assign) BOOL isHidenAllSubviews;
-@property(nonatomic, weak) id<SBPlayerDelegate> delegate;
+@property(nonatomic, weak) id<VideoPlayerDelegate> delegate;
 
 @end

@@ -1,13 +1,12 @@
 //
-//  SBControlView.m
-//  SBPlayer
+//  VideoPlayerControlView.m
+//  VideoPlayer
 //
-//  Created by sycf_ios on 2017/4/10.
-//  Copyright © 2017年 shibiao. All rights reserved.
+//  Created by HN on 2021/6/30.
 //
 
-#import "SBControlView.h"
-@interface SBControlView ()
+#import "VideoPlayerControlView.h"
+@interface VideoPlayerControlView ()
 //当前时间
 @property(nonatomic, strong) UILabel *timeLabel;
 //总时间
@@ -19,7 +18,7 @@
 @end
 
 static NSInteger padding = 8;
-@implementation SBControlView
+@implementation VideoPlayerControlView
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
