@@ -108,18 +108,18 @@ static NSInteger count = 0;
 // FIXME: Tracking time,跟踪时间的改变
 - (void)addPeriodicTimeObserver {
     __weak typeof(self) weakSelf = self;
-    self.playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.f, 1000.f)
+    self.playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
                                                                            queue:dispatch_get_main_queue()
                                                                       usingBlock:^(CMTime time) {
-        //获取当前播放时间
-//        Float64 current1 = CMTimeGetSeconds(time);
-//        //获取视频播放总时间
-//        Float64 total2 = CMTimeGetSeconds([weakSelf.item duration]);
-//        weakSelf.controlView.value = current1 / total2;
 
         if (weakSelf.controlView.isTouchingSlider == NO) {
-            weakSelf.controlView.value = weakSelf.item.currentTime.value / weakSelf.item.currentTime.timescale;
+            if (weakSelf.isPlaying) {
+                weakSelf.controlView.value = weakSelf.item.currentTime.value /(CGFloat) weakSelf.item.currentTime.timescale;
+            } else {
+                weakSelf.controlView.value = 0;
+            }
         }
+        
         if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
             weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
         }
@@ -135,18 +135,18 @@ static NSInteger count = 0;
             }
         }
         count += 1;
-#warning <#message#>
+        
         //重新播放视频
-//        if (total == current) {
-//            if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
-//                [weakSelf play];
-//            } else {
-//                --weakSelf.autoPlayCountTemp;
-//                if (weakSelf.autoPlayCountTemp > 0) {
-//                    [weakSelf play];
-//                }
-//            }
-//        }
+        if (weakSelf.isPlaying == NO) {
+            if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
+                [weakSelf play];
+            } else {
+                --weakSelf.autoPlayCountTemp;
+                if (weakSelf.autoPlayCountTemp > 0) {
+                    [weakSelf play];
+                }
+            }
+        }
     }];
 }
 
@@ -323,7 +323,7 @@ static NSInteger count = 0;
 }
 
 - (void)willResignActive:(NSNotification *)notification {
-    if (_isPlaying) {
+    if (self.isPlaying) {
         [self setSubViewsIsHide:NO];
         count = 0;
         [self pause];
@@ -332,7 +332,7 @@ static NSInteger count = 0;
 }
 
 - (void)willEnterForeground:(NSNotification *)notification {
-    if (!_isPlaying) {
+    if (!self.isPlaying) {
         [self setSubViewsIsHide:YES];
         count = 5;
         [self play];
@@ -421,7 +421,7 @@ static NSInteger count = 0;
         [self.activityIndeView stopAnimating];
         self.activityIndeView.hidden = YES;
     }
-    if (!_isPlaying) {
+    if (!self.isPlaying) {
         [self play];
     } else {
         [self pause];

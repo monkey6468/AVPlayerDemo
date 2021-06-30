@@ -12,6 +12,7 @@
 #pragma mark - get data
 + (NSArray *)getUrls {
     NSArray *allUlr = [self getAllUrls];
+    return allUlr;
     NSArray *randomArray = [[NSArray alloc]init];
     randomArray = [allUlr sortedArrayUsingComparator:^NSComparisonResult(NSString *str1, NSString *str2) {
         int seed = arc4random_uniform(2);
@@ -30,6 +31,7 @@
 //        @"https://aweme.snssdk.com/aweme/v1/playwm/?video_id=v0200ff00000bdkpfpdd2r6fb5kf6m50&line=0.mp4",
 
     NSArray<NSString *> *urls = @[
+        @"https://video.cnhnb.com/video/mp4/miniapp/2021/03/20/8664f5edc73e4d6891caeb4aa14ee337.mp4",// 3.48
         @"https://video.cnhnb.com/video/mp4/douhuo/2021/02/07/875d17111b534655b7b42cbbb97c647b.mp4",// 10 VideoRenderModeFillEdge
         @"https://video.cnhnb.com/video/mp4/miniapp/2021/03/20/8664f5edc73e4d6891caeb4aa14ee337.mp4",// 3.48
         @"https://video.cnhnb.com/video/mp4/douhuo/2020/12/10/7499e5f4ce864b2c884abf3af6112f56.mp4",// 22.73 VideoRenderModeFillEdge
