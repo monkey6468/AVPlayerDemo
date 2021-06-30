@@ -258,6 +258,7 @@ static NSInteger count = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SBPlayerItemDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)removeNotificationCenter {
@@ -327,6 +328,15 @@ static NSInteger count = 0;
         count = 0;
         [self pause];
         [self.playOrPauseButton setSelected:NO];
+    }
+}
+
+- (void)willEnterForeground:(NSNotification *)notification {
+    if (!_isPlaying) {
+        [self setSubViewsIsHide:YES];
+        count = 5;
+        [self play];
+        [self.playOrPauseButton setSelected:YES];
     }
 }
 
