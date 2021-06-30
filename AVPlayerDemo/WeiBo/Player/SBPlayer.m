@@ -34,8 +34,7 @@ static NSInteger count = 0;
 
 #pragma mark - life
 - (instancetype)initWithUrl:(NSURL *)url {
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         _url = url;
         self.autoPlayCountTemp = NSUIntegerMax;
         [self setupPlayerUI];
@@ -85,14 +84,6 @@ static NSInteger count = 0;
         }
     }];
     [self setupPlayerWithAsset:self.anAsset];
-}
-
-- (instancetype)initWithAsset:(AVURLAsset *)asset {
-    if (self = [super init]) {
-        [self setupPlayerUI];
-        [self setupPlayerWithAsset:asset];
-    }
-    return self;
 }
 
 - (void)setupPlayerWithAsset:(AVURLAsset *)asset {
