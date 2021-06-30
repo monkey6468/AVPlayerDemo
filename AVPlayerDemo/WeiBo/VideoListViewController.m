@@ -94,7 +94,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 329;
+    return 250;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

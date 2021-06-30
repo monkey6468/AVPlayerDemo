@@ -2,7 +2,7 @@
 //  VideoPlayer.h
 //
 //  Created by HN on 2021/6/30.
-//
+// 参考：https://github.com/czhen09/ScrollPlayVideo
 
 #import "VideoPlayerControlView.h"
 #import <AVFoundation/AVFoundation.h>
