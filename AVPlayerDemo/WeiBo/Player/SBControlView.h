@@ -13,47 +13,49 @@
 @required
 /**
  点击UISlider获取点击点
-
+ 
  @param controlView 控制视图
  @param value 当前点击点
  */
--(void)controlView:(SBControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value;
+- (void)controlView:(SBControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value;
 
 /**
  拖拽UISlider的knob的时间响应代理方法
-
+ 
  @param controlView 控制视图
  @param slider UISlider
  */
--(void)controlView:(SBControlView *)controlView draggedPositionWithSlider:(UISlider *)slider ;
+- (void)controlView:(SBControlView *)controlView draggedPositionWithSlider:(UISlider *)slider;
 
 /**
  点击放大按钮的响应事件
-
+ 
  @param controlView 控制视图
  @param button 全屏按钮
  */
--(void)controlView:(SBControlView *)controlView withLargeButton:(UIButton *)button;
+- (void)controlView:(SBControlView *)controlView withLargeButton:(UIButton *)button;
 @end
+
 @interface SBControlView : UIView
 
 //全屏按钮
 //@property (nonatomic,strong) UIButton *largeButton;
 //进度条当前值
-@property (nonatomic,assign) CGFloat value;
+@property(nonatomic, assign) CGFloat value;
+@property (assign, nonatomic, getter=isTouchingSlider) BOOL bTouchingSlider; // 进度条
 //最小值
-@property (nonatomic,assign) CGFloat minValue;
+@property(nonatomic, assign) CGFloat minValue;
 //最大值
-@property (nonatomic,assign) CGFloat maxValue;
+@property(nonatomic, assign) CGFloat maxValue;
 //当前时间
-@property (nonatomic,copy) NSString *currentTime;
+@property(nonatomic, copy) NSString *currentTime;
 //总时间
-@property (nonatomic,copy) NSString *totalTime;
+@property(nonatomic, copy) NSString *totalTime;
 //缓存条当前值
-@property (nonatomic,assign) CGFloat bufferValue;
-//UISlider手势
-@property (nonatomic,strong) UITapGestureRecognizer *tapGesture;
+@property(nonatomic, assign) CGFloat bufferValue;
+// UISlider手势
+@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
 //代理方法
-@property (nonatomic,weak) id<SBControlViewDelegate> delegate;
+@property(nonatomic, weak) id<SBControlViewDelegate> delegate;
 
 @end

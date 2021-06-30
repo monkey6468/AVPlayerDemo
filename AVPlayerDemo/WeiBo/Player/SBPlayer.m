@@ -118,7 +118,9 @@ static NSInteger count = 0;
 //        Float64 total2 = CMTimeGetSeconds([weakSelf.item duration]);
 //        weakSelf.controlView.value = current1 / total2;
 
-        weakSelf.controlView.value = weakSelf.item.currentTime.value / weakSelf.item.currentTime.timescale;
+        if (weakSelf.controlView.isTouchingSlider == NO) {
+            weakSelf.controlView.value = weakSelf.item.currentTime.value / weakSelf.item.currentTime.timescale;
+        }
         if (!CMTIME_IS_INDEFINITE(self.anAsset.duration)) {
             weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
         }
@@ -418,15 +420,12 @@ static NSInteger count = 0;
     }
 }
 
-// MARK: SBControlViewDelegate
+#pragma mark - SBControlViewDelegate
 - (void)controlView:(SBControlView *)controlView pointSliderLocationWithCurrentValue:(CGFloat)value {
-    
     count = 0;
     CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale,
                                   self.item.currentTime.timescale);
-    [self.item seekToTime:pointTime
-          toleranceBefore:kCMTimeZero
-           toleranceAfter:kCMTimeZero];
+    [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 
 - (void)controlView:(SBControlView *)controlView draggedPositionWithSlider:(UISlider *)slider {
