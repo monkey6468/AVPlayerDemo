@@ -43,6 +43,8 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 @protocol VideoPlayerDelegate <NSObject>
 @optional
 - (void)playerTapActionWithCurrentTimeValue:(CGFloat)currentTimeValue;
+//播放进度更新回调方法
+- (void)videoPlayer:(VideoPlayer *)videoPlayer onProgressUpdate:(CGFloat)current;
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 @end
 @interface VideoPlayer : UIView <VideoPlayerControlViewDelegate, UIGestureRecognizerDelegate> 

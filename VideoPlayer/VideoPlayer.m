@@ -132,6 +132,11 @@ static NSInteger count = 0;
         
         //重新播放视频
         if (weakSelf.isPlaying == NO) {
+            //更新视频播放进度方法回调
+            if ([weakSelf.delegate respondsToSelector:@selector(videoPlayer:onProgressUpdate:)]) {
+                [weakSelf.delegate videoPlayer:weakSelf
+                              onProgressUpdate:0];
+            }
             if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
                 [weakSelf play];
             } else {
@@ -139,6 +144,12 @@ static NSInteger count = 0;
                 if (weakSelf.autoPlayCountTemp > 0) {
                     [weakSelf play];
                 }
+            }
+        } else {
+            //更新视频播放进度方法回调
+            if ([weakSelf.delegate respondsToSelector:@selector(videoPlayer:onProgressUpdate:)]) {
+                [weakSelf.delegate videoPlayer:weakSelf
+                              onProgressUpdate:weakSelf.item.currentTime.value];
             }
         }
     }];

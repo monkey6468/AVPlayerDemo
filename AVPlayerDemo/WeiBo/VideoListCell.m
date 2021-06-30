@@ -52,7 +52,6 @@
 - (IBAction)playButtonClick:(UIButton *)sender {
     [sender setSelected:!sender.isSelected];
     if ([self.delegate respondsToSelector:@selector(playButtonClick:)]) {
-        
         [self.delegate playButtonClick:sender];
     }
 }
@@ -65,6 +64,14 @@
     }
 }
 
+- (void)videoPlayer:(VideoPlayer *)videoPlayer onProgressUpdate:(CGFloat)current {
+//    if (videoPlayer == self.player && videoPlayer.isPlaying) {
+//        self.preImageView.hidden = YES;
+//    } else {
+////        self.preImageView.hidden = NO;
+//    }
+}
+
 #pragma mark - get data
 - (VideoPlayer *)player
 {
@@ -73,7 +80,7 @@
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
         //设置播放器填充模式 默认VideoPlayerGravityResizeAspectFill，可以不添加此语句
-        _player.mode =VideoPlayerGravityResizeAspectFill;
+        _player.mode = VideoPlayerGravityResizeAspectFill;
         _player.delegate = self;
     }
     return _player;
@@ -89,7 +96,20 @@
 - (void)setVideoUrl:(NSString *)videoUrl {
     _videoUrl = videoUrl;
     
+    __weak typeof(self) weakSelf = self;
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
-    [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+    [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:nil options:SDWebImageQueryDiskDataSync completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (image) {
+            CGFloat width = image.size.width;
+            CGFloat height = image.size.height;
+//            if (height/width <= 4/3.0) {
+//                weakSelf.preImageView.contentMode = UIViewContentModeScaleToFill;
+//                weakSelf.player.mode = VideoPlayerGravityResizeAspectFill;
+//            } else {
+//                weakSelf.preImageView.contentMode = UIViewContentModeScaleAspectFit;
+//                weakSelf.player.mode = VideoPlayerGravityResizeAspect;
+//            }
+        }
+    }];
 }
 @end

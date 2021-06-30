@@ -159,7 +159,7 @@
     if (videoPath.length && [videoPath hasSuffix:@".mp4"]) {
         frameImagePath = [videoPath stringByAppendingString:@"?vframe/jpg/offset/0/"];
     }
-    if (!isShowWatermark) {
+    if (isShowWatermark) {
         frameImagePath = [frameImagePath stringByReplacingOccurrencesOfString:@"transcode/"
                                                                    withString:@""];
     }

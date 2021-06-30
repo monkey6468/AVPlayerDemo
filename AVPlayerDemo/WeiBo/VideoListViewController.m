@@ -114,19 +114,20 @@
     
     //找出适合播放的并点亮
     [self filterShouldLightCellWithScrollDirection:self.isScrollDownward];
-
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    //停止的时候找出最合适的播放
-    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-     //停止的时候找出最合适的播放
-    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    //停止的时候找出最合适的播放
+//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//     //停止的时候找出最合适的播放
+//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
+//}
+
 #pragma mark - 明暗控制
 - (void)filterShouldLightCellWithScrollDirection:(BOOL)isScrollDownward
 {
@@ -167,8 +168,9 @@
             *stop = YES;
         }
     }];
-    [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
     
+    [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
+    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
 - (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex
