@@ -47,23 +47,24 @@ static NSInteger count = 0;
     NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey : @YES};
     self.anAsset = [[AVURLAsset alloc] initWithURL:url options:options];
     NSArray *keys = @[@"duration"];
-    
+
+    __weak typeof(self) weakSelf = self;
     [self.anAsset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
         NSError *error = nil;
         AVKeyValueStatus tracksStatus =
-        [self.anAsset statusOfValueForKey:@"duration" error:&error];
+        [weakSelf.anAsset statusOfValueForKey:@"duration" error:&error];
         switch (tracksStatus) {
             case AVKeyValueStatusLoaded: {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if (!CMTIME_IS_INDEFINITE(self.anAsset.duration)) {
+                    if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
                         
-                        if (self.anAsset.duration.timescale > 0) {
-                            CGFloat second = self.anAsset.duration.value /
-                            self.anAsset.duration.timescale;
-                            self.controlView.totalTime =
-                            [self convertTime:second];
-                            self.controlView.minValue = 0;
-                            self.controlView.maxValue = second;
+                        if (weakSelf.anAsset.duration.timescale > 0) {
+                            CGFloat second = weakSelf.anAsset.duration.value /
+                            weakSelf.anAsset.duration.timescale;
+                            weakSelf.controlView.totalTime =
+                            [weakSelf convertTime:second];
+                            weakSelf.controlView.minValue = 0;
+                            weakSelf.controlView.maxValue = second;
                         }
                     }
                 });
@@ -119,7 +120,7 @@ static NSInteger count = 0;
         if (weakSelf.controlView.isTouchingSlider == NO) {
             weakSelf.controlView.value = weakSelf.item.currentTime.value / weakSelf.item.currentTime.timescale;
         }
-        if (!CMTIME_IS_INDEFINITE(self.anAsset.duration)) {
+        if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
             weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
         }
         if (count >= 500) {
@@ -301,7 +302,6 @@ static NSInteger count = 0;
         case UIInterfaceOrientationPortraitUpsideDown:
         case UIInterfaceOrientationPortrait: {
             _isFullScreen = NO;
-            [self.playerSuperView addSubview:self];
             //删除UIView animate可以去除横竖屏切换过渡动画
             [UIView animateKeyframesWithDuration:kTransitionTime delay:0 options:UIViewKeyframeAnimationOptionCalculationModeLinear
              animations:^{

@@ -10,7 +10,8 @@
 #import "SBPlayer.h"
 
 @class VideoListCell;
-@protocol VideoListCellDelegate<NSObject>
+@protocol VideoListCellDelegate <NSObject>
+@optional
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 - (void)playButtonClick:(UIButton *)sender;
 @end

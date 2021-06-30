@@ -64,7 +64,8 @@
     [cell.player setPlayerTimeValueTo:startTimeValue];
     cell.topblackView.hidden = YES;
 }
-#pragma mark - ScrollPlayVideoCellDelegate
+
+#pragma mark - VideoListCellDelegate
 - (void)playButtonClick:(UIButton *)sender
 {
     NSInteger row = sender.tag-788;

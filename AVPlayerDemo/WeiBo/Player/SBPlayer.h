@@ -62,8 +62,6 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 @property(nonatomic, copy) NSString *title;
 //与url初始化
 - (instancetype)initWithUrl:(NSURL *)url;
-//将播放url放入资产中初始化播放器
-- (void)assetWithURL:(NSURL *)url;
 //播放
 - (void)play;
 //暂停
@@ -71,7 +69,8 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 //停止 （移除当前视频播放下一个或者销毁视频，需调用Stop方法）
 - (void)stop;
 - (void)setPlayerTimeValueTo:(CGFloat)value;
-@property(nonatomic, strong) UIView *playerSuperView;
+
 @property(nonatomic, assign) BOOL isHidenAllSubviews;
 @property(nonatomic, weak) id<SBPlayerDelegate> delegate;
+
 @end

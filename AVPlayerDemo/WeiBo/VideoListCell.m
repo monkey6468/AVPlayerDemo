@@ -16,6 +16,10 @@
 @end
 @implementation VideoListCell
 
+- (void)dealloc {
+
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setUI];
@@ -54,7 +58,6 @@
 {
     if (!_player) {
         _player = [[SBPlayer alloc] initWithUrl:[NSURL URLWithString:self.videoUrl]];
-        _player.playerSuperView  = self.videoBackView;
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
         //设置播放器填充模式 默认SBLayerVideoGravityResizeAspectFill，可以不添加此语句

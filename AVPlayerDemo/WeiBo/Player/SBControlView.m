@@ -22,7 +22,7 @@ static NSInteger padding = 8;
 @implementation SBControlView
 
 - (void)dealloc {
-    NSLog(@"__%s__",__func__);
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 //懒加载
@@ -97,11 +97,7 @@ static NSInteger padding = 8;
     [self addSubview:self.totalTimeLabel];
     //    [self addSubview:self.largeButton];
     //添加约束
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(deviceOrientationDidChange)
-     name:UIDeviceOrientationDidChangeNotification
-     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)layoutSubviews {
