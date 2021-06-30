@@ -7,11 +7,14 @@
 //
 
 #import "VideoListCell.h"
+#import "Utility.h"
+#import "UIImageView+WebCache.h"
 
 @interface VideoListCell()<VideoPlayerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *videoBackView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIImageView *preImageView;
 
 @end
 @implementation VideoListCell
@@ -78,5 +81,13 @@
 {
     _row = row;
     self.playButton.tag = 788+row;
+}
+
+- (void)setVideoUrl:(NSString *)videoUrl {
+    _videoUrl = videoUrl;
+    
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
+    [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
+
 }
 @end

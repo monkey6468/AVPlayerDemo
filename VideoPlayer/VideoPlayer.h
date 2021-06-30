@@ -26,6 +26,17 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusBuffering,
     VideoPlayerStatusPlaying,
     VideoPlayerStatusStopped,
+    
+#warning <#message#>
+//    VideoPlayerStatusUnknown            = 0,
+    VideoPlayerStatusReady              = 1,
+//    VideoPlayerStatusReadyToPlay        = 2,
+//    VideoPlayerStatusPlaying            = 3,
+    VideoPlayerStatusPaused             = 4,
+    VideoPlayerStatusFinished           = 5,
+    VideoPlayerStatusChangeEsolution    = 6,
+    VideoPlayerStatusDownload           = 7,
+//    VideoPlayerStatusFailed             = 8,
 };
 
 @class VideoPlayer;

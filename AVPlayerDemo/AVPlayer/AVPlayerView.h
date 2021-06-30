@@ -9,17 +9,18 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
-typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
-    VideoPlayerStatusUnknown            = 0,
-    VideoPlayerStatusReady              = 1,
-    VideoPlayerStatusReadyToPlay        = 2,
-    VideoPlayerStatusPlaying            = 3,
-    VideoPlayerStatusPaused             = 4,
-    VideoPlayerStatusFinished           = 5,
-    VideoPlayerStatusChangeEsolution    = 6,
-    VideoPlayerStatusDownload           = 7,
-    VideoPlayerStatusFailed             = 8,
-};
+#import "VideoPlayer.h"
+//typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
+//    VideoPlayerStatusUnknown            = 0,
+//    VideoPlayerStatusReady              = 1,
+//    VideoPlayerStatusReadyToPlay        = 2,
+//    VideoPlayerStatusPlaying            = 3,
+//    VideoPlayerStatusPaused             = 4,
+//    VideoPlayerStatusFinished           = 5,
+//    VideoPlayerStatusChangeEsolution    = 6,
+//    VideoPlayerStatusDownload           = 7,
+//    VideoPlayerStatusFailed             = 8,
+//};
 
 typedef NS_ENUM(NSInteger, VideoRenderMode) {
     VideoRenderModeFillScreen        = 0,   ///<  图像铺满屏幕，不留黑边，如果图像宽高比不同于屏幕宽高比，部分画面内容会被裁剪掉。
