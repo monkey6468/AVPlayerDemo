@@ -371,6 +371,8 @@
 			children = (
 				A6566A41267B48F300CA65BF /* CacheHelpler.h */,
 				A6566A42267B48F300CA65BF /* CacheHelpler.m */,
+				A6D9B17D268040F800CF7E62 /* ImageCache.h */,
+				A6D9B17E268040F800CF7E62 /* ImageCache.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -585,8 +587,6 @@
 				A652B0AB266A25720019F2C8 /* Utility */,
 				A6C7F87026661D0700A49576 /* AppDelegate.h */,
 				A6C7F87126661D0700A49576 /* AppDelegate.m */,
-				A6D9B17D268040F800CF7E62 /* ImageCache.h */,
-				A6D9B17E268040F800CF7E62 /* ImageCache.m */,
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
 				A66ECE36268AC60300C10BBB /* WeiBo */,
