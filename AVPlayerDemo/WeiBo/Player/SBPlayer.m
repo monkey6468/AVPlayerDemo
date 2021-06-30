@@ -205,8 +205,11 @@ static NSInteger count = 0;
         //缓存值
         self.controlView.bufferValue=timeInterval / totalDuration;
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
-        //        self.pauseOrPlayView.hidden = YES;
         _status = SBPlayerStatusBuffering;
+        if (self.player.status == SBPlayerStatusPlaying
+            || self.player.status == AVPlayerStatusReadyToPlay) {
+            return;
+        }
         if (!self.activityIndeView.isAnimating) {
             [self setSubViewsIsHide:YES];
             self.activityIndeView.hidden = NO;
@@ -574,6 +577,7 @@ static NSInteger count = 0;
         self.controlView.currentTime = @"00:00";
         self.controlView.totalTime = @"00:00";
         self.player = nil;
+        [self.activityIndeView stopAnimating];
         [self.activityIndeView removeFromSuperview];
         self.activityIndeView = nil;
         [self removeFromSuperview];
