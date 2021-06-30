@@ -124,7 +124,6 @@ static NSInteger count = 0;
                 [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:YES];
             }
         } else {
-            [weakSelf setSubViewsIsHide:NO];
             if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
                 [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:NO];
             }
@@ -265,7 +264,6 @@ static NSInteger count = 0;
 // MARK: NotificationCenter
 - (void)playerItemDidPlayToEndTimeNotification:(NSNotification *)notification {
     [self.item seekToTime:kCMTimeZero];
-    [self setSubViewsIsHide:NO];
     count = 0;
     [self pause];
     [self.playOrPauseButton setSelected:NO];
@@ -440,8 +438,7 @@ static NSInteger count = 0;
 }
 
 - (void)setPlayerTimeValueTo:(CGFloat)value {
-    CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale,
-                                  self.item.currentTime.timescale);
+    CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale, self.item.currentTime.timescale);
     [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 

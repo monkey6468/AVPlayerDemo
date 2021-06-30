@@ -57,6 +57,15 @@
     }
 }
 
+#pragma mark - VideoPlayerDelegate
+- (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
+{
+    if ([self.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
+        [self.delegate playerTapActionWithIsShouldToHideSubviews:isHide];
+    }
+}
+
+#pragma mark - get data
 - (VideoPlayer *)player
 {
     if (!_player) {
@@ -70,13 +79,7 @@
     return _player;
 }
 
-#pragma mark - VideoPlayerDelegate
-- (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide
-{
-    if ([self.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
-        [self.delegate playerTapActionWithIsShouldToHideSubviews:isHide];
-    }
-}
+#pragma mark - set data
 - (void)setRow:(NSInteger)row
 {
     _row = row;
@@ -88,6 +91,5 @@
     
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
     [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
-
 }
 @end

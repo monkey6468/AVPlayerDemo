@@ -47,8 +47,6 @@ static NSInteger padding = 8;
 - (UISlider *)slider {
     if (!_slider) {
         _slider = [[UISlider alloc] init];
-        [_slider setThumbImage:[UIImage imageNamed:@"knob"]
-                      forState:UIControlStateNormal];
         _slider.continuous = YES;
         self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [_slider addTarget:self action:@selector(handleSliderPosition:) forControlEvents:UIControlEventValueChanged];
