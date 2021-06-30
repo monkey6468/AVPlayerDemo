@@ -19,12 +19,12 @@
                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tC-hY-KV8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timg" translatesAutoresizingMaskIntoConstraints="NO" id="Uc1-Tm-erz">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uc1-Tm-erz">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebN-zs-asp">
                                 <rect key="frame" x="125" y="65" width="70" height="70"/>
-                                <state key="normal" image="播放按钮"/>
+                                <state key="normal" image="播放按钮.png"/>
                                 <connections>
                                     <action selector="playButtonClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0gE-oL-MUL"/>
                                 </connections>
@@ -80,8 +80,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="timg" width="1024" height="687"/>
-        <image name="播放按钮" width="70" height="70"/>
+        <image name="播放按钮.png" width="70" height="70"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

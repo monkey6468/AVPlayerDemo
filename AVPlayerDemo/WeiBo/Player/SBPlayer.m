@@ -26,12 +26,13 @@
 @property(nonatomic, assign) BOOL isFirstPrepareToPlay;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)
 @property (nonatomic, assign) NSUInteger autoPlayCountTemp;
+@property (strong, nonatomic) id playbackTimerObserver;
 @end
 static NSInteger count = 0;
 
 @implementation SBPlayer
 
-// MARK:实例化
+#pragma mark - life
 - (instancetype)initWithUrl:(NSURL *)url {
     self = [super init];
     if (self) {
@@ -106,12 +107,18 @@ static NSInteger count = 0;
     [self addNotificationCenter];
 }
 
+- (void)dealloc {
+    [self stop];
+    NSLog(@"__%s__",__func__);
+}
+
+#pragma mark - other
 // FIXME: Tracking time,跟踪时间的改变
 - (void)addPeriodicTimeObserver {
     __weak typeof(self) weakSelf = self;
-    playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.f, 1000.f)
-                                                                      queue:dispatch_get_main_queue()
-                                                                 usingBlock:^(CMTime time) {
+    self.playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.f, 1000.f)
+                                                                           queue:dispatch_get_main_queue()
+                                                                      usingBlock:^(CMTime time) {
         //获取当前播放时间
 //        Float64 current1 = CMTimeGetSeconds(time);
 //        //获取视频播放总时间
@@ -512,8 +519,8 @@ static NSInteger count = 0;
         [self.playOrPauseButton setSelected:NO];
     }
 }
+
 - (void)stop {
-    
     if (self.item || self.item != nil) {
         [self.item removeObserver:self forKeyPath:@"status"];
         [self.item removeObserver:self forKeyPath:@"loadedTimeRanges"];
@@ -521,7 +528,7 @@ static NSInteger count = 0;
         [self.item removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
     }
     if (self.player || self.player != nil) {
-        [self.player removeTimeObserver:playbackTimerObserver];
+        [self.player removeTimeObserver:self.playbackTimerObserver];
         [self.player removeObserver:self forKeyPath:@"rate"];
     }
     
@@ -541,7 +548,6 @@ static NSInteger count = 0;
         [self removeFromSuperview];
     }
 }
-
 
 #pragma mark - get data
 + (Class)layerClass {

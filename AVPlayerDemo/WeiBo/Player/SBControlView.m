@@ -21,6 +21,10 @@
 static NSInteger padding = 8;
 @implementation SBControlView
 
+- (void)dealloc {
+    NSLog(@"__%s__",__func__);
+}
+
 //懒加载
 - (UILabel *)timeLabel {
     if (!_timeLabel) {

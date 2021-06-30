@@ -35,10 +35,7 @@ typedef NS_ENUM(NSInteger, SBPlayerStatus) {
 - (void)playerTapActionWithCurrentTimeValue:(CGFloat)currentTimeValue;
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 @end
-@interface SBPlayer
-: UIView <SBControlViewDelegate, UIGestureRecognizerDelegate> {
-    id playbackTimerObserver;
-}
+@interface SBPlayer : UIView <SBControlViewDelegate, UIGestureRecognizerDelegate> 
 // AVPlayer
 @property(nonatomic, strong) AVPlayer *player;
 // AVPlayer的播放item
