@@ -369,10 +369,10 @@ static NSInteger count = 0;
     CGRectMake(0, self.frame.size.height - 44, self.frame.size.width, 44);
     
     self.activityIndeView.center = self.center;
-    self.activityIndeView.bounds = CGRectMake(0, 0, 80, 80);
+    self.activityIndeView.bounds = CGRectMake(0, 0, 35, 35);
     
     self.playOrPauseButton.center = self.center;
-    self.playOrPauseButton.bounds = CGRectMake(0, 0, 70, 70);
+    self.playOrPauseButton.bounds = CGRectMake(0, 0, 50, 50);
 }
 
 //初始化时间
@@ -383,9 +383,7 @@ static NSInteger count = 0;
 
 //添加点击事件
 - (void)addGestureEvent {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self
-                                   action:@selector(handleTapAction:)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapAction:)];
     tap.delegate = self;
     [self addGestureRecognizer:tap];
 }

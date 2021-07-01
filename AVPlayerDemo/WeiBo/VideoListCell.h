@@ -18,13 +18,15 @@
 @end
 
 @interface VideoListCell : UITableViewCell
-@property (nonatomic,strong) VideoPlayer *player;
+@property(weak, nonatomic) IBOutlet UIView *videoBackView;
 
-@property (weak, nonatomic) IBOutlet UIView *videoFirstImageView;
-@property (nonatomic,weak) id<VideoListCellDelegate> delegate;
+@property(nonatomic, assign) NSInteger row;
+@property(strong, nonatomic) VideoInfo *model;
+
+@property(weak, nonatomic) id<VideoListCellDelegate> delegate;
+
+@property(nonatomic, strong) VideoPlayer *player;
+
 - (void)shouldToPlay;
-@property (nonatomic,assign) NSInteger row;
-
-@property (strong, nonatomic) VideoInfo *model;
 
 @end

@@ -139,7 +139,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
         NSLog(@"%ld", (long)cell.row);
         
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
+        CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
         if (topSpacing >= -rect.size.height / 3 && bottomSpacing >= -rect.size.height / 3) {
@@ -150,7 +150,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
         }
     }];
     
-    //    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
+//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
 #pragma mark - 播放暂停
@@ -200,7 +200,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
         NSLog(@"%ld", (long)cell.row);
         
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
+        CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
         if (topSpacing >= -rect.size.height / 3 &&
@@ -223,7 +223,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     }
     if (self.lastOrCurrentPlayIndex != -1) {
         VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
-        CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
+        CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
         //当视频播放部分移除可见区域1/3的时候暂停

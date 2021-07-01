@@ -23,16 +23,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebN-zs-asp">
-                                <rect key="frame" x="125" y="65" width="70" height="70"/>
+                                <rect key="frame" x="135" y="75" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="DRg-jN-cyT"/>
+                                    <constraint firstAttribute="width" secondItem="ebN-zs-asp" secondAttribute="height" multiplier="1:1" id="cas-JQ-ghb"/>
+                                </constraints>
                                 <state key="normal" image="播放按钮.png"/>
                                 <connections>
                                     <action selector="playButtonClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0gE-oL-MUL"/>
                                 </connections>
                             </button>
-                            <view userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wBL-4u-SUL">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
-                                <color key="backgroundColor" systemColor="darkTextColor"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -41,11 +41,7 @@
                             <constraint firstAttribute="bottom" secondItem="Uc1-Tm-erz" secondAttribute="bottom" id="G70-tx-sbr"/>
                             <constraint firstItem="Uc1-Tm-erz" firstAttribute="top" secondItem="7tC-hY-KV8" secondAttribute="top" id="GCl-o0-3kg"/>
                             <constraint firstItem="Uc1-Tm-erz" firstAttribute="leading" secondItem="7tC-hY-KV8" secondAttribute="leading" id="c8p-RA-Y4R"/>
-                            <constraint firstAttribute="trailing" secondItem="wBL-4u-SUL" secondAttribute="trailing" id="f6f-RZ-f6k"/>
-                            <constraint firstItem="wBL-4u-SUL" firstAttribute="leading" secondItem="7tC-hY-KV8" secondAttribute="leading" id="fpQ-7f-oTz"/>
                             <constraint firstAttribute="trailing" secondItem="Uc1-Tm-erz" secondAttribute="trailing" id="fua-g9-dbQ"/>
-                            <constraint firstItem="wBL-4u-SUL" firstAttribute="top" secondItem="7tC-hY-KV8" secondAttribute="top" id="hjW-Bq-S0A"/>
-                            <constraint firstAttribute="bottom" secondItem="wBL-4u-SUL" secondAttribute="bottom" id="zaO-So-ayW"/>
                             <constraint firstAttribute="height" constant="200" id="zix-Kc-pu7"/>
                         </constraints>
                     </view>
@@ -72,16 +68,12 @@
                 <outlet property="playButton" destination="ebN-zs-asp" id="gxS-oF-dJi"/>
                 <outlet property="preImageView" destination="Uc1-Tm-erz" id="lks-dO-GeF"/>
                 <outlet property="textView" destination="pwd-dV-Gk0" id="ERi-Nk-eBm"/>
-                <outlet property="videoBackView" destination="7tC-hY-KV8" id="BaJ-ar-nb6"/>
-                <outlet property="videoFirstImageView" destination="wBL-4u-SUL" id="rAe-kp-Fvn"/>
+                <outlet property="videoBackView" destination="7tC-hY-KV8" id="6Ie-OH-Eyr"/>
             </connections>
             <point key="canvasLocation" x="-259.5" y="8.5"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="播放按钮.png" width="70" height="70"/>
-        <systemColor name="darkTextColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

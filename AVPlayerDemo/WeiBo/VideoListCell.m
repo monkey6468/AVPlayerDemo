@@ -12,15 +12,14 @@
 #import "SDImageCache.h"
 
 @interface VideoListCell () <VideoPlayerDelegate>
-@property(weak, nonatomic) IBOutlet UIView *videoBackView;
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property(weak, nonatomic) IBOutlet UITextView *textView;
 
 /// 视频宽度
-@property (assign, nonatomic) CGFloat videoWidth;
+@property(assign, nonatomic) CGFloat videoWidth;
 /// 视频高度
-@property (assign, nonatomic) CGFloat videoHeight;
+@property(assign, nonatomic) CGFloat videoHeight;
 
 @end
 
@@ -32,9 +31,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self setUI];
-}
-- (void)setUI {
     self.videoBackView.userInteractionEnabled = YES;
 }
 
@@ -60,19 +56,19 @@
 - (BOOL)isVideoPortrait:(CGAffineTransform)t {
     BOOL isPortrait = NO;
     // Portrait
-    if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) {
+    if (t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) {
         isPortrait = YES;
     }
     // PortraitUpsideDown
-    if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0) {
+    if (t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0) {
         isPortrait = YES;
     }
     // LandscapeRight
-    if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0) {
+    if (t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0) {
         isPortrait = NO;
     }
     // LandscapeLeft
-    if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0) {
+    if (t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0) {
         isPortrait = NO;
     }
     return isPortrait;
