@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VideoListViewController">
+            <connections>
+                <outlet property="tableView" destination="QvG-CS-FnQ" id="Mzn-JI-5Ww"/>
+                <outlet property="view" destination="iN0-l3-epB" id="2m3-Dk-S2x"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QvG-CS-FnQ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="OX2-1H-EbL"/>
+                        <outlet property="delegate" destination="-1" id="N7V-hP-emB"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="QvG-CS-FnQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QsK-In-pDr"/>
+                <constraint firstAttribute="bottom" secondItem="QvG-CS-FnQ" secondAttribute="bottom" id="Xel-zq-ptT"/>
+                <constraint firstAttribute="trailing" secondItem="QvG-CS-FnQ" secondAttribute="trailing" id="Xke-pc-PhE"/>
+                <constraint firstItem="QvG-CS-FnQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oVN-DU-V3C"/>
+            </constraints>
+            <point key="canvasLocation" x="132" y="103"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

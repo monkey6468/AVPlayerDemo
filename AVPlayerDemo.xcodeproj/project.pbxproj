@@ -98,6 +98,7 @@
 		A6714F552681CCDF00AE7026 /* SDAsyncBlockOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A6714F102681CCDF00AE7026 /* SDAsyncBlockOperation.m */; };
 		A6714F562681CCDF00AE7026 /* SDAssociatedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A6714F112681CCDF00AE7026 /* SDAssociatedObject.m */; };
 		A6BB88CB268D749F00F280B2 /* VideoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88CA268D749F00F280B2 /* VideoInfo.m */; };
+		A6BB88CD268DB0E400F280B2 /* VideoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -283,6 +284,7 @@
 		A6714F112681CCDF00AE7026 /* SDAssociatedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAssociatedObject.m; sourceTree = "<group>"; };
 		A6BB88C9268D749F00F280B2 /* VideoInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoInfo.h; sourceTree = "<group>"; };
 		A6BB88CA268D749F00F280B2 /* VideoInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoInfo.m; sourceTree = "<group>"; };
+		A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoListViewController.xib; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 			children = (
 				A633386C268B084B004F9BAF /* VideoListViewController.h */,
 				A633386B268B084B004F9BAF /* VideoListViewController.m */,
+				A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */,
 				A6BB88C9268D749F00F280B2 /* VideoInfo.h */,
 				A6BB88CA268D749F00F280B2 /* VideoInfo.m */,
 				A6333871268B084B004F9BAF /* VideoListCell.h */,
@@ -665,6 +668,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6BB88CD268DB0E400F280B2 /* VideoListViewController.xib in Resources */,
 				A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,

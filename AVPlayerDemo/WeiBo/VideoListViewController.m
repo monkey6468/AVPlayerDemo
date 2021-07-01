@@ -10,9 +10,9 @@
 
 #import "VideoListCell.h"
 
-@interface VideoListViewController () <
-UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
-@property(nonatomic, strong) UITableView *tableView;
+@interface VideoListViewController () <UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property(strong, nonatomic) NSMutableArray *dataArray;
 
 @property(nonatomic, assign) NSInteger lastOrCurrentPlayIndex;
@@ -50,6 +50,9 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 }
 
 - (void)setUI {
+    self.tableView.tableFooterView = [UIView new];
+    self.tableView.tableHeaderView = [UIView new];
+
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(VideoListCell.class)];
 }
 
@@ -195,20 +198,6 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     cell.model.playTime = cell.player.currentTime;
     [cell.player stop];
     cell.player = nil;
-}
-
-#pragma mark - Getters & Setters
-- (UITableView *)tableView {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-        _tableView.sectionFooterHeight = 1;
-        _tableView.tableFooterView = [UIView new];
-        _tableView.tableHeaderView = [UIView new];
-        [self.view addSubview:self.tableView];
-    }
-    return _tableView;
 }
 
 @end

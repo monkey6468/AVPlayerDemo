@@ -32,6 +32,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.videoBackView.userInteractionEnabled = YES;
+    self.videoBackView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200);
 }
 
 - (void)shouldToPlay {
@@ -39,7 +40,7 @@
     if (self.model.playTime) {
         [self.player seekToTimeTo:self.model.playTime];
     }
-    [self layoutIfNeeded];
+
     self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
 }
 
