@@ -1,5 +1,5 @@
 //
-//  VideoListCell.m
+//  DYVideoListCell.m
 //  AVPlayerDemo
 //
 //  Created by HN on 2021/6/30.
@@ -7,10 +7,10 @@
 
 #import "UIImageView+WebCache.h"
 #import "Utility.h"
-#import "VideoListCell.h"
+#import "DYVideoListCell.h"
 #import "SDImageCache.h"
 
-@interface VideoListCell () <VideoPlayerDelegate>
+@interface DYVideoListCell () <VideoPlayerDelegate>
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
 @property(weak, nonatomic) IBOutlet UITextView *textView;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation VideoListCell
+@implementation DYVideoListCell
 
 - (void)dealloc {
     NSLog(@"%s",__func__);

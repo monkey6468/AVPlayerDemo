@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import "VideoListViewController.h"
+#import "DYVideoListViewController.h"
 #import "AwemeListController.h"
 
 #import "Utility.h"
@@ -24,8 +25,7 @@
     // Do any additional setup after loading the view.
     
 //    [self onActionPlay:nil];
-//    [self onActionAwemeList:nil];
-    [self onActionWeiboPlay:nil];
+    [self onActionAwemeList:nil];
 }
 
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {
@@ -35,10 +35,13 @@
 }
 
 - (IBAction)onActionAwemeList:(UIButton *)sender {
-    AwemeListController *vc = [[AwemeListController alloc]init];
+    DYVideoListViewController *vc = [[DYVideoListViewController alloc]init];
     vc.urlsArray = [Utility getUrls];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+//    AwemeListController *vc = [[AwemeListController alloc]init];
+//    vc.urlsArray = [Utility getUrls];
+//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onActionClearCache:(UIButton *)sender {

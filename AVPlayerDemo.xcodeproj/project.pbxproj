@@ -99,6 +99,10 @@
 		A6714F562681CCDF00AE7026 /* SDAssociatedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A6714F112681CCDF00AE7026 /* SDAssociatedObject.m */; };
 		A6BB88CB268D749F00F280B2 /* VideoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88CA268D749F00F280B2 /* VideoInfo.m */; };
 		A6BB88CD268DB0E400F280B2 /* VideoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */; };
+		A6BB88D5268DC0E400F280B2 /* DYVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */; };
+		A6BB88D6268DC0E400F280B2 /* DYVideoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */; };
+		A6BB88D7268DC0E400F280B2 /* DYVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */; };
+		A6BB88D8268DC0E400F280B2 /* DYVideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -285,6 +289,12 @@
 		A6BB88C9268D749F00F280B2 /* VideoInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoInfo.h; sourceTree = "<group>"; };
 		A6BB88CA268D749F00F280B2 /* VideoInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoInfo.m; sourceTree = "<group>"; };
 		A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoListViewController.xib; sourceTree = "<group>"; };
+		A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYVideoListViewController.m; sourceTree = "<group>"; };
+		A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYVideoListViewController.xib; sourceTree = "<group>"; };
+		A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYVideoListCell.m; sourceTree = "<group>"; };
+		A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYVideoListCell.xib; sourceTree = "<group>"; };
+		A6BB88D3268DC0E400F280B2 /* DYVideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYVideoListViewController.h; sourceTree = "<group>"; };
+		A6BB88D4268DC0E400F280B2 /* DYVideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYVideoListCell.h; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -569,6 +579,19 @@
 			path = Private;
 			sourceTree = "<group>";
 		};
+		A6BB88CE268DBFCB00F280B2 /* DouYin */ = {
+			isa = PBXGroup;
+			children = (
+				A6BB88D4268DC0E400F280B2 /* DYVideoListCell.h */,
+				A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */,
+				A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */,
+				A6BB88D3268DC0E400F280B2 /* DYVideoListViewController.h */,
+				A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */,
+				A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */,
+			);
+			path = DouYin;
+			sourceTree = "<group>";
+		};
 		A6C7F86426661D0700A49576 = {
 			isa = PBXGroup;
 			children = (
@@ -597,6 +620,7 @@
 				A6C7F87126661D0700A49576 /* AppDelegate.m */,
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
+				A6BB88CE268DBFCB00F280B2 /* DouYin */,
 				A66ECE36268AC60300C10BBB /* WeiBo */,
 				A65669C9267B43CC00CA65BF /* AVPlayer */,
 				A65669C2267B43A300CA65BF /* AwemeListController */,
@@ -670,7 +694,9 @@
 			files = (
 				A6BB88CD268DB0E400F280B2 /* VideoListViewController.xib in Resources */,
 				A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */,
+				A6BB88D6268DC0E400F280B2 /* DYVideoListViewController.xib in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
+				A6BB88D8268DC0E400F280B2 /* DYVideoListCell.xib in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
 				A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */,
 				A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */,
@@ -749,6 +775,7 @@
 				A633387E268B084C004F9BAF /* VideoPlayer.m in Sources */,
 				A6714F1A2681CCDF00AE7026 /* UIImageView+HighlightedWebCache.m in Sources */,
 				A6714F532681CCDF00AE7026 /* NSBezierPath+SDRoundedCorners.m in Sources */,
+				A6BB88D7268DC0E400F280B2 /* DYVideoListCell.m in Sources */,
 				A6714F352681CCDF00AE7026 /* SDWebImageDownloaderConfig.m in Sources */,
 				A6714F492681CCDF00AE7026 /* UIImage+Metadata.m in Sources */,
 				A6714F2D2681CCDF00AE7026 /* SDWebImageError.m in Sources */,
@@ -761,6 +788,7 @@
 				A6714F232681CCDF00AE7026 /* SDWebImageCacheSerializer.m in Sources */,
 				A6714F212681CCDF00AE7026 /* SDWebImageDownloader.m in Sources */,
 				A6714F222681CCDF00AE7026 /* SDImageLoader.m in Sources */,
+				A6BB88D5268DC0E400F280B2 /* DYVideoListViewController.m in Sources */,
 				A6714F552681CCDF00AE7026 /* SDAsyncBlockOperation.m in Sources */,
 				A6714F3F2681CCDF00AE7026 /* UIImageView+WebCache.m in Sources */,
 				A6714F4A2681CCDF00AE7026 /* UIButton+WebCache.m in Sources */,

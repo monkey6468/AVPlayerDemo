@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VideoListViewController : UIViewController
+@interface DYVideoListViewController : UIViewController
 
 @property (copy, nonatomic) NSArray *urlsArray;
 

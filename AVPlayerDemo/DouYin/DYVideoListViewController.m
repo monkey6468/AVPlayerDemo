@@ -5,11 +5,11 @@
 //  Created by HN on 2021/6/30.
 //
 
-#import "VideoListViewController.h"
+#import "DYVideoListViewController.h"
 
-#import "VideoListCell.h"
+#import "DYVideoListCell.h"
 
-@interface VideoListViewController () <UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
+@interface DYVideoListViewController () <UITableViewDelegate, UITableViewDataSource, DYVideoListCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property(strong, nonatomic) NSMutableArray *dataArray;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation VideoListViewController
+@implementation DYVideoListViewController
 
 #pragma mark - life
 - (void)viewDidLoad {
@@ -52,15 +52,15 @@
     self.tableView.tableFooterView = [UIView new];
     self.tableView.tableHeaderView = [UIView new];
 
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(VideoListCell.class)];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(DYVideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(DYVideoListCell.class)];
 }
 
 - (void)setStartPlay {
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+    DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
 }
 
-#pragma mark - VideoListCellDelegate
+#pragma mark - DYVideoListCellDelegate
 - (void)playButtonClick:(UIButton *)sender {
     NSInteger row = sender.tag - 788;
     if (row != self.lastOrCurrentPlayIndex) {
@@ -76,7 +76,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    VideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(VideoListCell.class)];
+    DYVideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(DYVideoListCell.class)];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.row = indexPath.row;
@@ -149,7 +149,7 @@
     } else {
         newArray = cellsArray;
     }
-    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
+    [newArray enumerateObjectsUsingBlock:^(DYVideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
         CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.tableView.frame.size.height - rect.origin.y - rect.size.height;
@@ -172,7 +172,7 @@
     }
     
     if (self.lastOrCurrentPlayIndex != -1) {
-        VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+        DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
         CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.tableView.frame.size.height - rect.origin.y - rect.size.height;
@@ -187,13 +187,13 @@
 }
 
 - (void)playVideoWithShouldToPlayIndex:(NSInteger)shouldToPlayIndex {
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToPlayIndex inSection:0]];
+    DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToPlayIndex inSection:0]];
     [cell shouldToPlay];
     self.lastOrCurrentPlayIndex = cell.row;
 }
 
 - (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex {
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
+    DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
     cell.model.playTime = cell.player.currentTime;
     [cell.player stop];
     cell.player = nil;
