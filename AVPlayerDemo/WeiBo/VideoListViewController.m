@@ -25,6 +25,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 
 @implementation VideoListViewController
 
+#pragma mark - life
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initData];
@@ -32,15 +33,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     [self setUI];
     
     //设置初次播放的
-    [self setStartTimeValue:0];
-}
-
-#pragma mark - Private Methods
-- (void)willRemoveSubview:(UIView *)subview {
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
-    [cell.player stop];
-    cell.player = nil;
-    self.lastOrCurrentPlayIndex = -1;
+    [self setStartPlay];
 }
 
 - (void)initData {
@@ -63,7 +56,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(VideoListCell.class)];
 }
 
-- (void)setStartTimeValue:(CGFloat)startTimeValue {
+- (void)setStartPlay {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
 }
@@ -149,8 +142,6 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
             *stop = YES;
         }
     }];
-    
-//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
 #pragma mark - 播放暂停
