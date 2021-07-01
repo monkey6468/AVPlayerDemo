@@ -165,23 +165,21 @@
     });
 }
 
-#pragma KVO
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     //观察currentIndex变化
     if ([keyPath isEqualToString:@"currentIndex"]) {
         //设置用于标记当前视频是否播放的BOOL值为NO
 //        _isCurPlayerPause = NO;
 //        //获取当前显示的cell
 //
-//        AwemeListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+        DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
 //        [cell startDownloadHighPriorityTask];
 //        __weak typeof (cell) wcell = cell;
 //        __weak typeof (self) wself = self;
 //        //判断当前cell的视频源是否已经准备播放
-//        if(cell.isPlayerReady) {
-//            //播放视频
-//            [cell replay];
-//        }else {
+        if (cell.player.isPlaying == NO) {
+            [cell shouldToPlay];
+        } else {
 //            [[AVPlayerManager shareManager] pauseAll];
 //            //当前cell的视频源还未准备好播放，则实现cell的OnPlayerReady Block 用于等待视频准备好后通知播放
 //            cell.onPlayerReady = ^{
@@ -190,9 +188,9 @@
 //                    [wcell play];
 //                }
 //            };
-//        }
-//    } else {
-//        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        }
+    } else {
+        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
