@@ -55,6 +55,11 @@
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(DYVideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(DYVideoListCell.class)];
 }
 
+#pragma mark - other
+- (IBAction)onActionBack:(UIButton *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)setStartPlay {
     DYVideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
@@ -85,7 +90,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 300;
+    return self.view.frame.size.height;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

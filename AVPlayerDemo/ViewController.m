@@ -37,11 +37,11 @@
 - (IBAction)onActionAwemeList:(UIButton *)sender {
     DYVideoListViewController *vc = [[DYVideoListViewController alloc]init];
     vc.urlsArray = [Utility getUrls];
-    [self.navigationController pushViewController:vc animated:YES];
+//    [self.navigationController pushViewController:vc animated:YES];
 //    AwemeListController *vc = [[AwemeListController alloc]init];
 //    vc.urlsArray = [Utility getUrls];
-//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:vc animated:YES completion:nil];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (IBAction)onActionClearCache:(UIButton *)sender {

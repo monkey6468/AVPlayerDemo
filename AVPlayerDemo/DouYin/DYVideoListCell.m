@@ -31,7 +31,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.videoBackView.userInteractionEnabled = YES;
-    self.videoBackView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200);
+    self.videoBackView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
 }
 
 - (void)shouldToPlay {
