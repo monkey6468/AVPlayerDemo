@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoPlayer.h"
+#import "VideoInfo.h"
 
 @class VideoListCell;
 @protocol VideoListCellDelegate <NSObject>
@@ -25,6 +26,6 @@
 - (void)shouldToPlay;
 @property (nonatomic,assign) NSInteger row;
 
-@property (copy, nonatomic) NSString *videoUrl;
+@property (strong, nonatomic) VideoInfo *model;
 
 @end

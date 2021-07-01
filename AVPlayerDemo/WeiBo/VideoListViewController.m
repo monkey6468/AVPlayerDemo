@@ -12,7 +12,7 @@
 
 @interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 @property (nonatomic,strong) UITableView *tableView;
-@property (copy, nonatomic) NSArray *dataArray;
+@property (strong, nonatomic) NSMutableArray *dataArray;
 
 @property (nonatomic,assign) NSInteger lastOrCurrentPlayIndex;
 @property (nonatomic,assign) NSInteger lastOrCurrentLightIndex;
@@ -49,7 +49,14 @@
 }
 - (void)creatData
 {
-    self.dataArray = self.urlsArray;
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSString *url in self.urlsArray) {
+        VideoInfo *model = [VideoInfo new];
+        model.videoUrl = url;
+        model.playTime = 0;
+        [array addObject:model];
+    }
+    self.dataArray = array;
 }
 
 - (void)setUI
@@ -89,7 +96,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
     cell.row = indexPath.row;
-    cell.videoUrl = self.dataArray[indexPath.row];
+    cell.model = self.dataArray[indexPath.row];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -92,12 +92,12 @@
 #pragma mark - get data
 - (VideoPlayer *)player {
     if (!_player) {
-        _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.videoUrl]];
+        _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.model.videoUrl]];
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
         _player.delegate = self;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl];
+        NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.model.videoUrl];
         NSString *key = [manager cacheKeyForURL:[NSURL URLWithString:imageUrl]];
         SDImageCache *cache = [SDImageCache sharedImageCache];
         //此方法会先从memory中取。
@@ -109,7 +109,7 @@
         } else {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey:@YES};
-                AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:[NSURL URLWithString:self.videoUrl] options:options];
+                AVURLAsset *anAsset = [[AVURLAsset alloc] initWithURL:[NSURL URLWithString:self.model.videoUrl] options:options];
                 NSArray *tracks = [anAsset tracksWithMediaType:AVMediaTypeVideo];
                 if ([tracks count] > 0) {
                     AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
@@ -148,13 +148,13 @@
     }
 }
 
-- (void)setVideoUrl:(NSString *)videoUrl {
-    _videoUrl = videoUrl;
+- (void)setModel:(VideoInfo *)model {
+    _model = model;
     
-    self.textView.text = videoUrl;
+    self.textView.text = model.videoUrl;
     
     __weak typeof(self) weakSelf = self;
-    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl];
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:model.videoUrl];
     [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         if (image) {
             CGFloat width = image.size.width;
