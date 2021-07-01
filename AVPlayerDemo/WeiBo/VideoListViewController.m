@@ -83,7 +83,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 250;
+    return 300;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -148,13 +148,10 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
         newArray = cellsArray;
     }
     [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
-        NSLog(@"%ld", (long)cell.row);
-        
         CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
-        if (topSpacing >= -rect.size.height / 3 &&
-            bottomSpacing >= -rect.size.height / 3) {
+        CGFloat bottomSpacing = self.tableView.frame.size.height - rect.origin.y - rect.size.height;
+        if (topSpacing >= -rect.size.height / 3. && bottomSpacing >= -rect.size.height / 3.) {
             if (self.lastOrCurrentPlayIndex == -1) {
                 if (self.lastOrCurrentPlayIndex != cell.row) {
                     [cell shouldToPlay];
@@ -176,9 +173,9 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
         VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
         CGRect rect = [cell.videoBackView convertRect:cell.videoBackView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
+        CGFloat bottomSpacing = self.tableView.frame.size.height - rect.origin.y - rect.size.height;
         //当视频播放部分移除可见区域1/3的时候暂停
-        if (topSpacing < -rect.size.height / 3 || bottomSpacing < -rect.size.height / 3) {
+        if (topSpacing < -rect.size.height / 3. || bottomSpacing < -rect.size.height / 3.) {
             cell.model.playTime = cell.player.currentTime;
             [cell.player stop];
             cell.player = nil;
@@ -195,6 +192,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 
 - (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
+    cell.model.playTime = cell.player.currentTime;
     [cell.player stop];
     cell.player = nil;
 }
