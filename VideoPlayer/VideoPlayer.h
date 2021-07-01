@@ -50,8 +50,6 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 @property(nonatomic, assign) CGFloat totalTime;
 //当前时间
 @property(nonatomic, assign) CGFloat currentTime;
-//资产AVURLAsset
-@property(nonatomic, strong) AVURLAsset *anAsset;
 //播放器Playback Rate
 @property(nonatomic, assign) CGFloat rate;
 //播放状态
@@ -76,7 +74,6 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 - (void)stop;
 - (void)setPlayerTimeValueTo:(CGFloat)value;
 
-@property(nonatomic, assign) BOOL isHidenAllSubviews;
 @property(nonatomic, weak) id<VideoPlayerDelegate> delegate;
 
 @end

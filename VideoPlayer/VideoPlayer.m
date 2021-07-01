@@ -8,8 +8,8 @@
 @interface VideoPlayer ()
 
 @property(nonatomic, strong, readonly) AVPlayerLayer *playerLayer;
-//当前播放url
-@property(nonatomic, strong) NSURL *url;
+//资产AVURLAsset
+@property(nonatomic, strong) AVURLAsset *anAsset;
 //底部控制视图
 @property(nonatomic, strong) VideoPlayerControlView *controlView;
 //播放状态
@@ -24,8 +24,8 @@
 @property(nonatomic, strong) UIButton *playOrPauseButton;
 @property(nonatomic, assign) BOOL isFirstPrepareToPlay;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)
-@property (nonatomic, assign) NSUInteger autoPlayCountTemp;
-@property (strong, nonatomic) id playbackTimerObserver;
+@property(nonatomic, assign) NSUInteger autoPlayCountTemp;
+@property(strong, nonatomic) id playbackTimerObserver;
 
 @end
 static NSInteger count = 0;
@@ -35,7 +35,6 @@ static NSInteger count = 0;
 #pragma mark - life
 - (instancetype)initWithUrl:(NSURL *)url {
     if (self = [super init]) {
-        _url = url;
         self.autoPlayCountTemp = NSUIntegerMax;
         [self setupPlayerUI];
         [self assetWithURL:url];
@@ -387,26 +386,23 @@ static NSInteger count = 0;
     tap.delegate = self;
     [self addGestureRecognizer:tap];
 }
+
 - (void)handleTapAction:(UITapGestureRecognizer *)gesture {
-    if (self.isHidenAllSubviews) {
-       
+    self.isShouldToHiddenSubviews = !self.isShouldToHiddenSubviews;
+    if (self.isShouldToHiddenSubviews) {
+        [self setSubViewsIsHide:NO];
+        count = 0;
+        if ([self.delegate respondsToSelector:@selector
+             (playerTapActionWithIsShouldToHideSubviews:)]) {
+            [self.delegate playerTapActionWithIsShouldToHideSubviews:NO];
+        }
     } else {
-        self.isShouldToHiddenSubviews = !self.isShouldToHiddenSubviews;
-        if (self.isShouldToHiddenSubviews) {
-            [self setSubViewsIsHide:NO];
-            count = 0;
-            if ([self.delegate respondsToSelector:@selector
-                 (playerTapActionWithIsShouldToHideSubviews:)]) {
-                [self.delegate playerTapActionWithIsShouldToHideSubviews:NO];
-            }
-        } else {
-            
-            [self setSubViewsIsHide:YES];
-            count = 5;
-            if ([self.delegate respondsToSelector:@selector
-                 (playerTapActionWithIsShouldToHideSubviews:)]) {
-                [self.delegate playerTapActionWithIsShouldToHideSubviews:YES];
-            }
+        
+        [self setSubViewsIsHide:YES];
+        count = 5;
+        if ([self.delegate respondsToSelector:@selector
+             (playerTapActionWithIsShouldToHideSubviews:)]) {
+            [self.delegate playerTapActionWithIsShouldToHideSubviews:YES];
         }
     }
 }
@@ -662,19 +658,8 @@ static NSInteger count = 0;
     self.titleLabel.text = title;
 }
 
-- (void)setIsHidenAllSubviews:(BOOL)isHidenAllSubviews {
-    _isHidenAllSubviews = isHidenAllSubviews;
-    if (isHidenAllSubviews) {
-        [self.controlView removeFromSuperview];
-        [self.playOrPauseButton removeFromSuperview];
-        [self.titleLabel removeFromSuperview];
-        self.player.volume = 0;
-    }
-}
-
 //设置子视图是否隐藏
 - (void)setSubViewsIsHide:(BOOL)isHide {
-//    self.controlView.hidden = isHide;
     self.playOrPauseButton.hidden = isHide;
     self.titleLabel.hidden = isHide;
 }
