@@ -40,6 +40,9 @@
 
 - (void)shouldToPlay {
     [self.videoBackView addSubview:self.player];
+    if (self.model.playTime) {
+        [self.player setPlayerTimeValueTo:self.model.playTime];
+    }
     [self layoutIfNeeded];
     self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
 }

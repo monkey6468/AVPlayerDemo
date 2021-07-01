@@ -111,6 +111,10 @@ static NSInteger count = 0;
                                                                            queue:dispatch_get_main_queue()
                                                                       usingBlock:^(CMTime time) {
         if (weakSelf.item.status == AVPlayerItemStatusReadyToPlay) {
+            
+            weakSelf.currentTime = CMTimeGetSeconds(time);
+            weakSelf.totalTime = CMTimeGetSeconds([weakSelf.item duration]);
+            
             if (weakSelf.controlView.isTouchingSlider == NO) {
                 if (weakSelf.isPlaying) {
                     weakSelf.controlView.value = weakSelf.item.currentTime.value /(CGFloat) weakSelf.item.currentTime.timescale;

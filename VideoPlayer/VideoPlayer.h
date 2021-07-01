@@ -47,15 +47,15 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 @end
 
-@interface VideoPlayer : UIView <VideoPlayerControlViewDelegate, UIGestureRecognizerDelegate> 
+@interface VideoPlayer : UIView <VideoPlayerControlViewDelegate, UIGestureRecognizerDelegate>
 // AVPlayer
 @property(nonatomic, strong) AVPlayer *player;
 // AVPlayer的播放item
 @property(nonatomic, strong) AVPlayerItem *item;
 //总时长
-@property(nonatomic, assign) CMTime totalTime;
+@property(nonatomic, assign) CGFloat totalTime;
 //当前时间
-@property(nonatomic, assign) CMTime currentTime;
+@property(nonatomic, assign) CGFloat currentTime;
 //资产AVURLAsset
 @property(nonatomic, strong) AVURLAsset *anAsset;
 //播放器Playback Rate
