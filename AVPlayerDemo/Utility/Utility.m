@@ -153,15 +153,10 @@
 
 /// 获取视频帧图片路径
 + (NSString *)getFrameImagePathWithVideoPath:(NSString *)videoPath
-                               showWatermark:(BOOL)isShowWatermark
 {
     NSString *frameImagePath = nil;
     if (videoPath.length && [videoPath hasSuffix:@".mp4"]) {
         frameImagePath = [videoPath stringByAppendingString:@"?vframe/jpg/offset/0/"];
-    }
-    if (isShowWatermark) {
-        frameImagePath = [frameImagePath stringByReplacingOccurrencesOfString:@"transcode/"
-                                                                   withString:@""];
     }
     return frameImagePath;
 }

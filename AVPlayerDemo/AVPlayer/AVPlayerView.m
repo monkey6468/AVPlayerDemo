@@ -257,7 +257,7 @@
     NSTimeInterval t0 = CFAbsoluteTimeGetCurrent();
     // 尝试从缓存读取图片设置视频分辨率
     // key
-    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl];
     NSString *imageKey = imageUrl;
     [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:imageKey
     cacheQueryCompletedBlock:^(id data, BOOL hasCache) {
@@ -307,7 +307,7 @@
 }
 
 - (void)getImageFromDisk:(void(^)(BOOL hasCache))block {
-    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl];
     NSString *imageKey = imageUrl;
     [[CacheHelpler sharedWebCache] queryURLFromDiskMemory:imageKey
     cacheQueryCompletedBlock:^(id data, BOOL hasCache) {

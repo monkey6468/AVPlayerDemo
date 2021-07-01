@@ -11,6 +11,7 @@
 
 #import "Utility.h"
 #import "CacheHelpler.h"
+#import "SDImageCache.h"
 
 @interface ViewController ()
 
@@ -41,8 +42,13 @@
 }
 
 - (IBAction)onActionClearCache:(UIButton *)sender {
-    [[CacheHelpler sharedWebCache] clearCache:^(NSString *cacheSize) {
-        NSLog(@"%@",cacheSize);
+    //获取缓存图片的大小(字节)
+    NSUInteger bytesCache = [[SDImageCache sharedImageCache] totalDiskSize];
+    
+    //换算成 MB (注意iOS中的字节之间的换算是1000不是1024)
+    float MBCache = bytesCache/1000./1000.;
+    [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
+        NSLog(@"异步清除图片缓存: %lf MB",MBCache);
     }];
 }
 

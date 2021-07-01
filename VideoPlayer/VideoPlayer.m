@@ -26,11 +26,6 @@
 @property (nonatomic, assign) NSUInteger autoPlayCountTemp;
 @property (strong, nonatomic) id playbackTimerObserver;
 
-/// 视频宽度
-@property (assign, nonatomic) CGFloat videoWidth;
-/// 视频高度
-@property (assign, nonatomic) CGFloat videoHeight;
-
 @end
 static NSInteger count = 0;
 
@@ -86,54 +81,10 @@ static NSInteger count = 0;
             } break;
         }
     }];
+
     [self setupPlayerWithAsset:self.anAsset];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray *tracks = [self.anAsset tracksWithMediaType:AVMediaTypeVideo];
-        if ([tracks count] > 0) {
-            AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
-            CGFloat width = videoTrack.naturalSize.width;
-            CGFloat height = videoTrack.naturalSize.height;
-            CGAffineTransform t = videoTrack.preferredTransform;//这里的矩阵有旋转角度，转换一下即可
-            if ([self isVideoPortrait:t] == NO) {
-                self.videoHeight = height;
-                self.videoWidth = width;
-            } else {
-                self.videoWidth = height;
-                self.videoHeight = width;
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{                
-                if (self.videoHeight/self.videoWidth <= 4/3.0) {
-                    self.mode = VideoPlayerGravityResize;
-                } else {
-                    self.mode = VideoPlayerGravityResizeAspect;
-                }
-            });
-        }
-    });
 }
 
-- (BOOL)isVideoPortrait:(CGAffineTransform)t {
-    BOOL isPortrait = NO;
-    // Portrait
-    if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0) {
-        isPortrait = YES;
-    }
-    // PortraitUpsideDown
-    if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0) {
-        isPortrait = YES;
-    }
-    // LandscapeRight
-    if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0) {
-        isPortrait = NO;
-    }
-    // LandscapeLeft
-    if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0) {
-        isPortrait = NO;
-    }
-    return isPortrait;
-}
 - (void)setupPlayerWithAsset:(AVURLAsset *)asset {
     self.item = [[AVPlayerItem alloc] initWithAsset:asset];
     self.player = [[AVPlayer alloc] initWithPlayerItem:self.item];

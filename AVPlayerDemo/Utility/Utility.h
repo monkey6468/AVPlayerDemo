@@ -16,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)getUrls;
 
 /// 获取视频帧图片路径
-+ (NSString *)getFrameImagePathWithVideoPath:(NSString *)videoPath
-                               showWatermark:(BOOL)isShowWatermark;
++ (NSString *)getFrameImagePathWithVideoPath:(NSString *)videoPath;
 
 + (void)videoPlayer:(AVPlayerView *)player
        playerStatus:(VideoPlayerStatus)status

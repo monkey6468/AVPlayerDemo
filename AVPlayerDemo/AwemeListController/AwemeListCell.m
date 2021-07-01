@@ -177,7 +177,7 @@
     
     [self.playerView startDownloadTask:[[NSURL alloc] initWithString:self.videoUrl] isBackground:NO];
 
-    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl showWatermark:YES];
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.videoUrl];
     [self.imageCache startDownloadTask:[[NSURL alloc] initWithString:imageUrl] isBackground:NO];    
 }
 
@@ -190,7 +190,7 @@
     self.pathTextView.text = videoUrl;
 
 #warning ImageCache
-    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl showWatermark:YES];
+    NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl];
     self.imageCache = [[ImageCache alloc]init];
     [self.imageCache setImageUrl:imageUrl needCache:bNeedCache];
 //    [imageCache startDownloadTask:[NSURL URLWithString:imageUrl] isBackground:NO];
