@@ -605,8 +605,7 @@ static NSInteger count = 0;
 //懒加载ActivityIndicateView
 - (UIActivityIndicatorView *)activityIndeView {
     if (!_activityIndeView) {
-        _activityIndeView = [[UIActivityIndicatorView alloc]
-                             initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _activityIndeView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         _activityIndeView.hidesWhenStopped = YES;
     }
     return _activityIndeView;
