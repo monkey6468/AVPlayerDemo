@@ -397,7 +397,6 @@ static NSInteger count = 0;
             [self.delegate playerTapActionWithIsShouldToHideSubviews:NO];
         }
     } else {
-        
         [self setSubViewsIsHide:YES];
         count = 5;
         if ([self.delegate respondsToSelector:@selector
@@ -435,8 +434,8 @@ static NSInteger count = 0;
     [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 
-- (void)setPlayerTimeValueTo:(CGFloat)value {
-    CMTime pointTime = CMTimeMake(value * self.item.currentTime.timescale, self.item.currentTime.timescale);
+- (void)seekToTimeTo:(CGFloat)seekTime {
+    CMTime pointTime = CMTimeMake(seekTime * self.item.currentTime.timescale, self.item.currentTime.timescale);
     [self.item seekToTime:pointTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
 }
 

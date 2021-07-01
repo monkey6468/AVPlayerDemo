@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 - (void)pause;
 //停止 （移除当前视频播放下一个或者销毁视频，需调用Stop方法）
 - (void)stop;
-- (void)setPlayerTimeValueTo:(CGFloat)value;
+- (void)seekToTimeTo:(CGFloat)seekTime;
 
 @property(nonatomic, weak) id<VideoPlayerDelegate> delegate;
 
