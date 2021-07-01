@@ -107,11 +107,7 @@
         if (image) {
             CGFloat width = image.size.width;
             CGFloat height = image.size.height;
-            if (height / width <= 4 / 3.0) {
-                self.player.mode = VideoPlayerGravityResize;
-            } else {
-                self.player.mode = VideoPlayerGravityResizeAspect;
-            }
+            [self setPlayerModeWithWidth:width height:height];
         } else {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey:@YES};
@@ -131,11 +127,7 @@
                     }
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        if (self.videoHeight/self.videoWidth <= 4/3.0) {
-                            self.player.mode = VideoPlayerGravityResize;
-                        } else {
-                            self.player.mode = VideoPlayerGravityResizeAspect;
-                        }
+                        [self setPlayerModeWithWidth:self.videoWidth height:self.videoHeight];
                     });
                 }
             });
@@ -150,12 +142,20 @@
     self.playButton.tag = 788 + row;
 }
 
+- (void)setPlayerModeWithWidth:(CGFloat)width height:(CGFloat)height {
+    if (height / width <= 4 / 3.0) {
+        self.player.mode = VideoPlayerGravityResize;
+    } else {
+        self.player.mode = VideoPlayerGravityResizeAspect;
+    }
+}
+
 - (void)setVideoUrl:(NSString *)videoUrl {
     _videoUrl = videoUrl;
     
     __weak typeof(self) weakSelf = self;
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl];
-    [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:nil options:SDWebImageQueryMemoryDataSync completed:^(UIImage *_Nullable image, NSError *_Nullable error, SDImageCacheType cacheType,  NSURL *_Nullable imageURL) {
+    [self.preImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         if (image) {
             CGFloat width = image.size.width;
             CGFloat height = image.size.height;
