@@ -13,9 +13,9 @@
 
 @interface VideoListCell () <VideoPlayerDelegate>
 @property(weak, nonatomic) IBOutlet UIView *videoBackView;
-@property(weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 /// 视频宽度
 @property (assign, nonatomic) CGFloat videoWidth;
@@ -27,6 +27,7 @@
 @implementation VideoListCell
 
 - (void)dealloc {
+    NSLog(@"%s",__func__);
 }
 
 - (void)awakeFromNib {
@@ -152,6 +153,8 @@
 
 - (void)setVideoUrl:(NSString *)videoUrl {
     _videoUrl = videoUrl;
+    
+    self.textView.text = videoUrl;
     
     __weak typeof(self) weakSelf = self;
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:videoUrl];

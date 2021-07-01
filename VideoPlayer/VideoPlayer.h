@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 //播放状态
 @property(nonatomic, assign, readonly) VideoPlayerStatus status;
 // videoGravity设置屏幕填充模式，（只写）
-@property(nonatomic, assign) VideoPlayerGravity mode;
+@property(nonatomic, assign, readwrite) VideoPlayerGravity mode;
 //是否正在播放
 @property(nonatomic, assign, readonly) BOOL isPlaying;
 //是否全屏

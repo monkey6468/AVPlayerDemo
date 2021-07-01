@@ -114,6 +114,8 @@
     
     //找出适合播放的并点亮
     [self filterShouldLightCellWithScrollDirection:self.isScrollDownward];
+    
+    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
 //- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -170,7 +172,7 @@
     }];
     
     [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
-    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
+//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
 - (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex

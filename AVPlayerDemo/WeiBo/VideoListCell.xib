@@ -34,7 +34,7 @@
                                 <color key="backgroundColor" systemColor="darkTextColor"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ebN-zs-asp" firstAttribute="centerY" secondItem="7tC-hY-KV8" secondAttribute="centerY" id="4lR-Uz-NcN"/>
                             <constraint firstItem="ebN-zs-asp" firstAttribute="centerX" secondItem="7tC-hY-KV8" secondAttribute="centerX" id="Czr-vC-EIN"/>
@@ -49,30 +49,29 @@
                             <constraint firstAttribute="height" constant="200" id="zix-Kc-pu7"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcj-wo-foX">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pwd-dV-Gk0">
                         <rect key="frame" x="0.0" y="200" width="320" height="50"/>
-                        <string key="text">专家在线解密，一小时了解市场行情！
-10月20日，您绝对不能错过的价值万元教学您绝对不能错过的价值万元教学您绝对不能错过的价值万元教学全文</string>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="7tC-hY-KV8" secondAttribute="trailing" id="Fuq-bL-etu"/>
+                    <constraint firstItem="pwd-dV-Gk0" firstAttribute="top" secondItem="7tC-hY-KV8" secondAttribute="bottom" id="LNb-BT-7Fv"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Nuf-pd-9Zk"/>
-                    <constraint firstItem="pcj-wo-foX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hXS-aS-qVq"/>
-                    <constraint firstAttribute="trailing" secondItem="pcj-wo-foX" secondAttribute="trailing" id="i8i-wL-Scx"/>
+                    <constraint firstAttribute="bottom" secondItem="pwd-dV-Gk0" secondAttribute="bottom" id="Of7-Vl-TDh"/>
+                    <constraint firstAttribute="trailing" secondItem="pwd-dV-Gk0" secondAttribute="trailing" id="YAL-vG-NjY"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ifv-oa-iEK"/>
-                    <constraint firstAttribute="bottom" secondItem="pcj-wo-foX" secondAttribute="bottom" id="mRr-QQ-rVS"/>
-                    <constraint firstItem="pcj-wo-foX" firstAttribute="top" secondItem="7tC-hY-KV8" secondAttribute="bottom" id="ncT-5G-5Xh"/>
+                    <constraint firstItem="pwd-dV-Gk0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jYy-Dk-TBj"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="contentLabel" destination="pcj-wo-foX" id="19t-8m-9k4"/>
                 <outlet property="playButton" destination="ebN-zs-asp" id="gxS-oF-dJi"/>
                 <outlet property="preImageView" destination="Uc1-Tm-erz" id="lks-dO-GeF"/>
+                <outlet property="textView" destination="pwd-dV-Gk0" id="ERi-Nk-eBm"/>
                 <outlet property="topblackView" destination="wBL-4u-SUL" id="5mt-t8-fyx"/>
                 <outlet property="videoBackView" destination="7tC-hY-KV8" id="BaJ-ar-nb6"/>
                 <outlet property="videoFirstImageView" destination="wBL-4u-SUL" id="rAe-kp-Fvn"/>

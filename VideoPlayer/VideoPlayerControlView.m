@@ -21,6 +21,7 @@ static NSInteger padding = 8;
 @implementation VideoPlayerControlView
 
 - (void)dealloc {
+    NSLog(@"%s",__func__);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
