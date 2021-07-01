@@ -12,7 +12,8 @@
 @property(nonatomic, strong) NSURL *url;
 //底部控制视图
 @property(nonatomic, strong) VideoPlayerControlView *controlView;
-
+//播放状态
+@property(nonatomic, assign, readwrite) VideoPlayerStatus status;
 //原始约束
 @property(nonatomic, strong) NSArray *oldConstriants;
 //添加标题
@@ -109,51 +110,31 @@ static NSInteger count = 0;
     self.playbackTimerObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1.0, 1000.0)
                                                                            queue:dispatch_get_main_queue()
                                                                       usingBlock:^(CMTime time) {
-
-        if (weakSelf.controlView.isTouchingSlider == NO) {
-            if (weakSelf.isPlaying) {
-                weakSelf.controlView.value = weakSelf.item.currentTime.value /(CGFloat) weakSelf.item.currentTime.timescale;
-            } else {
-                weakSelf.controlView.value = 0;
-            }
-        }
-        
-        if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
-            weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
-        }
-        if (count >= 500) {
-            [weakSelf setSubViewsIsHide:YES];
-            if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
-                [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:YES];
-            }
-        } else {
-            if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
-                [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:NO];
-            }
-        }
-        count += 1;
-        
-        //重新播放视频
-        if (weakSelf.isPlaying == NO) {
-            //更新视频播放进度方法回调
-            if ([weakSelf.delegate respondsToSelector:@selector(videoPlayer:onProgressUpdate:)]) {
-                [weakSelf.delegate videoPlayer:weakSelf
-                              onProgressUpdate:0];
-            }
-            if (weakSelf.autoPlayCountTemp == NSUIntegerMax) {
-                [weakSelf play];
-            } else {
-                --weakSelf.autoPlayCountTemp;
-                if (weakSelf.autoPlayCountTemp > 0) {
-                    [weakSelf play];
+        if (weakSelf.item.status == AVPlayerItemStatusReadyToPlay) {
+            if (weakSelf.controlView.isTouchingSlider == NO) {
+                if (weakSelf.isPlaying) {
+                    weakSelf.controlView.value = weakSelf.item.currentTime.value /(CGFloat) weakSelf.item.currentTime.timescale;
+                } else {
+                    if (weakSelf.status != VideoPlayerStatusPaused) {
+                        weakSelf.controlView.value = 0;
+                    }
                 }
             }
-        } else {
-            //更新视频播放进度方法回调
-            if ([weakSelf.delegate respondsToSelector:@selector(videoPlayer:onProgressUpdate:)]) {
-                [weakSelf.delegate videoPlayer:weakSelf
-                              onProgressUpdate:weakSelf.item.currentTime.value];
+            
+            if (!CMTIME_IS_INDEFINITE(weakSelf.anAsset.duration)) {
+                weakSelf.controlView.currentTime = [weakSelf convertTime:weakSelf.controlView.value];
             }
+            if (count >= 500) {
+                [weakSelf setSubViewsIsHide:YES];
+                if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
+                    [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:YES];
+                }
+            } else {
+                if ([weakSelf.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
+                    [weakSelf.delegate playerTapActionWithIsShouldToHideSubviews:NO];
+                }
+            }
+            count += 1;
         }
     }];
 }
@@ -169,15 +150,15 @@ static NSInteger count = 0;
         
         switch (itemStatus) {
             case AVPlayerItemStatusUnknown: {
-                _status = VideoPlayerStatusUnknown;
+                self.status = VideoPlayerStatusUnknown;
                 NSLog(@"AVPlayerItemStatusUnknown");
             } break;
             case AVPlayerItemStatusReadyToPlay: {
-                _status = VideoPlayerStatusReadyToPlay;
+                self.status = VideoPlayerStatusReadyToPlay;
                 NSLog(@"AVPlayerItemStatusReadyToPlay");
             } break;
             case AVPlayerItemStatusFailed: {
-                _status = VideoPlayerStatusFailed;
+                self.status = VideoPlayerStatusFailed;
                 NSLog(@"AVPlayerItemStatusFailed");
             } break;
             default:
@@ -185,8 +166,7 @@ static NSInteger count = 0;
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) { //监听播放器的下载进度
         NSArray *loadedTimeRanges = [self.item loadedTimeRanges];
-        CMTimeRange timeRange =
-        [loadedTimeRanges.firstObject CMTimeRangeValue]; // 获取缓冲区域
+        CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue]; // 获取缓冲区域
         float startSeconds = CMTimeGetSeconds(timeRange.start);
         float durationSeconds = CMTimeGetSeconds(timeRange.duration);
         NSTimeInterval timeInterval =
@@ -196,7 +176,7 @@ static NSInteger count = 0;
         //缓存值
         self.controlView.bufferValue = timeInterval / totalDuration;
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) { //监听播放器在缓冲数据的状态
-        _status = VideoPlayerStatusBuffering;
+        self.status = VideoPlayerStatusBuffering;
         if (self.player.status == VideoPlayerStatusPlaying ||
             self.player.status == AVPlayerStatusReadyToPlay) {
             return;
@@ -220,10 +200,10 @@ static NSInteger count = 0;
     } else if ([keyPath isEqualToString:@"rate"]) { //当rate==0时为暂停,rate==1时为播放,当rate等于负数时为回放
         if ([[change objectForKey:NSKeyValueChangeNewKey] integerValue] == 0) {
             _isPlaying = false;
-            _status = VideoPlayerStatusPlaying;
+            self.status = VideoPlayerStatusPaused;
         } else {
             _isPlaying = true;
-            _status = VideoPlayerStatusStopped;
+            self.status = VideoPlayerStatusPlaying;
         }
     }
 }
@@ -281,6 +261,16 @@ static NSInteger count = 0;
     count = 0;
     [self pause];
     [self.playOrPauseButton setSelected:NO];
+    
+    //重新播放视频
+    if (self.autoPlayCountTemp == NSUIntegerMax) {
+        [self play];
+    } else {
+        --self.autoPlayCountTemp;
+        if (self.autoPlayCountTemp > 0) {
+            [self play];
+        }
+    }
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification {
@@ -522,6 +512,7 @@ static NSInteger count = 0;
 
 - (void)pause {
     if (self.player) {
+        self.status = VideoPlayerStatusPaused;
         [self.player pause];
         [self.playOrPauseButton setSelected:NO];
     }

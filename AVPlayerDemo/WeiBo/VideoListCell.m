@@ -89,9 +89,6 @@
     }
 }
 
-- (void)videoPlayer:(VideoPlayer *)videoPlayer onProgressUpdate:(CGFloat)current {
-}
-
 #pragma mark - get data
 - (VideoPlayer *)player {
     if (!_player) {
