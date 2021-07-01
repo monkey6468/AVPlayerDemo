@@ -10,16 +10,17 @@
 
 #import "VideoListCell.h"
 
-@interface VideoListViewController ()<UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
-@property (nonatomic,strong) UITableView *tableView;
-@property (strong, nonatomic) NSMutableArray *dataArray;
+@interface VideoListViewController () <
+UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
+@property(nonatomic, strong) UITableView *tableView;
+@property(strong, nonatomic) NSMutableArray *dataArray;
 
-@property (nonatomic,assign) NSInteger lastOrCurrentPlayIndex;
-@property (nonatomic,assign) NSInteger lastOrCurrentLightIndex;
+@property(nonatomic, assign) NSInteger lastOrCurrentPlayIndex;
+@property(nonatomic, assign) NSInteger lastOrCurrentLightIndex;
 //记录偏移值,用于判断上滑还是下滑
-@property (nonatomic,assign) CGFloat lastScrollViewContentOffsetY;
-//Yes-往下滑,NO-往上滑
-@property (nonatomic,assign) BOOL isScrollDownward;
+@property(nonatomic, assign) CGFloat lastScrollViewContentOffsetY;
+// Yes-往下滑,NO-往上滑
+@property(nonatomic, assign) BOOL isScrollDownward;
 @end
 
 @implementation VideoListViewController
@@ -35,20 +36,19 @@
 }
 
 #pragma mark - Private Methods
-- (void)willRemoveSubview:(UIView *)subview
-{
+- (void)willRemoveSubview:(UIView *)subview {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell.player stop];
     cell.player = nil;
     self.lastOrCurrentPlayIndex = -1;
 }
-- (void)initData
-{
+
+- (void)initData {
     self.lastOrCurrentPlayIndex = 0;
     self.lastOrCurrentLightIndex = 0;
 }
-- (void)creatData
-{
+
+- (void)creatData {
     NSMutableArray *array = [NSMutableArray array];
     for (NSString *url in self.urlsArray) {
         VideoInfo *model = [VideoInfo new];
@@ -59,24 +59,21 @@
     self.dataArray = array;
 }
 
-- (void)setUI
-{
+- (void)setUI {
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(VideoListCell.class)];
 }
 
-- (void)setStartTimeValue:(CGFloat)startTimeValue
-{
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+- (void)setStartTimeValue:(CGFloat)startTimeValue {
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath  indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
     [cell.player setPlayerTimeValueTo:startTimeValue];
     cell.topblackView.hidden = YES;
 }
 
 #pragma mark - VideoListCellDelegate
-- (void)playButtonClick:(UIButton *)sender
-{
-    NSInteger row = sender.tag-788;
-    if (row!=self.lastOrCurrentPlayIndex) {
+- (void)playButtonClick:(UIButton *)sender {
+    NSInteger row = sender.tag - 788;
+    if (row != self.lastOrCurrentPlayIndex) {
         [self stopVideoWithShouldToStopIndex:self.lastOrCurrentPlayIndex];
         self.lastOrCurrentPlayIndex = row;
         [self playVideoWithShouldToPlayIndex:self.lastOrCurrentPlayIndex];
@@ -84,14 +81,13 @@
         [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
     }
 }
+
 #pragma mark - UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataArray.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     VideoListCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(VideoListCell.class)];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.delegate = self;
@@ -99,18 +95,17 @@
     cell.model = self.dataArray[indexPath.row];
     return cell;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 250;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     //判断滚动方向
-    if (scrollView.contentOffset.y>self.lastScrollViewContentOffsetY) {
+    if (scrollView.contentOffset.y > self.lastScrollViewContentOffsetY) {
         
         self.isScrollDownward = YES;
-    }else{
+    } else {
         
         self.isScrollDownward = NO;
     }
@@ -125,53 +120,50 @@
     [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 //    //停止的时候找出最合适的播放
 //    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 //}
 //
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
 //     //停止的时候找出最合适的播放
 //    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 //}
 
 #pragma mark - 明暗控制
-- (void)filterShouldLightCellWithScrollDirection:(BOOL)isScrollDownward
-{
+- (void)filterShouldLightCellWithScrollDirection:(BOOL)isScrollDownward {
     
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentLightIndex inSection:0]];
     cell.topblackView.hidden = NO;
     //顶部
-    if (self.tableView.contentOffset.y<=0) {
+    if (self.tableView.contentOffset.y <= 0) {
         [self shouldLightCellWithShouldLightIndex:0];
         self.lastOrCurrentLightIndex = 0;
         return;
     }
-
+    
     //底
-    if (self.tableView.contentOffset.y+self.tableView.frame.size.height>=self.tableView.contentSize.height) {
+    if (self.tableView.contentOffset.y + self.tableView.frame.size.height >= self.tableView.contentSize.height) {
         //其他的已经暂停播放
-        [self shouldLightCellWithShouldLightIndex:self.dataArray.count-1];
-        self.lastOrCurrentLightIndex=self.dataArray.count-1;
+        [self shouldLightCellWithShouldLightIndex:self.dataArray.count - 1];
+        self.lastOrCurrentLightIndex = self.dataArray.count - 1;
         return;
     }
     NSArray *cellsArray = [self.tableView visibleCells];
     NSArray *newArray = nil;
     if (!isScrollDownward) {
         newArray = [cellsArray reverseObjectEnumerator].allObjects;
-    }else{
+    } else {
         newArray = cellsArray;
     }
-    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%ld",(long)cell.row);
+    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
+        NSLog(@"%ld", (long)cell.row);
         
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
-        if (topSpacing>=-rect.size.height/3&&bottomSpacing>=-rect.size.height/3) {
-            if (self.lastOrCurrentPlayIndex==-1) {
+        CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
+        if (topSpacing >= -rect.size.height / 3 && bottomSpacing >= -rect.size.height / 3) {
+            if (self.lastOrCurrentPlayIndex == -1) {
                 self.lastOrCurrentLightIndex = cell.row;
             }
             *stop = YES;
@@ -179,26 +171,25 @@
     }];
     
     [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
-//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
+    //    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
-- (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex
-{
+- (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex {
     
-    VideoListCell *cell2 = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldLIghtIndex inSection:0]];
-    cell2.topblackView.hidden = YES;
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldLIghtIndex inSection:0]];
+    cell.topblackView.hidden = YES;
 }
+
 #pragma mark - 播放暂停
-- (void)filterShouldPlayCellWithScrollDirection:(BOOL)isScrollDownward
-{
+- (void)filterShouldPlayCellWithScrollDirection:(BOOL)isScrollDownward {
     //顶部
-    if (self.tableView.contentOffset.y<=0) {
+    if (self.tableView.contentOffset.y <= 0) {
         //其他的已经暂停播放
-        if (self.lastOrCurrentPlayIndex==-1) {
+        if (self.lastOrCurrentPlayIndex == -1) {
             [self playVideoWithShouldToPlayIndex:0];
-        }else{
+        } else {
             //第一个正在播放
-            if (self.lastOrCurrentPlayIndex==0) {
+            if (self.lastOrCurrentPlayIndex == 0) {
                 return;
             }
             //其他的没有暂停播放,先暂停其他的再播放第一个
@@ -209,18 +200,18 @@
     }
     
     //底部
-    if (self.tableView.contentOffset.y+self.tableView.frame.size.height>=self.tableView.contentSize.height) {
+    if (self.tableView.contentOffset.y + self.tableView.frame.size.height >= self.tableView.contentSize.height) {
         //其他的已经暂停播放
-        if (self.lastOrCurrentPlayIndex==-1) {
-            [self playVideoWithShouldToPlayIndex:self.dataArray.count-1];
-        }else{
+        if (self.lastOrCurrentPlayIndex == -1) {
+            [self playVideoWithShouldToPlayIndex:self.dataArray.count - 1];
+        } else {
             //最后一个正在播放
-            if (self.lastOrCurrentPlayIndex==self.dataArray.count-1) {
+            if (self.lastOrCurrentPlayIndex == self.dataArray.count - 1) {
                 return;
             }
             //其他的没有暂停播放,先暂停其他的再播放最后一个
             [self stopVideoWithShouldToStopIndex:self.lastOrCurrentPlayIndex];
-            [self playVideoWithShouldToPlayIndex:self.dataArray.count-1];
+            [self playVideoWithShouldToPlayIndex:self.dataArray.count - 1];
         }
         return;
     }
@@ -230,18 +221,19 @@
     NSArray *newArray = nil;
     if (!isScrollDownward) {
         newArray = [cellsArray reverseObjectEnumerator].allObjects;
-    }else{
+    } else {
         newArray = cellsArray;
     }
-    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%ld",(long)cell.row);
-
+    [newArray enumerateObjectsUsingBlock:^(VideoListCell *cell, NSUInteger idx, BOOL *_Nonnull stop) {
+        NSLog(@"%ld", (long)cell.row);
+        
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
-        if (topSpacing>=-rect.size.height/3&&bottomSpacing>=-rect.size.height/3) {
-            if (self.lastOrCurrentPlayIndex==-1) {
-                if (self.lastOrCurrentPlayIndex!=cell.row) {
+        CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
+        if (topSpacing >= -rect.size.height / 3 &&
+            bottomSpacing >= -rect.size.height / 3) {
+            if (self.lastOrCurrentPlayIndex == -1) {
+                if (self.lastOrCurrentPlayIndex != cell.row) {
                     [cell shouldToPlay];
                     self.lastOrCurrentPlayIndex = cell.row;
                 }
@@ -250,34 +242,34 @@
         }
     }];
 }
-- (void)stopCurrentPlayingCell
-{
+
+- (void)stopCurrentPlayingCell {
     //避免第一次播放的时候被暂停
-    if (self.tableView.contentOffset.y<=0) {
+    if (self.tableView.contentOffset.y <= 0) {
         return;
     }
-    if (self.lastOrCurrentPlayIndex!=-1) {
+    if (self.lastOrCurrentPlayIndex != -1) {
         VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
         CGRect rect = [cell.videoFirstImageView convertRect:cell.videoFirstImageView.bounds toView:self.view];
         CGFloat topSpacing = rect.origin.y;
-        CGFloat bottomSpacing = self.view.frame.size.height-rect.origin.y-rect.size.height;
+        CGFloat bottomSpacing = self.view.frame.size.height - rect.origin.y - rect.size.height;
         //当视频播放部分移除可见区域1/3的时候暂停
-        if (topSpacing<-rect.size.height/3||bottomSpacing<-rect.size.height/3) {
+        if (topSpacing < -rect.size.height / 3 || bottomSpacing < -rect.size.height / 3) {
             cell.model.playTime = cell.player.currentTime;
             [cell.player stop];
             cell.player = nil;
-            self.lastOrCurrentPlayIndex  = -1;
+            self.lastOrCurrentPlayIndex = -1;
         }
     }
 }
-- (void)playVideoWithShouldToPlayIndex:(NSInteger)shouldToPlayIndex
-{
+
+- (void)playVideoWithShouldToPlayIndex:(NSInteger)shouldToPlayIndex {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToPlayIndex inSection:0]];
     [cell shouldToPlay];
     self.lastOrCurrentPlayIndex = cell.row;
 }
-- (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex
-{
+
+- (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
     cell.topblackView.hidden = NO;
     [cell.player stop];
@@ -285,8 +277,7 @@
 }
 
 #pragma mark - Getters & Setters
-- (UITableView *)tableView
-{
+- (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
         _tableView.dataSource = self;
