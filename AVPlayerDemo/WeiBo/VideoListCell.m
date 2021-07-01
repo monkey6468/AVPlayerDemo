@@ -74,17 +74,11 @@
     return isPortrait;
 }
 
+#pragma mark - VideoPlayerDelegate
 - (IBAction)playButtonClick:(UIButton *)sender {
     [sender setSelected:!sender.isSelected];
     if ([self.delegate respondsToSelector:@selector(playButtonClick:)]) {
         [self.delegate playButtonClick:sender];
-    }
-}
-
-#pragma mark - VideoPlayerDelegate
-- (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide {
-    if ([self.delegate respondsToSelector:@selector(playerTapActionWithIsShouldToHideSubviews:)]) {
-        [self.delegate playerTapActionWithIsShouldToHideSubviews:isHide];
     }
 }
 

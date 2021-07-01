@@ -389,11 +389,7 @@ static NSInteger count = 0;
 }
 - (void)handleTapAction:(UITapGestureRecognizer *)gesture {
     if (self.isHidenAllSubviews) {
-        if ([self.delegate respondsToSelector:@selector
-             (playerTapActionWithCurrentTimeValue:)]) {
-            [self.delegate
-             playerTapActionWithCurrentTimeValue:self.controlView.value];
-        }
+       
     } else {
         self.isShouldToHiddenSubviews = !self.isShouldToHiddenSubviews;
         if (self.isShouldToHiddenSubviews) {

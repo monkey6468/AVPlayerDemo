@@ -27,23 +27,17 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusPlaying,
     VideoPlayerStatusStopped,
     
-#warning <#message#>
-//    VideoPlayerStatusUnknown            = 0,
     VideoPlayerStatusReady              = 1,
-//    VideoPlayerStatusReadyToPlay        = 2,
-//    VideoPlayerStatusPlaying            = 3,
     VideoPlayerStatusPaused             = 4,
     VideoPlayerStatusFinished           = 5,
     VideoPlayerStatusChangeEsolution    = 6,
     VideoPlayerStatusDownload           = 7,
-//    VideoPlayerStatusFailed             = 8,
 };
 
 @class VideoPlayer;
 @protocol VideoPlayerDelegate <NSObject>
 @optional
 // videoPlayer:(VideoPlayer *)videoPlayer
-- (void)playerTapActionWithCurrentTimeValue:(CGFloat)currentTimeValue;
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
 @end
 
