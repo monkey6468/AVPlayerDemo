@@ -680,7 +680,7 @@ static NSInteger count = 0;
 
 //设置子视图是否隐藏
 - (void)setSubViewsIsHide:(BOOL)isHide {
-    self.controlView.hidden = isHide;
+//    self.controlView.hidden = isHide;
     self.playOrPauseButton.hidden = isHide;
     self.titleLabel.hidden = isHide;
 }

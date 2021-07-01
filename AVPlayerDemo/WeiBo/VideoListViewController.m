@@ -64,10 +64,8 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 }
 
 - (void)setStartTimeValue:(CGFloat)startTimeValue {
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath  indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
+    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentPlayIndex inSection:0]];
     [cell shouldToPlay];
-    [cell.player setPlayerTimeValueTo:startTimeValue];
-    cell.topblackView.hidden = YES;
 }
 
 #pragma mark - VideoListCellDelegate
@@ -78,7 +76,6 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
         self.lastOrCurrentPlayIndex = row;
         [self playVideoWithShouldToPlayIndex:self.lastOrCurrentPlayIndex];
         self.lastOrCurrentLightIndex = row;
-        [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
     }
 }
 
@@ -103,10 +100,8 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     //判断滚动方向
     if (scrollView.contentOffset.y > self.lastScrollViewContentOffsetY) {
-        
         self.isScrollDownward = YES;
     } else {
-        
         self.isScrollDownward = NO;
     }
     self.lastScrollViewContentOffsetY = scrollView.contentOffset.y;
@@ -116,28 +111,14 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     
     //找出适合播放的并点亮
     [self filterShouldLightCellWithScrollDirection:self.isScrollDownward];
-    
+    //找出适合播放的并播放
     [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    //停止的时候找出最合适的播放
-//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
-//}
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//     //停止的时候找出最合适的播放
-//    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
-//}
-
 #pragma mark - 明暗控制
 - (void)filterShouldLightCellWithScrollDirection:(BOOL)isScrollDownward {
-    
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastOrCurrentLightIndex inSection:0]];
-    cell.topblackView.hidden = NO;
     //顶部
     if (self.tableView.contentOffset.y <= 0) {
-        [self shouldLightCellWithShouldLightIndex:0];
         self.lastOrCurrentLightIndex = 0;
         return;
     }
@@ -145,7 +126,6 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
     //底
     if (self.tableView.contentOffset.y + self.tableView.frame.size.height >= self.tableView.contentSize.height) {
         //其他的已经暂停播放
-        [self shouldLightCellWithShouldLightIndex:self.dataArray.count - 1];
         self.lastOrCurrentLightIndex = self.dataArray.count - 1;
         return;
     }
@@ -170,14 +150,7 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
         }
     }];
     
-    [self shouldLightCellWithShouldLightIndex:self.lastOrCurrentLightIndex];
     //    [self filterShouldPlayCellWithScrollDirection:self.isScrollDownward];
-}
-
-- (void)shouldLightCellWithShouldLightIndex:(NSInteger)shouldLIghtIndex {
-    
-    VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldLIghtIndex inSection:0]];
-    cell.topblackView.hidden = YES;
 }
 
 #pragma mark - 播放暂停
@@ -271,7 +244,6 @@ UITableViewDelegate, UITableViewDataSource, VideoListCellDelegate>
 
 - (void)stopVideoWithShouldToStopIndex:(NSInteger)shouldToStopIndex {
     VideoListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:shouldToStopIndex inSection:0]];
-    cell.topblackView.hidden = NO;
     [cell.player stop];
     cell.player = nil;
 }

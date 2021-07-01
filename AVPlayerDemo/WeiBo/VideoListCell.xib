@@ -72,7 +72,6 @@
                 <outlet property="playButton" destination="ebN-zs-asp" id="gxS-oF-dJi"/>
                 <outlet property="preImageView" destination="Uc1-Tm-erz" id="lks-dO-GeF"/>
                 <outlet property="textView" destination="pwd-dV-Gk0" id="ERi-Nk-eBm"/>
-                <outlet property="topblackView" destination="wBL-4u-SUL" id="5mt-t8-fyx"/>
                 <outlet property="videoBackView" destination="7tC-hY-KV8" id="BaJ-ar-nb6"/>
                 <outlet property="videoFirstImageView" destination="wBL-4u-SUL" id="rAe-kp-Fvn"/>
             </connections>

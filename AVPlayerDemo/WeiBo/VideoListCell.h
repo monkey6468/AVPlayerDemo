@@ -19,7 +19,6 @@
 
 @interface VideoListCell : UITableViewCell
 @property (nonatomic,strong) VideoPlayer *player;
-@property (weak, nonatomic) IBOutlet UIView *topblackView;
 
 @property (weak, nonatomic) IBOutlet UIView *videoFirstImageView;
 @property (nonatomic,weak) id<VideoListCellDelegate> delegate;
