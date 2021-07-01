@@ -45,7 +45,7 @@
                             <constraint firstAttribute="trailing" secondItem="Uc1-Tm-erz" secondAttribute="trailing" id="fua-g9-dbQ"/>
                         </constraints>
                     </view>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pwd-dV-Gk0">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pwd-dV-Gk0">
                         <rect key="frame" x="0.0" y="376" width="320" height="60"/>
                         <color key="backgroundColor" systemColor="systemRedColor"/>
                         <constraints>

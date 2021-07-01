@@ -9,14 +9,22 @@
 
 #import "DYVideoListCell.h"
 
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+
 @interface DYVideoListViewController () <UITableViewDelegate, UITableViewDataSource, DYVideoListCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewConstraintT;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewConstraintH;
 
 @property(strong, nonatomic) NSMutableArray *dataArray;
 
 @property(nonatomic, assign) NSInteger lastOrCurrentPlayIndex;
 //记录偏移值,用于判断上滑还是下滑
 @property(nonatomic, assign) CGFloat lastScrollViewContentOffsetY;
+
+@property (nonatomic, assign) NSInteger currentIndex;
 
 @end
 
@@ -25,12 +33,21 @@
 #pragma mark - life
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [self initData];
     [self creatData];
     [self setUI];
     
     //设置初次播放的
     [self setStartPlay];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"currentIndex"];
 }
 
 - (void)initData {
@@ -51,8 +68,21 @@
 - (void)setUI {
     self.tableView.tableFooterView = [UIView new];
     self.tableView.tableHeaderView = [UIView new];
+    self.tableViewConstraintT.constant = -ScreenHeight;
+    self.tableViewConstraintH.constant = ScreenHeight * 3;
+    _tableView.contentInset = UIEdgeInsetsMake(ScreenHeight, 0, ScreenHeight * 1, 0);
 
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass(DYVideoListCell.class) bundle:nil] forCellReuseIdentifier:NSStringFromClass(DYVideoListCell.class)];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        self.data = self.awemes;
+        [self.tableView reloadData];
+        
+        NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+        [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:NO];
+        [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+    });
 }
 
 #pragma mark - other
@@ -93,21 +123,77 @@
     return self.view.frame.size.height;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    //判断滚动方向
-    BOOL isScrollDownward = NO;
-    if (scrollView.contentOffset.y > self.lastScrollViewContentOffsetY) { // Yes-往下滑
-        isScrollDownward = YES;
-    } else { // NO-往上滑
-        isScrollDownward = NO;
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    //判断滚动方向
+//    BOOL isScrollDownward = NO;
+//    if (scrollView.contentOffset.y > self.lastScrollViewContentOffsetY) { // Yes-往下滑
+//        isScrollDownward = YES;
+//    } else { // NO-往上滑
+//        isScrollDownward = NO;
+//    }
+//    self.lastScrollViewContentOffsetY = scrollView.contentOffset.y;
+//
+//    //停止当前播放的
+//    [self stopCurrentPlayingCell];
+//
+//    //找出适合播放的并播放
+//    [self filterShouldPlayCellWithScrollDirection:isScrollDownward];
+//}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CGPoint translatedPoint = [scrollView.panGestureRecognizer translationInView:scrollView];
+        //UITableView禁止响应其他滑动手势
+        scrollView.panGestureRecognizer.enabled = NO;
+    
+        if(translatedPoint.y < -50 && self.currentIndex < (self.dataArray.count - 1)) {
+            self.currentIndex ++;   //向下滑动索引递增
+        }
+        if(translatedPoint.y > 50 && self.currentIndex > 0) {
+            self.currentIndex --;   //向上滑动索引递减
+        }
+        [UIView animateWithDuration:0.15
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseOut animations:^{
+            //UITableView滑动到指定cell
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        } completion:^(BOOL finished) {
+            //UITableView可以响应其他滑动手势
+            scrollView.panGestureRecognizer.enabled = YES;
+        }];
+        
+    });
+}
+
+#pragma KVO
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    //观察currentIndex变化
+    if ([keyPath isEqualToString:@"currentIndex"]) {
+        //设置用于标记当前视频是否播放的BOOL值为NO
+//        _isCurPlayerPause = NO;
+//        //获取当前显示的cell
+//
+//        AwemeListCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+//        [cell startDownloadHighPriorityTask];
+//        __weak typeof (cell) wcell = cell;
+//        __weak typeof (self) wself = self;
+//        //判断当前cell的视频源是否已经准备播放
+//        if(cell.isPlayerReady) {
+//            //播放视频
+//            [cell replay];
+//        }else {
+//            [[AVPlayerManager shareManager] pauseAll];
+//            //当前cell的视频源还未准备好播放，则实现cell的OnPlayerReady Block 用于等待视频准备好后通知播放
+//            cell.onPlayerReady = ^{
+//                NSIndexPath *indexPath = [wself.tableView indexPathForCell:wcell];
+//                if(!wself.isCurPlayerPause && indexPath && indexPath.row == wself.currentIndex) {
+//                    [wcell play];
+//                }
+//            };
+//        }
+//    } else {
+//        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
-    self.lastScrollViewContentOffsetY = scrollView.contentOffset.y;
-    
-    //停止当前播放的
-    [self stopCurrentPlayingCell];
-    
-    //找出适合播放的并播放
-    [self filterShouldPlayCellWithScrollDirection:isScrollDownward];
 }
 
 #pragma mark - 播放暂停
