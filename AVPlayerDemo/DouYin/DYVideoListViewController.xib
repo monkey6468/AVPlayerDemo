@@ -11,8 +11,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DYVideoListViewController">
             <connections>
                 <outlet property="tableView" destination="QvG-CS-FnQ" id="Mzn-JI-5Ww"/>
-                <outlet property="tableViewConstraintH" destination="iuu-ZT-xul" id="zkX-X3-1hE"/>
-                <outlet property="tableViewConstraintT" destination="oVN-DU-V3C" id="j3h-dq-aDO"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2m3-Dk-S2x"/>
             </connections>
         </placeholder>
@@ -24,9 +22,6 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QvG-CS-FnQ">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="480" id="iuu-ZT-xul"/>
-                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="OX2-1H-EbL"/>
                         <outlet property="delegate" destination="-1" id="N7V-hP-emB"/>
@@ -45,6 +40,7 @@
             <constraints>
                 <constraint firstItem="QvG-CS-FnQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="QsK-In-pDr"/>
                 <constraint firstAttribute="trailing" secondItem="QvG-CS-FnQ" secondAttribute="trailing" id="Xke-pc-PhE"/>
+                <constraint firstAttribute="bottom" secondItem="QvG-CS-FnQ" secondAttribute="bottom" id="dOx-m4-gFH"/>
                 <constraint firstItem="QvG-CS-FnQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oVN-DU-V3C"/>
             </constraints>
             <point key="canvasLocation" x="132" y="103"/>

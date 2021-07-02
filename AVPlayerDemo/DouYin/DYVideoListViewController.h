@@ -10,6 +10,7 @@
 @interface DYVideoListViewController : UIViewController
 
 @property (copy, nonatomic) NSArray *urlsArray;
+@property (nonatomic, assign) NSInteger currentIndex;
 
 @end
 

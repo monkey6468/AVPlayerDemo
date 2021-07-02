@@ -11,7 +11,6 @@
 #import "SDImageCache.h"
 
 @interface DYVideoListCell () <VideoPlayerDelegate>
-@property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
 @property(weak, nonatomic) IBOutlet UITextView *textView;
 
@@ -49,7 +48,6 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-//    self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
 }
 
 #pragma mark - other
@@ -72,14 +70,6 @@
         isPortrait = NO;
     }
     return isPortrait;
-}
-
-#pragma mark - VideoPlayerDelegate
-- (IBAction)playButtonClick:(UIButton *)sender {
-    [sender setSelected:!sender.isSelected];
-    if ([self.delegate respondsToSelector:@selector(playButtonClick:)]) {
-        [self.delegate playButtonClick:sender];
-    }
 }
 
 #pragma mark - get data
@@ -128,11 +118,6 @@
 }
 
 #pragma mark - set data
-- (void)setRow:(NSInteger)row {
-    _row = row;
-    self.playButton.tag = 788 + row;
-}
-
 - (void)setPlayerModeWithWidth:(CGFloat)width height:(CGFloat)height {
     if (height / width <= 4 / 3.0) {
         self.player.mode = VideoPlayerGravityResize;
