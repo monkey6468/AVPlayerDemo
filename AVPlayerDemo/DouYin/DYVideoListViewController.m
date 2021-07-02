@@ -33,6 +33,10 @@
     [self creatData];
     [self setUI];
 
+    NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+    [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
+                                  animated:NO];
+    
     //设置初次播放的
     [self setStartPlay];
 }
@@ -46,7 +50,7 @@
 }
 
 - (void)initData {
-    self.lastOrCurrentPlayIndex = 0;
+    self.lastOrCurrentPlayIndex = self.currentIndex;
 }
 
 - (void)creatData {
@@ -56,6 +60,7 @@
 - (void)setUI {
     self.tableView.tableFooterView = [UIView new];
     self.tableView.tableHeaderView = [UIView new];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (@available(iOS 11.0, *)) {
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     } else {

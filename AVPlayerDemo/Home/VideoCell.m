@@ -38,17 +38,7 @@
     }
     
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:model.videoUrl];
-    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-//        if (image) {
-//            CGFloat width = image.size.width;
-//            CGFloat height = image.size.height;
-//            if (height / width <= 4 / 3.0) {
-//                weakSelf.preImageView.contentMode = UIViewContentModeScaleToFill;
-//            } else {
-//                weakSelf.preImageView.contentMode = UIViewContentModeScaleAspectFit;
-//            }
-//        }
-    }];
+    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl]];
 }
 
 @end
