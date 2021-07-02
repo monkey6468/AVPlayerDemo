@@ -41,7 +41,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV">
-                        <barButtonItem key="rightBarButtonItem" title="clearCache" id="h1q-UY-4yV">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="fuh-Wn-U7N">
+                            <connections>
+                                <action selector="onActionRefresh:" destination="BYZ-38-t0r" id="tPz-dr-0GH"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="ClearCache" id="h1q-UY-4yV">
                             <connections>
                                 <action selector="onActionClearCache:" destination="BYZ-38-t0r" id="AVv-ZV-pmv"/>
                             </connections>

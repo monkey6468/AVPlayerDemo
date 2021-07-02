@@ -39,10 +39,22 @@ static NSInteger count = 0;
         [self setupPlayerUI];
         [self assetWithURL:url];
     }
+    return [self initWithUrl:url delegate:nil];
+}
+
+- (instancetype)initWithUrl:(NSURL *)url delegate:(id<VideoPlayerDelegate>)delegate {
+    if (self = [super init]) {
+        self.delegate = delegate;
+        self.autoPlayCountTemp = NSUIntegerMax;
+        [self setupPlayerUI];
+        [self assetWithURL:url];
+    }
     return self;
 }
 
 - (void)assetWithURL:(NSURL *)url {
+    self.status = VideoPlayerStatusReady;
+
     NSDictionary *options = @{AVURLAssetPreferPreciseDurationAndTimingKey:@YES};
     self.anAsset = [[AVURLAsset alloc] initWithURL:url options:options];
     NSArray *keys = @[@"duration"];
@@ -194,9 +206,7 @@ static NSInteger count = 0;
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
                        context:(void *)context {
     if ([keyPath isEqualToString:@"status"]) {
-        AVPlayerItemStatus itemStatus =
-        [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
-        
+        AVPlayerItemStatus itemStatus = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         switch (itemStatus) {
             case AVPlayerItemStatusUnknown: {
                 self.status = VideoPlayerStatusUnknown;
@@ -248,10 +258,10 @@ static NSInteger count = 0;
         }
     } else if ([keyPath isEqualToString:@"rate"]) { //当rate==0时为暂停,rate==1时为播放,当rate等于负数时为回放
         if ([[change objectForKey:NSKeyValueChangeNewKey] integerValue] == 0) {
-            _isPlaying = false;
+            _isPlaying = NO;
             self.status = VideoPlayerStatusPaused;
         } else {
-            _isPlaying = true;
+            _isPlaying = YES;
             self.status = VideoPlayerStatusPlaying;
         }
     }
@@ -672,5 +682,13 @@ static NSInteger count = 0;
 - (void)setAutoPlayCount:(NSUInteger)autoPlayCount {
     _autoPlayCount = autoPlayCount;
     self.autoPlayCountTemp = autoPlayCount;
+}
+
+- (void)setStatus:(VideoPlayerStatus)status {
+    _status = status;
+    
+    if ([self.delegate respondsToSelector:@selector(videoPlayer:playerStatus:error:)]) {
+        [self.delegate videoPlayer:self playerStatus:status error:self.item.error];
+    }
 }
 @end

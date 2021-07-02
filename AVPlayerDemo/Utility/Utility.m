@@ -15,10 +15,11 @@
 + (NSArray *)getUrls {
     NSArray *allUlr = [self getAllUrls];
 //    return allUlr;
-    NSMutableArray *randomArray = [[NSMutableArray alloc]initWithArray:allUlr];
+    NSMutableArray *randomArray = [[NSMutableArray alloc] initWithArray:allUlr];
     int i = (int)[randomArray count];
-    while(--i > 0) {
-        int j = rand() % (i+1);
+    while (--i > 0) {
+        srand((unsigned)time(0));
+        int j = rand() % (i + 1);
         [randomArray exchangeObjectAtIndex:i withObjectAtIndex:j];
     }
     return randomArray;

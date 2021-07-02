@@ -13,8 +13,10 @@
 @interface DYVideoListCell () <VideoPlayerDelegate>
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
 @property(weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIView *playerStatusBar;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewConstraintB;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *playerStatusBarConstraintB;
 
 /// 视频宽度
 @property(assign, nonatomic) CGFloat videoWidth;
@@ -54,8 +56,40 @@
     [super layoutSubviews];
     if (@available(iOS 11.0, *)) {
         self.textViewConstraintB.constant = self.safeAreaInsets.bottom+44;
+        self.playerStatusBarConstraintB.constant = self.safeAreaInsets.bottom+42;
     } else {
         self.textViewConstraintB.constant = 44;
+        self.playerStatusBarConstraintB.constant = 42;
+    }
+}
+
+//加载动画
+- (void)startLoadingPlayItemAnim:(BOOL)isStart {
+    if (isStart) {
+        self.playerStatusBar.backgroundColor = UIColor.whiteColor;
+        [self.playerStatusBar setHidden:NO];
+        [self.playerStatusBar.layer removeAllAnimations];
+        
+        CAAnimationGroup *animationGroup = [[CAAnimationGroup alloc]init];
+        animationGroup.duration = 0.5;
+        animationGroup.beginTime = CACurrentMediaTime();
+        animationGroup.repeatCount = MAXFLOAT;
+        animationGroup.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        
+        CABasicAnimation * scaleAnimation = [CABasicAnimation animation];
+        scaleAnimation.keyPath = @"transform.scale.x";
+        scaleAnimation.fromValue = @(1.0f);
+        scaleAnimation.toValue = @(1.0f * [UIScreen mainScreen].bounds.size.width);
+        
+        CABasicAnimation * alphaAnimation = [CABasicAnimation animation];
+        alphaAnimation.keyPath = @"opacity";
+        alphaAnimation.fromValue = @(1.0f);
+        alphaAnimation.toValue = @(0.5f);
+        [animationGroup setAnimations:@[scaleAnimation, alphaAnimation]];
+        [self.playerStatusBar.layer addAnimation:animationGroup forKey:nil];
+    } else {
+        [self.playerStatusBar.layer removeAllAnimations];
+        [self.playerStatusBar setHidden:YES];
     }
 }
 
@@ -81,13 +115,29 @@
     return isPortrait;
 }
 
+#pragma mark - VideoPlayerDelegate
+- (void)videoPlayer:(VideoPlayer *)videoPlayer playerStatus:(VideoPlayerStatus)status error:(NSError *)error {
+    if (status == VideoPlayerStatusUnknown) {
+        [self startLoadingPlayItemAnim:YES];
+    } else if (status == VideoPlayerStatusReady) {
+        [self startLoadingPlayItemAnim:YES];
+    } else if (status == VideoPlayerStatusBuffering) {
+//        [self startLoadingPlayItemAnim:YES];
+    } else if (status == VideoPlayerStatusPlaying) {
+        [self startLoadingPlayItemAnim:NO];
+    } else if (status == VideoPlayerStatusFailed) {
+        [self startLoadingPlayItemAnim:NO];
+    } else if (status == VideoPlayerStatusFinished) {
+        //
+    }
+}
+
 #pragma mark - get data
 - (VideoPlayer *)player {
     if (!_player) {
-        _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.model.videoUrl]];
+        _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.model.videoUrl] delegate:self];
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
-        _player.delegate = self;
         _player.isFullScreenDisplay = YES;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.model.videoUrl];

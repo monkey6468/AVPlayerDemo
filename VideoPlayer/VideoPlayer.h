@@ -27,18 +27,20 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
     VideoPlayerStatusPlaying,
     VideoPlayerStatusStopped,
     
-    VideoPlayerStatusReady              = 1,
-    VideoPlayerStatusPaused             = 4,
-    VideoPlayerStatusFinished           = 5,
-    VideoPlayerStatusChangeEsolution    = 6,
-    VideoPlayerStatusDownload           = 7,
+    VideoPlayerStatusReady,
+    VideoPlayerStatusPaused,
+    VideoPlayerStatusFinished,
+    VideoPlayerStatusChangeEsolution,
+    VideoPlayerStatusDownload,
 };
 
 @class VideoPlayer;
 @protocol VideoPlayerDelegate <NSObject>
+
 @optional
-// videoPlayer:(VideoPlayer *)videoPlayer
+- (void)videoPlayer:(VideoPlayer *)videoPlayer playerStatus:(VideoPlayerStatus)status error:(NSError *)error;
 - (void)playerTapActionWithIsShouldToHideSubviews:(BOOL)isHide;
+
 @end
 
 @interface VideoPlayer : UIView <VideoPlayerControlViewDelegate, UIGestureRecognizerDelegate>
@@ -68,6 +70,7 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 @property(nonatomic, copy) NSString *title;
 //与url初始化
 - (instancetype)initWithUrl:(NSURL *)url;
+- (instancetype)initWithUrl:(NSURL *)url delegate:(id<VideoPlayerDelegate>)delegate;
 //播放
 - (void)play;
 //暂停

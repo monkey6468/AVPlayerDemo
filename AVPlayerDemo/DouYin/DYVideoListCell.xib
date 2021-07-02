@@ -34,7 +34,7 @@
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pwd-dV-Gk0">
                         <rect key="frame" x="0.0" y="376" width="320" height="60"/>
-                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="Mrf-7Z-wHM"/>
                         </constraints>
@@ -42,12 +42,22 @@
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YZX-lS-bUX">
+                        <rect key="frame" x="159.5" y="437.5" width="1" height="0.5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="0.5" id="G2L-0b-mUE"/>
+                            <constraint firstAttribute="width" constant="1" id="ciH-2p-ngY"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                 <constraints>
+                    <constraint firstItem="YZX-lS-bUX" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="4X8-s4-fxu"/>
                     <constraint firstAttribute="trailing" secondItem="pwd-dV-Gk0" secondAttribute="trailing" id="9bY-df-GgE"/>
                     <constraint firstAttribute="trailing" secondItem="7tC-hY-KV8" secondAttribute="trailing" id="Fuq-bL-etu"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Nuf-pd-9Zk"/>
+                    <constraint firstAttribute="bottom" secondItem="YZX-lS-bUX" secondAttribute="bottom" constant="42" id="Rwh-yk-KUF"/>
                     <constraint firstItem="7tC-hY-KV8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ifv-oa-iEK"/>
                     <constraint firstAttribute="bottom" secondItem="pwd-dV-Gk0" secondAttribute="bottom" constant="44" id="mDC-U9-qAX"/>
                     <constraint firstAttribute="bottom" secondItem="7tC-hY-KV8" secondAttribute="bottom" id="pda-Ot-RdT"/>
@@ -55,6 +65,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="playerStatusBar" destination="YZX-lS-bUX" id="ohi-Th-sE7"/>
+                <outlet property="playerStatusBarConstraintB" destination="Rwh-yk-KUF" id="fIi-j1-TW7"/>
                 <outlet property="preImageView" destination="Uc1-Tm-erz" id="lks-dO-GeF"/>
                 <outlet property="textView" destination="pwd-dV-Gk0" id="ERi-Nk-eBm"/>
                 <outlet property="textViewConstraintB" destination="mDC-U9-qAX" id="2va-Xm-vJ2"/>
@@ -64,8 +76,8 @@
         </tableViewCell>
     </objects>
     <resources>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

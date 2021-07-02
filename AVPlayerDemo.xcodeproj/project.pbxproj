@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A633384C268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */; };
 		A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */; };
 		A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */ = {isa = PBXBuildFile; fileRef = A633385F268B084B004F9BAF /* 播放按钮 暂停.png */; };
 		A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = A6333860268B084B004F9BAF /* 播放按钮 暂停@3x.png */; };
@@ -116,7 +115,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = designedByAppleInCalifornia.mp4; sourceTree = "<group>"; };
 		A633385B268B084B004F9BAF /* VideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		A633385E268B084B004F9BAF /* 播放按钮 暂停@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停@2x.png"; sourceTree = "<group>"; };
 		A633385F268B084B004F9BAF /* 播放按钮 暂停.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "播放按钮 暂停.png"; sourceTree = "<group>"; };
@@ -629,7 +627,6 @@
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
-				A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
 				A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */,
 				A6C7F88126661D0A00A49576 /* Info.plist */,
@@ -716,7 +713,6 @@
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
 				A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */,
 				A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */,
-				A633384C268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 in Resources */,
 				A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */,
 				A6333879268B084C004F9BAF /* 播放按钮@2x.png in Resources */,
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,

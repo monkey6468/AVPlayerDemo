@@ -35,7 +35,7 @@
     // Do any additional setup after loading the view.
     [self settingUI];
 
-    self.dataArray = [Utility getUrls];
+    [self onActionRefresh:nil];
 }
 
 #pragma mark - UI
@@ -72,6 +72,11 @@
     }];
 }
 
+- (IBAction)onActionRefresh:(UIBarButtonItem *)sender {
+    self.dataArray = [Utility getUrls];
+    [self.collectionView reloadData];
+}
+
 #pragma mark - UICollectionViewDelegate, UICollectionViewDataSource
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat cellW = (ScreenWidth-12*2-8)/2.;
@@ -95,15 +100,15 @@
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择跳转"
                                                                              message:nil
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *weiBoAction = [UIAlertAction actionWithTitle:@"微博"
+    UIAlertAction *weiBoAction = [UIAlertAction actionWithTitle:@"微博(无定位)"
                                                           style:UIAlertActionStyleDefault
                                                         handler:^(UIAlertAction * _Nonnull action) {
         
         VideoListViewController *vc = [[VideoListViewController alloc]init];
         vc.urlsArray = self.dataArray;
         [self.navigationController pushViewController:vc animated:YES];
-        
     }];
+
     UIAlertAction *douyinAction = [UIAlertAction actionWithTitle:@"抖音"
                                                            style:UIAlertActionStyleDefault
                                                          handler:^(UIAlertAction * _Nonnull action) {

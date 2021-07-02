@@ -27,7 +27,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8K-O3-gHc">
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8K-O3-gHc">
                                 <rect key="frame" x="68.5" y="114.5" width="35" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="x8K-O3-gHc" secondAttribute="height" multiplier="1:1" id="hvF-My-Hgw"/>
