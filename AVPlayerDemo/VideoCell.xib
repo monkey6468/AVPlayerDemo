@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="VideoCell">
+            <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MS7-GT-X9t">
+                        <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mis-5A-wGh">
+                                <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bz-Bb-pA9">
+                                <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="top" secondItem="MS7-GT-X9t" secondAttribute="top" id="3Db-OS-6Sw"/>
+                            <constraint firstAttribute="trailing" secondItem="3Bz-Bb-pA9" secondAttribute="trailing" id="CtP-7W-GRe"/>
+                            <constraint firstItem="Mis-5A-wGh" firstAttribute="leading" secondItem="MS7-GT-X9t" secondAttribute="leading" id="ZZb-7i-a1E"/>
+                            <constraint firstAttribute="bottom" secondItem="3Bz-Bb-pA9" secondAttribute="bottom" id="cEf-xX-j3W"/>
+                            <constraint firstAttribute="trailing" secondItem="Mis-5A-wGh" secondAttribute="trailing" id="dS9-0e-hOv"/>
+                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="leading" secondItem="MS7-GT-X9t" secondAttribute="leading" id="lEN-Ww-67F"/>
+                            <constraint firstItem="Mis-5A-wGh" firstAttribute="top" secondItem="MS7-GT-X9t" secondAttribute="top" id="ub1-Ut-gjn"/>
+                            <constraint firstAttribute="bottom" secondItem="Mis-5A-wGh" secondAttribute="bottom" id="xKP-xF-LGK"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="MS7-GT-X9t" secondAttribute="trailing" id="S8g-Ku-VKw"/>
+                <constraint firstItem="MS7-GT-X9t" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Twk-AJ-J4h"/>
+                <constraint firstAttribute="bottom" secondItem="MS7-GT-X9t" secondAttribute="bottom" id="ZEy-RS-eGJ"/>
+                <constraint firstItem="MS7-GT-X9t" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="k93-uc-aaJ"/>
+            </constraints>
+            <connections>
+                <outlet property="bgImageView" destination="Mis-5A-wGh" id="FTA-WG-4Rd"/>
+                <outlet property="textLabel" destination="3Bz-Bb-pA9" id="1Gp-qS-lQA"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="112.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

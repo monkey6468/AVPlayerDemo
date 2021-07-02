@@ -101,8 +101,6 @@
 		A6BB88CD268DB0E400F280B2 /* VideoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */; };
 		A6BB88D5268DC0E400F280B2 /* DYVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */; };
 		A6BB88D6268DC0E400F280B2 /* DYVideoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */; };
-		A6BB88D7268DC0E400F280B2 /* DYVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */; };
-		A6BB88D8268DC0E400F280B2 /* DYVideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */; };
 		A6C7F87226661D0700A49576 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87126661D0700A49576 /* AppDelegate.m */; };
 		A6C7F87526661D0700A49576 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87426661D0700A49576 /* SceneDelegate.m */; };
 		A6C7F87826661D0700A49576 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F87726661D0700A49576 /* ViewController.m */; };
@@ -111,6 +109,10 @@
 		A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6C7F87E26661D0A00A49576 /* LaunchScreen.storyboard */; };
 		A6C7F88326661D0A00A49576 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6C7F88226661D0A00A49576 /* main.m */; };
 		A6D9B17F268040F800CF7E62 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D9B17E268040F800CF7E62 /* ImageCache.m */; };
+		A6EDD2FA268EB81100BBAE0E /* VideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EDD2F7268EB81100BBAE0E /* VideoCell.m */; };
+		A6EDD2FB268EB81100BBAE0E /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6EDD2F8268EB81100BBAE0E /* VideoCell.xib */; };
+		A6EDD2FF268EB87000BBAE0E /* DYVideoListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EDD2FC268EB87000BBAE0E /* DYVideoListCell.m */; };
+		A6EDD300268EB87000BBAE0E /* DYVideoListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6EDD2FD268EB87000BBAE0E /* DYVideoListCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -291,10 +293,7 @@
 		A6BB88CC268DB0E400F280B2 /* VideoListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoListViewController.xib; sourceTree = "<group>"; };
 		A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYVideoListViewController.m; sourceTree = "<group>"; };
 		A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYVideoListViewController.xib; sourceTree = "<group>"; };
-		A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYVideoListCell.m; sourceTree = "<group>"; };
-		A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYVideoListCell.xib; sourceTree = "<group>"; };
 		A6BB88D3268DC0E400F280B2 /* DYVideoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYVideoListViewController.h; sourceTree = "<group>"; };
-		A6BB88D4268DC0E400F280B2 /* DYVideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYVideoListCell.h; sourceTree = "<group>"; };
 		A6C7F86D26661D0700A49576 /* AVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6C7F87026661D0700A49576 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6C7F87126661D0700A49576 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -309,6 +308,12 @@
 		A6C7F88226661D0A00A49576 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A6D9B17D268040F800CF7E62 /* ImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
 		A6D9B17E268040F800CF7E62 /* ImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		A6EDD2F7268EB81100BBAE0E /* VideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoCell.m; sourceTree = "<group>"; };
+		A6EDD2F8268EB81100BBAE0E /* VideoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
+		A6EDD2F9268EB81100BBAE0E /* VideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoCell.h; sourceTree = "<group>"; };
+		A6EDD2FC268EB87000BBAE0E /* DYVideoListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DYVideoListCell.m; sourceTree = "<group>"; };
+		A6EDD2FD268EB87000BBAE0E /* DYVideoListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DYVideoListCell.xib; sourceTree = "<group>"; };
+		A6EDD2FE268EB87000BBAE0E /* DYVideoListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DYVideoListCell.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,9 +587,9 @@
 		A6BB88CE268DBFCB00F280B2 /* DouYin */ = {
 			isa = PBXGroup;
 			children = (
-				A6BB88D4268DC0E400F280B2 /* DYVideoListCell.h */,
-				A6BB88D1268DC0E400F280B2 /* DYVideoListCell.m */,
-				A6BB88D2268DC0E400F280B2 /* DYVideoListCell.xib */,
+				A6EDD2FE268EB87000BBAE0E /* DYVideoListCell.h */,
+				A6EDD2FC268EB87000BBAE0E /* DYVideoListCell.m */,
+				A6EDD2FD268EB87000BBAE0E /* DYVideoListCell.xib */,
 				A6BB88D3268DC0E400F280B2 /* DYVideoListViewController.h */,
 				A6BB88CF268DC0E400F280B2 /* DYVideoListViewController.m */,
 				A6BB88D0268DC0E400F280B2 /* DYVideoListViewController.xib */,
@@ -626,6 +631,9 @@
 				A65669C2267B43A300CA65BF /* AwemeListController */,
 				A6C7F87626661D0700A49576 /* ViewController.h */,
 				A6C7F87726661D0700A49576 /* ViewController.m */,
+				A6EDD2F9268EB81100BBAE0E /* VideoCell.h */,
+				A6EDD2F7268EB81100BBAE0E /* VideoCell.m */,
+				A6EDD2F8268EB81100BBAE0E /* VideoCell.xib */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
@@ -696,7 +704,7 @@
 				A6C7F88026661D0A00A49576 /* LaunchScreen.storyboard in Resources */,
 				A6BB88D6268DC0E400F280B2 /* DYVideoListViewController.xib in Resources */,
 				A6C7F87D26661D0A00A49576 /* Assets.xcassets in Resources */,
-				A6BB88D8268DC0E400F280B2 /* DYVideoListCell.xib in Resources */,
+				A6EDD2FB268EB81100BBAE0E /* VideoCell.xib in Resources */,
 				A6C7F87B26661D0700A49576 /* Main.storyboard in Resources */,
 				A6333877268B084C004F9BAF /* 播放按钮 暂停@3x.png in Resources */,
 				A6333876268B084C004F9BAF /* 播放按钮 暂停.png in Resources */,
@@ -704,6 +712,7 @@
 				A6333875268B084C004F9BAF /* 播放按钮 暂停@2x.png in Resources */,
 				A6333879268B084C004F9BAF /* 播放按钮@2x.png in Resources */,
 				A6566A6F267B53FD00CA65BF /* AwemeListCell.xib in Resources */,
+				A6EDD300268EB87000BBAE0E /* DYVideoListCell.xib in Resources */,
 				A6333881268B084C004F9BAF /* VideoListCell.xib in Resources */,
 				A633387B268B084C004F9BAF /* 播放按钮@3x.png in Resources */,
 				A633387A268B084C004F9BAF /* 播放按钮.png in Resources */,
@@ -770,12 +779,12 @@
 				A6714F282681CCDF00AE7026 /* UIImage+MultiFormat.m in Sources */,
 				A6714F1C2681CCDF00AE7026 /* SDAnimatedImageView.m in Sources */,
 				A633387F268B084C004F9BAF /* VideoPlayerControlView.m in Sources */,
+				A6EDD2FF268EB87000BBAE0E /* DYVideoListCell.m in Sources */,
 				A6714F192681CCDF00AE7026 /* SDImageIOAnimatedCoder.m in Sources */,
 				A6714F162681CCDF00AE7026 /* SDWebImageOperation.m in Sources */,
 				A633387E268B084C004F9BAF /* VideoPlayer.m in Sources */,
 				A6714F1A2681CCDF00AE7026 /* UIImageView+HighlightedWebCache.m in Sources */,
 				A6714F532681CCDF00AE7026 /* NSBezierPath+SDRoundedCorners.m in Sources */,
-				A6BB88D7268DC0E400F280B2 /* DYVideoListCell.m in Sources */,
 				A6714F352681CCDF00AE7026 /* SDWebImageDownloaderConfig.m in Sources */,
 				A6714F492681CCDF00AE7026 /* UIImage+Metadata.m in Sources */,
 				A6714F2D2681CCDF00AE7026 /* SDWebImageError.m in Sources */,
@@ -801,6 +810,7 @@
 				A6566A6E267B53FD00CA65BF /* AwemeListCell.m in Sources */,
 				A6333880268B084C004F9BAF /* VideoListViewController.m in Sources */,
 				A6714F302681CCDF00AE7026 /* NSButton+WebCache.m in Sources */,
+				A6EDD2FA268EB81100BBAE0E /* VideoCell.m in Sources */,
 				A6714F322681CCDF00AE7026 /* SDDiskCache.m in Sources */,
 				A6714F242681CCDF00AE7026 /* SDWebImageIndicator.m in Sources */,
 				A6714F452681CCDF00AE7026 /* SDWebImageDefine.m in Sources */,

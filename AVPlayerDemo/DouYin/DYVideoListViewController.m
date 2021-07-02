@@ -15,7 +15,7 @@
 @interface DYVideoListViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property(strong, nonatomic) NSMutableArray *dataArray;
+@property(copy, nonatomic) NSArray *dataArray;
 
 @property(nonatomic, assign) NSInteger lastOrCurrentPlayIndex;
 //记录偏移值,用于判断上滑还是下滑
@@ -50,14 +50,7 @@
 }
 
 - (void)creatData {
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSString *url in self.urlsArray) {
-        VideoInfo *model = [VideoInfo new];
-        model.videoUrl = url;
-        model.playTime = 0;
-        [array addObject:model];
-    }
-    self.dataArray = array;
+    self.dataArray = self.urlsArray;
 }
 
 - (void)setUI {

@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,41 +16,61 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="o0l-RI-vVV">
+                                <rect key="frame" x="0.0" y="44" width="320" height="436"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8sw-pu-rdD">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="IAp-mj-ens"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="s9L-Av-lz2"/>
+                                </connections>
+                            </collectionView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QSJ-fV-xBy">
-                                <rect key="frame" x="121" y="187" width="78" height="106"/>
+                                <rect key="frame" x="144.5" y="206" width="31" height="68"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="658-8g-A7T">
-                                        <rect key="frame" x="0.0" y="0.0" width="78" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="31" height="30"/>
                                         <state key="normal" title="微博"/>
                                         <connections>
                                             <action selector="onActionWeiboPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V7r-dd-lOl"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
-                                        <rect key="frame" x="0.0" y="38" width="78" height="30"/>
+                                        <rect key="frame" x="0.0" y="38" width="31" height="30"/>
                                         <state key="normal" title="抖音"/>
                                         <connections>
                                             <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikn-Sx-AKd">
-                                        <rect key="frame" x="0.0" y="76" width="78" height="30"/>
-                                        <state key="normal" title="clearCache"/>
-                                        <connections>
-                                            <action selector="onActionClearCache:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4cP-zI-SQT"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="o0l-RI-vVV" secondAttribute="bottom" id="4oz-1U-Eq8"/>
+                            <constraint firstItem="o0l-RI-vVV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="7cO-ev-wEF"/>
                             <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8zu-Iy-qGu"/>
                             <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E6r-h1-565"/>
+                            <constraint firstItem="o0l-RI-vVV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="I8T-hY-Ubi"/>
+                            <constraint firstAttribute="trailing" secondItem="o0l-RI-vVV" secondAttribute="trailing" id="SnI-Im-yEi"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV"/>
+                    <navigationItem key="navigationItem" title="AVPlayerDemo" id="7Ei-V2-UVV">
+                        <barButtonItem key="rightBarButtonItem" title="clearCache" id="h1q-UY-4yV">
+                            <connections>
+                                <action selector="onActionClearCache:" destination="BYZ-38-t0r" id="AVv-ZV-pmv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="o0l-RI-vVV" id="gLA-fJ-Yw3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

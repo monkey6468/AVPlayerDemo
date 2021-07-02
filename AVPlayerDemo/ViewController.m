@@ -5,16 +5,26 @@
 //  Created by HN on 2021/6/1.
 //
 
+// Controller
 #import "ViewController.h"
 #import "VideoListViewController.h"
 #import "DYVideoListViewController.h"
-#import "AwemeListController.h"
 
+// View
+#import "VideoCell.h"
+
+// Tools
 #import "Utility.h"
 #import "CacheHelpler.h"
 #import "SDImageCache.h"
 
-@interface ViewController ()
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+
+@interface ViewController ()<UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property(copy, nonatomic) NSArray *dataArray;
 
 @end
 
@@ -23,28 +33,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self settingUI];
+
+    self.dataArray = [Utility getUrls];
 //    [self onActionPlay:nil];
-    [self onActionAwemeList:nil];
+//    [self onActionAwemeList:nil];
 }
 
+#pragma mark - UI
+- (void)settingUI
+{
+    self.navigationItem.title = @"AVPlayerDemo";
+    
+    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass(VideoCell.class) bundle:nil] forCellWithReuseIdentifier:NSStringFromClass(VideoCell.class)];
+
+    UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+    flowLayout.minimumLineSpacing = 10;
+    flowLayout.minimumInteritemSpacing = 0;
+    flowLayout.sectionInset = UIEdgeInsetsMake(0, 12, 10, 12);
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    self.collectionView.collectionViewLayout = flowLayout;
+    self.collectionView.showsVerticalScrollIndicator = YES;
+    self.collectionView.showsHorizontalScrollIndicator = NO;
+    if (@available(iOS 11.0, *)) {
+        self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+}
+
+#pragma mark - other
 - (IBAction)onActionWeiboPlay:(UIButton *)sender {
     VideoListViewController *vc = [[VideoListViewController alloc]init];
-    vc.urlsArray = [Utility getUrls];
+    vc.urlsArray = self.dataArray;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)onActionAwemeList:(UIButton *)sender {
     DYVideoListViewController *vc = [[DYVideoListViewController alloc]init];
-    vc.urlsArray = [Utility getUrls];
+    vc.urlsArray = self.dataArray;
 //    [self.navigationController pushViewController:vc animated:YES];
 //    AwemeListController *vc = [[AwemeListController alloc]init];
-//    vc.urlsArray = [Utility getUrls];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-- (IBAction)onActionClearCache:(UIButton *)sender {
+- (IBAction)onActionClearCache:(UIBarButtonItem *)sender {
     //获取缓存图片的大小(字节)
     NSUInteger bytesCache = [[SDImageCache sharedImageCache] totalDiskSize];
     
@@ -53,6 +87,29 @@
     [[SDImageCache sharedImageCache] clearDiskOnCompletion:^{
         NSLog(@"异步清除图片缓存: %lf MB",MBCache);
     }];
+}
+
+#pragma mark - UICollectionViewDelegate, UICollectionViewDataSource
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat cellW = (ScreenWidth-12*2-8)/2.;
+    CGFloat cellH = cellW*264/171.5;
+    return CGSizeMake(cellW, cellH);
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    VideoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(VideoCell.class) forIndexPath:indexPath];
+    cell.model = self.dataArray[indexPath.item];
+    return cell;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.dataArray.count;
+}
+
+#pragma mark - UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
 }
 
 @end
