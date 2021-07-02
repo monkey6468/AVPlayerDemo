@@ -27,21 +27,30 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x8K-O3-gHc">
+                                <rect key="frame" x="68.5" y="114.5" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="x8K-O3-gHc" secondAttribute="height" multiplier="1:1" id="hvF-My-Hgw"/>
+                                    <constraint firstAttribute="width" constant="35" id="vI4-V8-CFO"/>
+                                </constraints>
+                                <state key="normal" image="播放按钮.png"/>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bz-Bb-pA9">
-                                <rect key="frame" x="0.0" y="0.0" width="172" height="264"/>
+                                <rect key="frame" x="64.5" y="122" width="43.5" height="20.5"/>
+                                <color key="backgroundColor" white="1" alpha="0.35167739565009315" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="top" secondItem="MS7-GT-X9t" secondAttribute="top" id="3Db-OS-6Sw"/>
-                            <constraint firstAttribute="trailing" secondItem="3Bz-Bb-pA9" secondAttribute="trailing" id="CtP-7W-GRe"/>
+                            <constraint firstItem="x8K-O3-gHc" firstAttribute="centerX" secondItem="MS7-GT-X9t" secondAttribute="centerX" id="17e-OC-gHn"/>
+                            <constraint firstItem="x8K-O3-gHc" firstAttribute="centerY" secondItem="MS7-GT-X9t" secondAttribute="centerY" id="JX1-0b-kVy"/>
+                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="centerY" secondItem="MS7-GT-X9t" secondAttribute="centerY" id="Wgq-5p-Bcq"/>
                             <constraint firstItem="Mis-5A-wGh" firstAttribute="leading" secondItem="MS7-GT-X9t" secondAttribute="leading" id="ZZb-7i-a1E"/>
-                            <constraint firstAttribute="bottom" secondItem="3Bz-Bb-pA9" secondAttribute="bottom" id="cEf-xX-j3W"/>
                             <constraint firstAttribute="trailing" secondItem="Mis-5A-wGh" secondAttribute="trailing" id="dS9-0e-hOv"/>
-                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="leading" secondItem="MS7-GT-X9t" secondAttribute="leading" id="lEN-Ww-67F"/>
+                            <constraint firstItem="3Bz-Bb-pA9" firstAttribute="centerX" secondItem="MS7-GT-X9t" secondAttribute="centerX" id="ec4-8p-Fx1"/>
                             <constraint firstItem="Mis-5A-wGh" firstAttribute="top" secondItem="MS7-GT-X9t" secondAttribute="top" id="ub1-Ut-gjn"/>
                             <constraint firstAttribute="bottom" secondItem="Mis-5A-wGh" secondAttribute="bottom" id="xKP-xF-LGK"/>
                         </constraints>
@@ -61,9 +70,13 @@
             </constraints>
             <connections>
                 <outlet property="bgImageView" destination="Mis-5A-wGh" id="FTA-WG-4Rd"/>
+                <outlet property="playButton" destination="x8K-O3-gHc" id="KST-qn-tDB"/>
                 <outlet property="textLabel" destination="3Bz-Bb-pA9" id="1Gp-qS-lQA"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="112.5"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="播放按钮.png" width="70" height="70"/>
+    </resources>
 </document>

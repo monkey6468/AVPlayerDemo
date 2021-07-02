@@ -12,6 +12,7 @@
 
 @interface VideoCell ()
 
+@property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 
@@ -27,6 +28,14 @@
 #pragma mark - set data
 - (void)setModel:(VideoInfo *)model {
     _model = model;
+    
+    if (model.type == VideoInfoTypeVideo) {
+        self.playButton.hidden = NO;
+        self.textLabel.hidden = YES;
+    } else {
+        self.playButton.hidden = YES;
+        self.textLabel.text = @"我是图片";
+    }
     
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:model.videoUrl];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {

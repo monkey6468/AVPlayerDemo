@@ -36,12 +36,14 @@
 }
 
 - (void)shouldToPlay {
-    [self.videoBackView addSubview:self.player];
-    if (self.model.playTime) {
-        [self.player seekToTimeTo:self.model.playTime];
-    }
+    if (self.model.type == VideoInfoTypeVideo) {
+        [self.videoBackView addSubview:self.player];
+        if (self.model.playTime) {
+            [self.player seekToTimeTo:self.model.playTime];
+        }
 
-    self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
+        self.player.frame = CGRectMake(0, 0, self.videoBackView.frame.size.width, self.videoBackView.frame.size.height);
+    }
 }
 
 - (void)shouldToStop {
@@ -137,7 +139,11 @@
 - (void)setModel:(VideoInfo *)model {
     _model = model;
     
-    self.textView.text = model.videoUrl;
+    if (model.type == VideoInfoTypeVideo) {
+        self.textView.text = model.videoUrl;
+    } else {
+        self.textView.text = @"我是图片";
+    }
     
     __weak typeof(self) weakSelf = self;
     NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:model.videoUrl];

@@ -93,13 +93,20 @@
     ];
     
     NSMutableArray *array = [NSMutableArray array];
-    for (NSString *url in urls) {
-        VideoInfo *model = [VideoInfo new];
-        model.videoUrl = url;
-        model.playTime = 0;
-        [array addObject:model];
+    for (int i = 0; i < urls.count; i++) {
+        NSString *url = urls[i];
+        VideoInfo *model1 = [VideoInfo new];
+        model1.type = VideoInfoTypeVideo;
+        model1.videoUrl = url;
+        model1.playTime = 0;
+        [array addObject:model1];
+        
+        VideoInfo *model2 = [VideoInfo new];
+        model2.type = VideoInfoTypeImage;
+        model2.videoUrl = url;
+        model2.playTime = 0;
+        [array addObject:model2];
     }
-    
     return array;
 }
 

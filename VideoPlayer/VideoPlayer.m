@@ -71,13 +71,13 @@ static NSInteger count = 0;
                 // Transport Security Settings");
             } break;
             case AVKeyValueStatusCancelled: {
-                NSLog(@"AVKeyValueStatusCancelled取消");
+//                NSLog(@"AVKeyValueStatusCancelled取消");
             } break;
             case AVKeyValueStatusUnknown: {
-                NSLog(@"AVKeyValueStatusUnknown未知");
+//                NSLog(@"AVKeyValueStatusUnknown未知");
             } break;
             case AVKeyValueStatusLoading: {
-                NSLog(@"AVKeyValueStatusLoading正在加载");
+//                NSLog(@"AVKeyValueStatusLoading正在加载");
             } break;
         }
     }];
@@ -200,15 +200,15 @@ static NSInteger count = 0;
         switch (itemStatus) {
             case AVPlayerItemStatusUnknown: {
                 self.status = VideoPlayerStatusUnknown;
-                NSLog(@"AVPlayerItemStatusUnknown");
+//                NSLog(@"AVPlayerItemStatusUnknown");
             } break;
             case AVPlayerItemStatusReadyToPlay: {
                 self.status = VideoPlayerStatusReadyToPlay;
-                NSLog(@"AVPlayerItemStatusReadyToPlay");
+//                NSLog(@"AVPlayerItemStatusReadyToPlay");
             } break;
             case AVPlayerItemStatusFailed: {
                 self.status = VideoPlayerStatusFailed;
-                NSLog(@"AVPlayerItemStatusFailed");
+//                NSLog(@"AVPlayerItemStatusFailed");
             } break;
             default:
                 break;
@@ -237,7 +237,7 @@ static NSInteger count = 0;
         }
     } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         if (self.isFirstPrepareToPlay) {
-            NSLog(@"缓冲达到可播放");
+//            NSLog(@"缓冲达到可播放");
             [self.activityIndeView stopAnimating];
             self.activityIndeView.hidden = YES;
             [self setSubViewsIsHide:YES];
@@ -362,7 +362,7 @@ static NSInteger count = 0;
              completion:nil];
         } break;
         case UIInterfaceOrientationUnknown:
-            NSLog(@"UIInterfaceOrientationUnknown");
+//            NSLog(@"UIInterfaceOrientationUnknown");
             break;
     }
     [[self getCurrentVC].view layoutIfNeeded];
