@@ -32,7 +32,7 @@
     [self initData];
     [self creatData];
     [self setUI];
-    
+
     //设置初次播放的
     [self setStartPlay];
 }

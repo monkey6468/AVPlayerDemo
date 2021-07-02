@@ -31,32 +31,11 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="s9L-Av-lz2"/>
                                 </connections>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="QSJ-fV-xBy">
-                                <rect key="frame" x="144.5" y="206" width="31" height="68"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="658-8g-A7T">
-                                        <rect key="frame" x="0.0" y="0.0" width="31" height="30"/>
-                                        <state key="normal" title="微博"/>
-                                        <connections>
-                                            <action selector="onActionWeiboPlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V7r-dd-lOl"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVC-Ou-o4m">
-                                        <rect key="frame" x="0.0" y="38" width="31" height="30"/>
-                                        <state key="normal" title="抖音"/>
-                                        <connections>
-                                            <action selector="onActionAwemeList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="haZ-wb-l13"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="o0l-RI-vVV" secondAttribute="bottom" id="4oz-1U-Eq8"/>
                             <constraint firstItem="o0l-RI-vVV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="7cO-ev-wEF"/>
-                            <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="8zu-Iy-qGu"/>
-                            <constraint firstItem="QSJ-fV-xBy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="E6r-h1-565"/>
                             <constraint firstItem="o0l-RI-vVV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="I8T-hY-Ubi"/>
                             <constraint firstAttribute="trailing" secondItem="o0l-RI-vVV" secondAttribute="trailing" id="SnI-Im-yEi"/>
                         </constraints>
@@ -82,7 +61,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dYg-HK-9ZZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kro-2l-8oJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

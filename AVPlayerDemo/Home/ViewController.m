@@ -36,8 +36,6 @@
     [self settingUI];
 
     self.dataArray = [Utility getUrls];
-//    [self onActionPlay:nil];
-//    [self onActionAwemeList:nil];
 }
 
 #pragma mark - UI
@@ -63,21 +61,6 @@
 }
 
 #pragma mark - other
-- (IBAction)onActionWeiboPlay:(UIButton *)sender {
-    VideoListViewController *vc = [[VideoListViewController alloc]init];
-    vc.urlsArray = self.dataArray;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)onActionAwemeList:(UIButton *)sender {
-    DYVideoListViewController *vc = [[DYVideoListViewController alloc]init];
-    vc.urlsArray = self.dataArray;
-//    [self.navigationController pushViewController:vc animated:YES];
-//    AwemeListController *vc = [[AwemeListController alloc]init];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
 - (IBAction)onActionClearCache:(UIBarButtonItem *)sender {
     //获取缓存图片的大小(字节)
     NSUInteger bytesCache = [[SDImageCache sharedImageCache] totalDiskSize];
@@ -109,7 +92,36 @@
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请选择跳转"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *weiBoAction = [UIAlertAction actionWithTitle:@"微博"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction * _Nonnull action) {
+        
+        VideoListViewController *vc = [[VideoListViewController alloc]init];
+        vc.urlsArray = self.dataArray;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }];
+    UIAlertAction *douyinAction = [UIAlertAction actionWithTitle:@"抖音"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * _Nonnull action) {
+        DYVideoListViewController *vc = [[DYVideoListViewController alloc]init];
+        vc.urlsArray = self.dataArray;
+        vc.currentIndex = indexPath.row;
+        vc.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self presentViewController:vc animated:YES completion:nil];
+    }];
     
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    
+    [alertController addAction:weiBoAction];
+    [alertController addAction:douyinAction];
+    [alertController addAction:cancelAction];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

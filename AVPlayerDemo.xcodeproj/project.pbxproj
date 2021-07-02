@@ -365,6 +365,7 @@
 		A65669C2267B43A300CA65BF /* AwemeListController */ = {
 			isa = PBXGroup;
 			children = (
+				A65669C9267B43CC00CA65BF /* AVPlayer */,
 				A6566A6B267B53FD00CA65BF /* AwemeListCell.h */,
 				A6566A6C267B53FD00CA65BF /* AwemeListCell.m */,
 				A6566A6D267B53FD00CA65BF /* AwemeListCell.xib */,
@@ -619,21 +620,14 @@
 			children = (
 				A6566A3D267B48BC00CA65BF /* Network */,
 				A652B0AB266A25720019F2C8 /* Utility */,
+				A6EDD301268EC11E00BBAE0E /* Home */,
+				A66ECE36268AC60300C10BBB /* WeiBo */,
+				A6BB88CE268DBFCB00F280B2 /* DouYin */,
+				A65669C2267B43A300CA65BF /* AwemeListController */,
 				A6C7F87026661D0700A49576 /* AppDelegate.h */,
 				A6C7F87126661D0700A49576 /* AppDelegate.m */,
 				A6C7F87326661D0700A49576 /* SceneDelegate.h */,
 				A6C7F87426661D0700A49576 /* SceneDelegate.m */,
-				A6BB88CE268DBFCB00F280B2 /* DouYin */,
-				A66ECE36268AC60300C10BBB /* WeiBo */,
-				A65669C9267B43CC00CA65BF /* AVPlayer */,
-				A65669C2267B43A300CA65BF /* AwemeListController */,
-				A6C7F87626661D0700A49576 /* ViewController.h */,
-				A6C7F87726661D0700A49576 /* ViewController.m */,
-				A6EDD2F9268EB81100BBAE0E /* VideoCell.h */,
-				A6EDD2F7268EB81100BBAE0E /* VideoCell.m */,
-				A6EDD2F8268EB81100BBAE0E /* VideoCell.xib */,
-				A6BB88C9268D749F00F280B2 /* VideoInfo.h */,
-				A6BB88CA268D749F00F280B2 /* VideoInfo.m */,
 				A6C7F87926661D0700A49576 /* Main.storyboard */,
 				A633384B268ACED7004F9BAF /* designedByAppleInCalifornia.mp4 */,
 				A6C7F87C26661D0A00A49576 /* Assets.xcassets */,
@@ -642,6 +636,20 @@
 				A6C7F88226661D0A00A49576 /* main.m */,
 			);
 			path = AVPlayerDemo;
+			sourceTree = "<group>";
+		};
+		A6EDD301268EC11E00BBAE0E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A6C7F87626661D0700A49576 /* ViewController.h */,
+				A6C7F87726661D0700A49576 /* ViewController.m */,
+				A6EDD2F9268EB81100BBAE0E /* VideoCell.h */,
+				A6EDD2F7268EB81100BBAE0E /* VideoCell.m */,
+				A6EDD2F8268EB81100BBAE0E /* VideoCell.xib */,
+				A6BB88C9268D749F00F280B2 /* VideoInfo.h */,
+				A6BB88CA268D749F00F280B2 /* VideoInfo.m */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
