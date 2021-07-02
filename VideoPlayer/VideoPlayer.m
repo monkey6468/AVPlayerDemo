@@ -102,6 +102,52 @@ static NSInteger count = 0;
     [self stop];
 }
 
+#pragma mark - UI
+// MARK: 设置界面 在此方法下面可以添加自定义视图，和删除视图
+- (void)setupPlayerUI {
+    [self setSubViewsIsHide:YES];
+    self.activityIndeView.hidden = NO;
+    [self.activityIndeView startAnimating];
+    //添加标题
+    [self addSubview:self.titleLabel];
+    //添加点击事件
+    [self addGestureEvent];
+    //添加控制视图
+    [self addSubview:self.controlView];
+    //添加加载视图
+    [self addSubview:self.activityIndeView];
+    //初始化时间
+    [self initTimeLabels];
+    //播放暂停
+    [self addSubview:self.playOrPauseButton];
+    self.playOrPauseButton.hidden = YES;
+    self.isFirstPrepareToPlay = YES;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.controlView.center = self.center;
+    CGFloat safeMarginBottom = 0;
+    if (self.isFullScreenDisplay) {
+        if (@available(iOS 11.0, *)) {
+            safeMarginBottom = self.safeAreaInsets.bottom;
+        }
+    }
+    self.controlView.frame = CGRectMake(0, self.frame.size.height - 44-safeMarginBottom, self.frame.size.width, 44);
+    
+    self.activityIndeView.center = self.center;
+    self.activityIndeView.bounds = CGRectMake(0, 0, 35, 35);
+    
+    self.playOrPauseButton.center = self.center;
+    self.playOrPauseButton.bounds = CGRectMake(0, 0, 50, 50);
+}
+
+//初始化时间
+- (void)initTimeLabels {
+    self.controlView.currentTime = @"00:00";
+    self.controlView.totalTime = @"00:00";
+}
+
 #pragma mark - other
 // FIXME: Tracking time,跟踪时间的改变
 - (void)addPeriodicTimeObserver {
@@ -338,46 +384,6 @@ static NSInteger count = 0;
         [self play];
         [self.playOrPauseButton setSelected:YES];
     }
-}
-
-// MARK: 设置界面 在此方法下面可以添加自定义视图，和删除视图
-- (void)setupPlayerUI {
-    [self setSubViewsIsHide:YES];
-    self.activityIndeView.hidden = NO;
-    [self.activityIndeView startAnimating];
-    //添加标题
-    [self addSubview:self.titleLabel];
-    //添加点击事件
-    [self addGestureEvent];
-    //添加控制视图
-    [self addSubview:self.controlView];
-    //添加加载视图
-    [self addSubview:self.activityIndeView];
-    //初始化时间
-    [self initTimeLabels];
-    //播放暂停
-    [self addSubview:self.playOrPauseButton];
-    self.playOrPauseButton.hidden = YES;
-    self.isFirstPrepareToPlay = YES;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.controlView.center = self.center;
-    self.controlView.frame =
-    CGRectMake(0, self.frame.size.height - 44, self.frame.size.width, 44);
-    
-    self.activityIndeView.center = self.center;
-    self.activityIndeView.bounds = CGRectMake(0, 0, 35, 35);
-    
-    self.playOrPauseButton.center = self.center;
-    self.playOrPauseButton.bounds = CGRectMake(0, 0, 50, 50);
-}
-
-//初始化时间
-- (void)initTimeLabels {
-    self.controlView.currentTime = @"00:00";
-    self.controlView.totalTime = @"00:00";
 }
 
 //添加点击事件

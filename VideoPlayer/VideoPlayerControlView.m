@@ -113,21 +113,15 @@ static NSInteger padding = 8;
     CGFloat widthTemp = 50;
     CGFloat height = self.frame.size.height;
     CGFloat width = self.frame.size.width;
-    self.timeLabel.frame =
-    CGRectMake(0, (height - heightTemp) / 2., widthTemp, heightTemp);
+    self.timeLabel.frame = CGRectMake(0, (height - heightTemp) / 2., widthTemp, heightTemp);
     
-    self.totalTimeLabel.frame =
-    CGRectMake(width - widthTemp - padding, (height - heightTemp) / 2.,
-               widthTemp, heightTemp);
-    self.slider.frame = CGRectMake(widthTemp + padding, 0,
-                                   width - (widthTemp * 2 + padding * 3), height);
-    self.bufferSlier.frame = CGRectMake(
-                                        widthTemp + padding, 0, width - (widthTemp * 2 + padding * 3), height);
+    self.totalTimeLabel.frame = CGRectMake(width - widthTemp - padding, (height - heightTemp) / 2., widthTemp, heightTemp);
+    self.slider.frame = CGRectMake(widthTemp + padding, 0, width - (widthTemp * 2 + padding * 3), height);
+    self.bufferSlier.frame = CGRectMake(widthTemp + padding, 0, width - (widthTemp * 2 + padding * 3), height);
 }
 
 - (void)hanleLargeBtn:(UIButton *)button {
-    if ([self.delegate respondsToSelector:@selector(controlView:
-                                                    withLargeButton:)]) {
+    if ([self.delegate respondsToSelector:@selector(controlView:withLargeButton:)]) {
         [self.delegate controlView:self withLargeButton:button];
     }
 }

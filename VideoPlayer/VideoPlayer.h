@@ -58,6 +58,8 @@ typedef NS_ENUM(NSInteger, VideoPlayerStatus) {
 @property(nonatomic, assign, readwrite) VideoPlayerGravity mode;
 //是否正在播放
 @property(nonatomic, assign, readonly) BOOL isPlaying;
+//是否全屏显示
+@property(nonatomic, assign) BOOL isFullScreenDisplay;
 //是否全屏
 @property(nonatomic, assign, readonly) BOOL isFullScreen;
 /// 自动播放次数。默认无限循环(NSUIntegerMax)

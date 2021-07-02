@@ -14,6 +14,8 @@
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
 @property(weak, nonatomic) IBOutlet UITextView *textView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewConstraintB;
+
 /// 视频宽度
 @property(assign, nonatomic) CGFloat videoWidth;
 /// 视频高度
@@ -48,6 +50,11 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if (@available(iOS 11.0, *)) {
+        self.textViewConstraintB.constant = self.safeAreaInsets.bottom+44;
+    } else {
+        self.textViewConstraintB.constant = 44;
+    }
 }
 
 #pragma mark - other
@@ -79,6 +86,7 @@
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
         _player.delegate = self;
+        _player.isFullScreenDisplay = YES;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.model.videoUrl];
         NSString *key = [manager cacheKeyForURL:[NSURL URLWithString:imageUrl]];
@@ -120,9 +128,9 @@
 #pragma mark - set data
 - (void)setPlayerModeWithWidth:(CGFloat)width height:(CGFloat)height {
     if (height / width <= 4 / 3.0) {
-        self.player.mode = VideoPlayerGravityResize;
-    } else {
         self.player.mode = VideoPlayerGravityResizeAspect;
+    } else {
+        self.player.mode = VideoPlayerGravityResizeAspectFill;
     }
 }
 
@@ -138,9 +146,9 @@
             CGFloat width = image.size.width;
             CGFloat height = image.size.height;
             if (height / width <= 4 / 3.0) {
-                weakSelf.preImageView.contentMode = UIViewContentModeScaleToFill;
-            } else {
                 weakSelf.preImageView.contentMode = UIViewContentModeScaleAspectFit;
+            } else {
+                weakSelf.preImageView.contentMode = UIViewContentModeScaleAspectFill;
             }
         }
     }];

@@ -57,6 +57,7 @@
             <connections>
                 <outlet property="preImageView" destination="Uc1-Tm-erz" id="lks-dO-GeF"/>
                 <outlet property="textView" destination="pwd-dV-Gk0" id="ERi-Nk-eBm"/>
+                <outlet property="textViewConstraintB" destination="mDC-U9-qAX" id="2va-Xm-vJ2"/>
                 <outlet property="videoBackView" destination="7tC-hY-KV8" id="6Ie-OH-Eyr"/>
             </connections>
             <point key="canvasLocation" x="-259.5" y="8.5"/>
