@@ -170,7 +170,7 @@
         CGFloat topSpacing = rect.origin.y;
         CGFloat bottomSpacing = self.tableView.frame.size.height - rect.origin.y - rect.size.height;
         //当视频播放部分移除可见区域1/3的时候暂停
-        if (topSpacing < -rect.size.height / 3. || bottomSpacing < -rect.size.height / 3.) {
+        if (topSpacing <= -rect.size.height / 3. || bottomSpacing <= -rect.size.height / 3.) {
             cell.model.playTime = cell.player.currentTime;
             [cell.player stop];
             cell.player = nil;

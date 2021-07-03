@@ -34,11 +34,6 @@ static NSInteger count = 0;
 
 #pragma mark - life
 - (instancetype)initWithUrl:(NSURL *)url {
-    if (self = [super init]) {
-        self.autoPlayCountTemp = NSUIntegerMax;
-        [self setupPlayerUI];
-        [self assetWithURL:url];
-    }
     return [self initWithUrl:url delegate:nil];
 }
 

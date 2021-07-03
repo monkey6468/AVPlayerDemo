@@ -10,7 +10,7 @@
 #import "VideoListCell.h"
 #import "SDImageCache.h"
 
-@interface VideoListCell () <VideoPlayerDelegate>
+@interface VideoListCell ()
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIImageView *preImageView;
 @property(weak, nonatomic) IBOutlet UITextView *textView;
@@ -89,7 +89,6 @@
         _player = [[VideoPlayer alloc] initWithUrl:[NSURL URLWithString:self.model.videoUrl]];
         //设置播放器背景颜色
         _player.backgroundColor = [UIColor clearColor];
-        _player.delegate = self;
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSString *imageUrl = [Utility getFrameImagePathWithVideoPath:self.model.videoUrl];
         NSString *key = [manager cacheKeyForURL:[NSURL URLWithString:imageUrl]];
